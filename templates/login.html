@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanMyTrip - Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      margin: 8px 0 24px;
+      opacity: 0.85;
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 600;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button#signinButton {
+      background: #ff8c42;
+      color: #111;
+    }
+    button#signupButton {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+    }
+    p.hint, p.message {
+      margin: 16px 0 0;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+    p.message {
+      color: #ffe7e7;
+    }
+    a.link {
+      color: #ffdd82;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PlanMyTrip</h1>
+    <p class="subtitle">Plan Smart. Travel Better.</p>
+
+    <div class="card">
+      <h2>Welcome!</h2>
+      <p>Enter your username to continue.</p>
+
+      <form id="loginForm">
+        <label for="username">Enter your username</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          placeholder="yourname1234"
+          required
+          pattern=".*\d{4}$"
+          title="Your username should end with 4 digits"
+        />
+        <button id="signinButton" type="submit">Sign In</button>
+      </form>
+
+      <p class="hint">No password needed. Use a username ending with 4 digits, for example <strong>alex1234</strong>.</p>
+      <button id="signupButton" type="button">Sign Up</button>
+      <p id="message" class="message"></p>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const message = document.getElementById('message');
+    const signupButton = document.getElementById('signupButton');
+
+    signupButton.addEventListener('click', () => {
+      window.location.href = 'signup.html';
+    });
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      message.textContent = '';
+
+      const username = document.getElementById('username').value.trim();
+      if (!username || !/\d{4}$/.test(username)) {
+        message.textContent = 'Enter a valid username ending in 4 digits.';
+        return;
+      }
+
+      try {
+        const response = await fetch('users.json');
+        if (!response.ok) throw new Error('Could not load users.');
+        const users = await response.json();
+        const found = Array.isArray(users) && users.some((user) => user.username === username);
+
+        if (found) {
+          window.location.href = `returning_user_input.html?username=${encodeURIComponent(username)}`;
+        } else {
+          message.innerHTML = 'Username not found. Please <a class="link" href="signup.html">sign up</a> first.';
+        }
+      } catch (error) {
+        console.error(error);
+        message.textContent = 'Unable to verify username right now. Try again later.';
+      }
+    });
+  </script>
+</body>
+</html>
