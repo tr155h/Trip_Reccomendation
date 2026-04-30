@@ -128,7 +128,7 @@
       }
 
       try {
-        const response = await fetch('users.json');
+        const response = await fetch('/api/users');
         if (!response.ok) throw new Error('Could not load users.');
         const users = await response.json();
         const found = Array.isArray(users) && users.some((user) => user.username === username);
