@@ -56,10 +56,6 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/api/users', methods=['GET'])
-def get_users():
-    users = load_users()
-    return jsonify(users)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
