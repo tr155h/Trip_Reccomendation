@@ -41,7 +41,8 @@
       margin: 18px 0 8px;
       font-weight: 600;
     }
-    input[type="text"] {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
       padding: 14px 16px;
       border: none;
@@ -86,9 +87,9 @@
 
     <div class="card">
       <h2>Welcome!</h2>
-      <p>Enter your username to continue.</p>
+      <p>Enter your username and password to continue.</p>
 
-      <form id="loginForm">
+      <form id="loginForm" action="{{ url_for('login') }}" method="post">
         <label for="username">Enter your username</label>
         <input
           id="username"
@@ -99,49 +100,35 @@
           pattern=".*\d{4}$"
           title="Your username should end with 4 digits"
         />
+
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+          required
+        />
+
         <button id="signinButton" type="submit">Sign In</button>
       </form>
 
       <p class="hint">No password needed. Use a username ending with 4 digits, for example <strong>alex1234</strong>.</p>
       <button id="signupButton" type="button">Sign Up</button>
-      <p id="message" class="message"></p>
+
+      {% if error %}
+        <p id="message" class="message">{{ error }}</p>
+      {% endif %}
+      {% if success %}
+        <p id="message" class="message">{{ success }}</p>
+      {% endif %}
     </div>
   </div>
 
   <script>
-    const loginForm = document.getElementById('loginForm');
-    const message = document.getElementById('message');
     const signupButton = document.getElementById('signupButton');
-
     signupButton.addEventListener('click', () => {
-      window.location.href = 'signup.html';
-    });
-
-    loginForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      message.textContent = '';
-
-      const username = document.getElementById('username').value.trim();
-      if (!username || !/\d{4}$/.test(username)) {
-        message.textContent = 'Enter a valid username ending in 4 digits.';
-        return;
-      }
-
-      try {
-        const response = await fetch('/api/users');
-        if (!response.ok) throw new Error('Could not load users.');
-        const users = await response.json();
-        const found = Array.isArray(users) && users.some((user) => user.username === username);
-
-        if (found) {
-          window.location.href = `returning_user_input.html?username=${encodeURIComponent(username)}`;
-        } else {
-          message.innerHTML = 'Username not found. Please <a class="link" href="signup.html">sign up</a> first.';
-        }
-      } catch (error) {
-        console.error(error);
-        message.textContent = 'Unable to verify username right now. Try again later.';
-      }
+      window.location.href = "{{ url_for('signup') }}";
     });
   </script>
 </body>
