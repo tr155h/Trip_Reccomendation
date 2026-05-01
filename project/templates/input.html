@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanMyTrip - New User Input</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      margin: 8px 0 24px;
+      opacity: 0.85;
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #ff8c42;
+      color: #111;
+    }
+    p.hint {
+      margin: 16px 0 0;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+    p.message {
+      margin: 16px 0 0;
+      font-size: 0.95rem;
+      color: #ffe7e7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PlanMyTrip</h1>
+    <p class="subtitle">Plan Smart. Travel Better.</p>
+
+    <div class="card">
+      <h2>Welcome, New User!</h2>
+      <p>Let's plan your trip. Fill in the details below.</p>
+
+      <form id="tripForm" action="/generate_plan" method="post"> <!-- Placeholder action; update to Flask route later -->
+        <label for="tripName">Trip Name</label>
+        <input
+          id="tripName"
+          name="tripName"
+          type="text"
+          placeholder="e.g., Paris 2026 Day 1"
+          required
+        />
+
+        <label for="city">Choose or Enter a City</label>
+        <input
+          id="city"
+          name="city"
+          type="text"
+          list="cityOptions"
+          placeholder="Start typing or select from trending cities"
+          required
+        />
+        <datalist id="cityOptions">
+          <option value="Tokyo">
+          <option value="Paris">
+          <option value="New York">
+          <option value="Phuket">
+          <option value="Denpasar">
+          <option value="Jakarta">
+          <option value="Shanghai">
+          <option value="Stockholm">
+          <option value="Rome">
+        </datalist>
+        <p class="hint">Trending cities are listed; you can type to search or enter a custom city.</p>
+
+        <label for="budget">Daily Budget ($)</label>
+        <input
+          id="budget"
+          name="budget"
+          type="number"
+          placeholder="e.g., 100"
+          min="0"
+          step="0.01"
+          required
+        />
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select a category</option>
+          <option value="Food">Food</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Sightseeing">Sightseeing</option>
+          <option value="Mixed">Mixed</option>
+        </select>
+
+        <button type="submit">Generate Plan</button>
+      </form>
+
+      {% if error %}
+        <p class="message">{{ error }}</p>
+      {% endif %}
+      {% if success %}
+        <p class="message">{{ success }}</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

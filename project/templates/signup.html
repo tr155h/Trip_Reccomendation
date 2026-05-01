@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanMyTrip - Sign Up</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      margin: 8px 0 24px;
+      opacity: 0.85;
+    }
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #ff8c42;
+      color: #111;
+    }
+    p.hint, p.message {
+      margin: 16px 0 0;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+    p.message {
+      color: #ffe7e7;
+    }
+    .link-row {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .link-row a {
+      color: #ffdd82;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PlanMyTrip</h1>
+    <p class="subtitle">Plan Smart. Travel Better.</p>
+
+    <form id="signupForm" action="{{ url_for('signup') }}" method="post">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        placeholder="e.g., Michael1234"
+        pattern=".*\d{4}$"
+        title="Username must end with 4 digits"
+        required
+      />
+
+      <label for="password">Create a Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Enter your password"
+        minlength="6"
+        required
+      />
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        id="confirmPassword"
+        name="confirmPassword"
+        type="password"
+        placeholder="Re-enter your password"
+        minlength="6"
+        required
+      />
+
+      <button type="submit">Sign Up</button>
+
+      <p class="hint">Username must end with 4 digits, for example <strong>Michael1234</strong>.</p>
+      <p id="message" class="message">
+        {% if error %}{{ error }}{% elif success %}{{ success }}{% endif %}
+      </p>
+
+      <div class="link-row">
+        Already have an account? <a href="{{ url_for('login') }}">Return to Login</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const signupForm = document.getElementById('signupForm');
+    const passwordField = document.getElementById('password');
+    const confirmField = document.getElementById('confirmPassword');
+    const messageEl = document.getElementById('message');
+
+    signupForm.addEventListener('submit', (event) => {
+      if (passwordField.value !== confirmField.value) {
+        event.preventDefault();
+        messageEl.textContent = 'Passwords do not match.';
+      }
+    });
+  </script>
+</body>
+</html>
