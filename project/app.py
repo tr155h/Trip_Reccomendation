@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
 import os
+from scraper import get_activities
 
 app = Flask(__name__)
 
@@ -80,6 +81,12 @@ def signup():
         return render_template('signup.html', success='Account created successfully! You can now log in.')
     
     return render_template('signup.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
