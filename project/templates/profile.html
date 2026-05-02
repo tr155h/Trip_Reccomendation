@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanMyTrip - Profile</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 760px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      margin: 8px 0 24px;
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+    .bubble {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .bubble h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
+    }
+    .day-row,
+    .new-trip-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.12);
+      margin-bottom: 12px;
+    }
+    .day-row.no-plan {
+      opacity: 0.88;
+    }
+    .day-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .day-info strong {
+      display: inline-block;
+      min-width: 68px;
+    }
+    .day-action {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .day-action button,
+    .create-button {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: #ff8c42;
+      color: #111;
+    }
+    .day-action button[disabled] {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .day-action .icon-button {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      font-size: 1.4rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .day-action a,
+    .create-link {
+      color: #fff;
+      text-decoration: none;
+    }
+    .no-plans {
+      opacity: 0.9;
+      margin-bottom: 18px;
+    }
+    .footer-note {
+      margin-top: 16px;
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>Welcome, {{ username }}!</h1>
+        <p class="subtitle">Choose from planned trips or create a new one.</p>
+      </div>
+      <div>
+        <a class="create-button create-link" href="input.html?day=1">+ Create new trip</a>
+      </div>
+    </div>
 
+    <div class="bubble">
+      <h2>Choose from planned trips:</h2>
+
+      {% if saved_trips and saved_trips|length > 0 %}
+        {% set days = [1,2,3,4,5,6,7] %}
+        {% for day in days %}
+          {% set trip_list = saved_trips | selectattr('day', 'equalto', day) | list %}
+          {% set trip = trip_list[0] if trip_list else None %}
+          <div class="day-row {% if not trip %}no-plan{% endif %}">
+            <div class="day-info">
+              <strong>Day {{ day }}</strong>
+              {% if trip %}
+                <span>{{ trip.name }}</span>
+              {% else %}
+                <span>No plans yet</span>
+              {% endif %}
+            </div>
+            <div class="day-action">
+              {% if trip %}
+                <a class="create-button create-link" href="view_plan.html?day={{ day }}">View</a>
+                <a class="create-button create-link" href="input.html?day={{ day }}">+</a>
+              {% else %}
+                <button class="icon-button" disabled>+</button>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+        {% set next_day = (saved_trips | map(attribute='day') | max) + 1 %}
+        <div class="new-trip-row">
+          <div>
+            <strong>Add day</strong>
+          </div>
+          <div class="day-action">
+            <a class="create-button create-link" href="input.html?day={{ next_day }}">+</a>
+          </div>
+        </div>
+      {% else %}
+        <p class="no-plans">No Plans Saved.</p>
+        <div class="new-trip-row">
+          <div>
+            <strong>Create a new trip</strong>
+          </div>
+          <div class="day-action">
+            <a class="create-button create-link" href="input.html?day=1">+</a>
+          </div>
+        </div>
+        <p class="footer-note">Start with Day 1. After you save your first trip, daily slots will become active.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

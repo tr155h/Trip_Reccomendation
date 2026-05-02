@@ -1,10 +1,10 @@
 #Main Flask app, routes and logic for the web application
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import json
 import os
-from scraper import get_activities
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
 
 # Path to users.json file
 USERS_FILE = os.path.join(os.path.dirname(__file__), '../Data/users.json')
@@ -12,16 +12,37 @@ USERS_FILE = os.path.join(os.path.dirname(__file__), '../Data/users.json')
 def load_users():
     """Load users from JSON file"""
     if os.path.exists(USERS_FILE):
-        with open(USERS_FILE, 'r') as f:
+        with open(USERS_FILE, 'r', encoding='utf-8') as f:
             content = f.read().strip()
             if content:
-                return json.load(open(USERS_FILE, 'r'))
+                return json.loads(content)
     return {}
+
+
+def load_user(username):
+    users = load_users()
+    user = users.get(username)
+    if user is None:
+        return None
+    if isinstance(user, str):
+        return {
+            'password': user,
+            'trips': []
+        }
+    if isinstance(user, dict):
+        user.setdefault('trips', [])
+        return user
+    return {
+        'password': '',
+        'trips': []
+    }
+
 
 def save_users(users):
     """Save users to JSON file"""
-    with open(USERS_FILE, 'w') as f:
+    with open(USERS_FILE, 'w', encoding='utf-8') as f:
         json.dump(users, f, indent=2)
+
 
 def username_exists(username):
     """Check if username already exists"""
@@ -37,23 +58,23 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
-        
+
         # Validate inputs
         if not username or not password:
             return render_template('login.html', error='Username and password are required')
-        
-        # Check if username exists
-        if not username_exists(username):
+
+        # Load user record
+        user = load_user(username)
+        if not user:
             return render_template('login.html', error='Username not found. Please sign up first.')
-        
+
         # Verify password
-        users = load_users()
-        if users[username] != password:
+        if user['password'] != password:
             return render_template('login.html', error='Incorrect password. Please try again.')
-        
-        # Successful login
-        return render_template('login.html', success='Login successful!')
-    
+
+        session['username'] = username
+        return redirect(url_for('profile'))
+
     return render_template('login.html')
 
 
@@ -63,28 +84,39 @@ def signup():
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
-        
+        confirm_password = request.form.get('confirmPassword', '').strip()
+
         # Validate inputs
-        if not username or not password:
-            return render_template('signup.html', error='Username and password are required')
-        
-        # Check if username already exists
+        if not username or not password or not confirm_password:
+            return render_template('signup.html', error='Username and passwords are required')
+
+        if password != confirm_password:
+            return render_template('signup.html', error='Passwords do not match')
+
         if username_exists(username):
             return render_template('signup.html', error='Username already exists. Please choose a different username.')
-        
-        # Save new user
+
         users = load_users()
-        users[username] = password
+        users[username] = {
+            'password': password,
+            'trips': []
+        }
         save_users(users)
-        
-        # Redirect to success
-        return render_template('signup.html', success='Account created successfully! You can now log in.')
-    
+
+        session['username'] = username
+        return redirect(url_for('profile'))
+
     return render_template('signup.html')
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+
+    user = load_user(username)
+    saved_trips = user.get('trips', []) if user else []
+    return render_template('profile.html', username=username, saved_trips=saved_trips)
 
 
 
