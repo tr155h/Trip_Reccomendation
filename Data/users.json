@@ -8,7 +8,8 @@
         "city": "Paris",
         "budget": 100.0,
         "categories": [
-          "Shopping"
+          "Food",
+          "Culture/History"
         ]
       }
     ]

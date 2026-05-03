@@ -9,6 +9,7 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
 
 # Path to users.json file
 USERS_FILE = os.path.join(os.path.dirname(__file__), '../Data/users.json')
+CITY_DATA_FILE = os.path.join(os.path.dirname(__file__), '../Data/city_data.json')
 
 def load_users():
     """Load users from JSON file"""
@@ -62,6 +63,92 @@ def is_valid_username(username):
 def is_valid_password(password):
     """Validate password length (minimum 6 characters)"""
     return password and len(password) >= 6
+
+def load_city_data():
+    """Load city data from JSON file"""
+    if os.path.exists(CITY_DATA_FILE):
+        try:
+            with open(CITY_DATA_FILE, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+                if content:
+                    return json.loads(content)
+        except:
+            pass
+    return {}
+
+def save_city_data(city_data):
+    """Save city data to JSON file"""
+    with open(CITY_DATA_FILE, 'w', encoding='utf-8') as f:
+        json.dump(city_data, f, indent=2)
+
+def add_city_to_database(city_name):
+    """Add a new city to city_data.json if it doesn't exist"""
+    city_data = load_city_data()
+    city_name_lower = city_name.lower()
+    
+    # Check if city already exists (case-insensitive)
+    for existing_city in city_data.keys():
+        if existing_city.lower() == city_name_lower:
+            return True
+    
+    # Add new city with empty places list
+    city_data[city_name] = {
+        'name': city_name,
+        'places': [],
+        'categories': []
+    }
+    save_city_data(city_data)
+    return True
+
+def get_recommendations(city, budget, categories):
+    """Generate recommendations based on city, budget, and categories
+    Returns a list of recommended places within budget"""
+    
+    # Sample database of places by category and approximate cost
+    sample_places = {
+        'Food': [
+            {'name': 'Street Food Tour', 'category': 'Food', 'cost': 8, 'duration': '1.5 hours', 'description': 'Explore local street food'},
+            {'name': 'Local Restaurant', 'category': 'Food', 'cost': 15, 'duration': '1.5 hours', 'description': 'Traditional local cuisine'},
+            {'name': 'Fine Dining Experience', 'category': 'Food', 'cost': 45, 'duration': '2.5 hours', 'description': 'Upscale dining experience'},
+            {'name': 'Food Market Tour', 'category': 'Food', 'cost': 12, 'duration': '2 hours', 'description': 'Visit local food markets'}
+        ],
+        'Shopping': [
+            {'name': 'Local Market', 'category': 'Shopping', 'cost': 20, 'duration': '2 hours', 'description': 'Browse local shops'},
+            {'name': 'Shopping District', 'category': 'Shopping', 'cost': 50, 'duration': '3 hours', 'description': 'Main shopping district'},
+            {'name': 'Souvenir Shops', 'category': 'Shopping', 'cost': 25, 'duration': '1.5 hours', 'description': 'Find local souvenirs'},
+            {'name': 'Night Market', 'category': 'Shopping', 'cost': 30, 'duration': '3 hours', 'description': 'Evening shopping markets'}
+        ],
+        'Culture/History': [
+            {'name': 'Museum Visit', 'category': 'Culture/History', 'cost': 12, 'duration': '2 hours', 'description': 'Local history museum'},
+            {'name': 'Ancient Temple Tour', 'category': 'Culture/History', 'cost': 8, 'duration': '1.5 hours', 'description': 'Historical temple exploration'},
+            {'name': 'Art Gallery', 'category': 'Culture/History', 'cost': 10, 'duration': '1.5 hours', 'description': 'Contemporary and traditional art'},
+            {'name': 'Heritage Site', 'category': 'Culture/History', 'cost': 20, 'duration': '2.5 hours', 'description': 'UNESCO heritage sites'}
+        ],
+        'Sightseeing': [
+            {'name': 'City Viewpoint', 'category': 'Sightseeing', 'cost': 5, 'duration': '1 hour', 'description': 'Panoramic city views'},
+            {'name': 'City Walking Tour', 'category': 'Sightseeing', 'cost': 18, 'duration': '2 hours', 'description': 'Guided walking tour'},
+            {'name': 'Nature Park Visit', 'category': 'Sightseeing', 'cost': 0, 'duration': '2 hours', 'description': 'Beautiful nature trails'},
+            {'name': 'Scenic Photography Tour', 'category': 'Sightseeing', 'cost': 25, 'duration': '3 hours', 'description': 'Photo tour of highlights'}
+        ]
+    }
+    
+    recommendations = []
+    
+    # Generate recommendations from sample data based on selected categories
+    for category in categories:
+        if category in sample_places:
+            for place in sample_places[category]:
+                # Only add if within budget and not already added
+                if place['cost'] <= budget:
+                    # Check if already added
+                    if not any(r['name'] == place['name'] for r in recommendations):
+                        recommendations.append(place)
+    
+    # Sort by cost (cheapest first) and return top 10
+    recommendations.sort(key=lambda x: x['cost'])
+    return recommendations[:10]
+
+
 
 @app.route('/')
 def index():
@@ -199,6 +286,8 @@ def generate_plan():
 
     try:
         budget_val = float(budget)
+        if budget_val < 0:
+            return render_template('input.html', day=day_val, error='Budget must be a positive number')
     except ValueError:
         return render_template('input.html', day=day_val, error='Invalid budget value')
 
@@ -207,13 +296,29 @@ def generate_plan():
     if len(categories) > 3:
         return render_template('input.html', day=day_val, error='Please select no more than 3 categories')
 
-    # Create trip object
+    # Add city to database if new
+    add_city_to_database(city)
+    
+    # Generate recommendations based on budget, city, and categories
+    recommendations = get_recommendations(city, budget_val, categories)
+
+    # Load users, append trip to user's trips
+    users = load_users()
+    user = users.get(username)
+    if user is None:
+        return redirect(url_for('login', error='User not found. Please log in.'))
+
+    user = user if isinstance(user, dict) else {'password': user, 'trips': []}
+    user.setdefault('trips', [])
+
+    # Create trip object with recommendations
     trip = {
         'day': day_val,
         'name': trip_name,
         'city': city,
         'budget': budget_val,
-        'categories': categories
+        'categories': categories,
+        'recommendations': recommendations
     }
 
     # If user is logged in, save trip to their account; otherwise just keep it in session
@@ -287,11 +392,23 @@ def results():
     if not trip:
         return redirect(url_for('profile'))
 
-    # Minimal defaults for activities and chart data; real recommender can replace these
+    recommendations = session.get('recommendations', [])
+    total_cost = session.get('total_cost', 0)
+    
+    # Calculate transport estimate (default 10-15% of budget or $5 minimum)
+    transport_cost = max(5, trip.get('budget', 0) * 0.1)
+    
+    # Convert recommendations to format for result.html
     activities = []
-    transport_cost = 0.0
-    total_cost = trip.get('budget', 0.0)
-    chart_data = ''
+    for i, rec in enumerate(recommendations):
+        activities.append({
+            'title': rec.get('name', ''),
+            'place': trip.get('city', ''),
+            'description': rec.get('description', ''),
+            'price': rec.get('cost', 0),
+            'food': rec.get('category', ''),
+            'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+        })
 
     return render_template(
         'result.html',
@@ -300,8 +417,8 @@ def results():
         budget=trip.get('budget', 0.0),
         activities=activities,
         transport_cost=transport_cost,
-        total_cost=total_cost,
-        chart_data=chart_data
+        total_cost=total_cost + transport_cost,
+        chart_data=''
     )
 
 
