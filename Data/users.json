@@ -8,76 +8,77 @@
         "city": "Paris",
         "budget": 100.0,
         "categories": [
-          "Shopping"
+          "Food",
+          "Culture/History"
         ],
         "recommendations": [
           {
-            "name": "Cuv\u00e9e Noire - Coffee Shop - Paris 9e",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Paris",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "BLESS Shop Paris",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Buddha-Bar Paris",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Model Shop Paris",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Le ciel de Paris",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Lab Paris Tattoo Shop",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Cafe",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Kilo-Shop",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Paris Fried Chicken",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Supermarket",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Beit caf\u00e9",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Boucherie Supermarket Ha\u00efti",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Paris Beirut",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Leader Supermarket",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Paris Kebab",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "Mini Supermarket",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Paris Istanbul",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           },
           {
-            "name": "March\u00e9 du Livre ancien et d'occasion de Paris",
-            "category": "Shopping",
-            "cost": 25,
+            "name": "Bar",
+            "category": "Food",
+            "cost": 12,
             "duration": "1-2 hours",
             "description": "Located in Paris"
           }
