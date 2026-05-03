@@ -94,27 +94,15 @@
           required
         />
 
-        <label for="city">Choose or Enter a City</label>
-        <input
-          id="city"
-          name="city"
-          type="text"
-          list="cityOptions"
-          placeholder="Start typing or select from trending cities"
-          required
-        />
-        <datalist id="cityOptions">
-          <option value="Tokyo">
-          <option value="Paris">
-          <option value="New York">
-          <option value="Phuket">
-          <option value="Denpasar">
-          <option value="Jakarta">
-          <option value="Shanghai">
-          <option value="Stockholm">
-          <option value="Rome">
-        </datalist>
-        <p class="hint">Trending cities are listed; you can type to search or enter a custom city.</p>
+        <label for="city">Choose a City</label>
+        <select id="city" name="city" required>
+          <option value="">Select a city</option>
+          <option value="Tokyo">Tokyo</option>
+          <option value="Paris">Paris</option>
+          <option value="New York">New York</option>
+          <option value="Shanghai">Shanghai</option>
+        </select>
+        <p class="hint">Choose one of the available cities.</p>
 
         <label for="budget">Daily Budget ($)</label>
         <input
