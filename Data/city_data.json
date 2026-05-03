@@ -1,7 +1,242 @@
 {
+  "Tokyo": {
+    "name": "Tokyo",
+    "places": [
+      {
+        "name": "Tsukiji Outer Market",
+        "category": "Food",
+        "cost": 10,
+        "description": "Fresh sushi and seafood market in central Tokyo"
+      },
+      {
+        "name": "Ramen Yokocho",
+        "category": "Food",
+        "cost": 9,
+        "description": "Authentic ramen alley with local favorites"
+      },
+      {
+        "name": "Izakaya Hopping",
+        "category": "Food",
+        "cost": 18,
+        "description": "Traditional Japanese pub crawl experience"
+      },
+      {
+        "name": "Shibuya Shopping District",
+        "category": "Shopping",
+        "cost": 30,
+        "description": "High-end fashion and electronics shopping"
+      },
+      {
+        "name": "Akihabara Electronics Market",
+        "category": "Shopping",
+        "cost": 25,
+        "description": "Tech gadgets and anime merchandise"
+      },
+      {
+        "name": "Tokyo National Museum",
+        "category": "Culture/History",
+        "cost": 14,
+        "description": "Japan's largest museum with historical artifacts"
+      },
+      {
+        "name": "Senso-ji Temple",
+        "category": "Culture/History",
+        "cost": 0,
+        "description": "Ancient Buddhist temple in Asakusa"
+      },
+      {
+        "name": "Tokyo Tower",
+        "category": "Sightseeing",
+        "cost": 16,
+        "description": "Panoramic views of Tokyo from iconic tower"
+      },
+      {
+        "name": "Meiji Shrine Forest Walk",
+        "category": "Sightseeing",
+        "cost": 0,
+        "description": "Peaceful forest shrine walk in urban area"
+      }
+    ],
+    "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
+  },
   "Paris": {
     "name": "Paris",
-    "places": [],
-    "categories": []
+    "places": [
+      {
+        "name": "Café au Lait & Croissant",
+        "category": "Food",
+        "cost": 6,
+        "description": "Traditional French breakfast experience"
+      },
+      {
+        "name": "Bistro Dinner",
+        "category": "Food",
+        "cost": 35,
+        "description": "Authentic French bistro with local wine"
+      },
+      {
+        "name": "Street Crepes Tour",
+        "category": "Food",
+        "cost": 8,
+        "description": "Explore Paris's best crepe vendors"
+      },
+      {
+        "name": "Champs-Élysées Shopping",
+        "category": "Shopping",
+        "cost": 60,
+        "description": "Luxury brands and designer boutiques"
+      },
+      {
+        "name": "Marais District Boutiques",
+        "category": "Shopping",
+        "cost": 40,
+        "description": "Vintage and contemporary fashion shops"
+      },
+      {
+        "name": "Louvre Museum",
+        "category": "Culture/History",
+        "cost": 17,
+        "description": "World's largest art museum with Mona Lisa"
+      },
+      {
+        "name": "Notre-Dame Cathedral",
+        "category": "Culture/History",
+        "cost": 15,
+        "description": "Iconic Gothic cathedral of Paris"
+      },
+      {
+        "name": "Eiffel Tower Visit",
+        "category": "Sightseeing",
+        "cost": 26,
+        "description": "Climb or elevator ride to the top"
+      },
+      {
+        "name": "Seine River Cruise",
+        "category": "Sightseeing",
+        "cost": 19,
+        "description": "Scenic boat tour along Paris landmarks"
+      }
+    ],
+    "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
+  },
+  "New York": {
+    "name": "New York",
+    "places": [
+      {
+        "name": "Street Food Vendors",
+        "category": "Food",
+        "cost": 8,
+        "description": "Hot dogs, pretzels, and city treats"
+      },
+      {
+        "name": "Pizza Slice Tour",
+        "category": "Food",
+        "cost": 7,
+        "description": "Best NYC pizza joints"
+      },
+      {
+        "name": "Fine Dining Experience",
+        "category": "Food",
+        "cost": 50,
+        "description": "Michelin-starred restaurant dinner"
+      },
+      {
+        "name": "Fifth Avenue Shopping",
+        "category": "Shopping",
+        "cost": 60,
+        "description": "High-end designer stores and department stores"
+      },
+      {
+        "name": "SoHo Boutique Hopping",
+        "category": "Shopping",
+        "cost": 45,
+        "description": "Trendy independent fashion boutiques"
+      },
+      {
+        "name": "Metropolitan Museum of Art",
+        "category": "Culture/History",
+        "cost": 25,
+        "description": "Vast collection of world art and history"
+      },
+      {
+        "name": "Statue of Liberty Tour",
+        "category": "Culture/History",
+        "cost": 28,
+        "description": "Ferry to Liberty Island and museum"
+      },
+      {
+        "name": "Times Square Experience",
+        "category": "Sightseeing",
+        "cost": 0,
+        "description": "Walk through world-famous intersection"
+      },
+      {
+        "name": "Empire State Building",
+        "category": "Sightseeing",
+        "cost": 31,
+        "description": "Observation deck with city views"
+      }
+    ],
+    "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
+  },
+  "Shanghai": {
+    "name": "Shanghai",
+    "places": [
+      {
+        "name": "Xiaolongbao Dumplings",
+        "category": "Food",
+        "cost": 5,
+        "description": "Famous Shanghai soup dumplings at local restaurants"
+      },
+      {
+        "name": "Yu Garden Noodles",
+        "category": "Food",
+        "cost": 4,
+        "description": "Hand-pulled noodles near historic garden"
+      },
+      {
+        "name": "River Dining Cruise",
+        "category": "Food",
+        "cost": 20,
+        "description": "Dinner cruise with Huangpu River views"
+      },
+      {
+        "name": "Nanjing Road Shopping",
+        "category": "Shopping",
+        "cost": 35,
+        "description": "China's most famous shopping street"
+      },
+      {
+        "name": "Jing An Temple District",
+        "category": "Shopping",
+        "cost": 25,
+        "description": "Modern malls and lifestyle brands"
+      },
+      {
+        "name": "Shanghai Museum",
+        "category": "Culture/History",
+        "cost": 9,
+        "description": "Chinese art, ceramics, and history"
+      },
+      {
+        "name": "Yu Garden Complex",
+        "category": "Culture/History",
+        "cost": 7,
+        "description": "Classical Chinese landscape garden"
+      },
+      {
+        "name": "Oriental Pearl Tower",
+        "category": "Sightseeing",
+        "cost": 14,
+        "description": "Observation decks with city skyline views"
+      },
+      {
+        "name": "The Bund Walk",
+        "category": "Sightseeing",
+        "cost": 0,
+        "description": "Historic waterfront promenade with architecture"
+      }
+    ],
+    "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
   }
 }

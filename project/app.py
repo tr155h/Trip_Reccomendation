@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 import json
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
-import requests
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -103,101 +102,39 @@ def add_city_to_database(city_name):
 
 def get_recommendations(city, budget, categories):
     """Generate recommendations based on city, budget, and categories
-    Uses OpenStreetMap (Nominatim) API to get actual places"""
+    Pulls data from city_data.json database"""
     
     recommendations = []
     max_spend = budget - 25  # Keep $25 under budget
     
-    # Map categories to OpenStreetMap/Nominatim search queries
-    category_queries = {
-        'Food': ['restaurant', 'cafe', 'fast_food', 'bar'],
-        'Shopping': ['shop', 'supermarket', 'marketplace', 'mall'],
-        'Culture/History': ['museum', 'monument', 'temple', 'historic', 'archaeological_site'],
-        'Sightseeing': ['viewpoint', 'tourism', 'attraction', 'park', 'landmark']
-    }
+    # Load city data from JSON
+    city_data = load_city_data()
     
-    # Sample cost estimates for each category (in case we use them)
-    category_costs = {
-        'Food': 12,
-        'Shopping': 25,
-        'Culture/History': 12,
-        'Sightseeing': 15
-    }
+    # Check if city exists in database
+    if city not in city_data:
+        return []
     
-    try:
-        # Get coordinates for the city using Nominatim
-        nominatim_url = 'https://nominatim.openstreetmap.org/search'
-        city_params = {
-            'q': city,
-            'format': 'json',
-            'limit': 1
-        }
-        headers = {'User-Agent': 'PlanMyTrip/1.0'}
-        
-        city_response = requests.get(nominatim_url, params=city_params, headers=headers, timeout=5)
-        city_results = city_response.json()
-        
-        if not city_results:
-            # If city not found, use fallback recommendations
-            return get_fallback_recommendations(max_spend, categories)
-        
-        city_data = city_results[0]
-        lat = float(city_data['lat'])
-        lon = float(city_data['lon'])
-        
-        # Search for places in each selected category near the city
-        for category in categories:
-            if category not in category_queries:
-                continue
-            
-            queries = category_queries[category]
-            estimated_cost = category_costs.get(category, 15)
-            
-            for query in queries:
-                try:
-                    # Search for this type of place near the city
-                    search_params = {
-                        'q': f'{query} {city}',
-                        'format': 'json',
-                        'limit': 5,
-                        'viewbox': f'{lon-0.05},{lat+0.05},{lon+0.05},{lat-0.05}',
-                        'bounded': 1
-                    }
-                    
-                    search_response = requests.get(nominatim_url, params=search_params, headers=headers, timeout=5)
-                    places = search_response.json()
-                    
-                    for place in places:
-                        # Skip if already added
-                        if any(r['name'] == place.get('name') for r in recommendations):
-                            continue
-                        
-                        # Only add if cost is within budget
-                        if estimated_cost <= max_spend:
-                            recommendations.append({
-                                'name': place.get('name', query.title()),
-                                'category': category,
-                                'cost': estimated_cost,
-                                'duration': '1-2 hours',
-                                'description': f'Located in {city}'
-                            })
-                
-                except Exception as e:
-                    print(f"Error searching for {query}: {e}")
-                    continue
-        
-        # If no results from API, add fallback recommendations
-        if not recommendations:
-            return get_fallback_recommendations(max_spend, categories)
-        
-        # Sort by cost and return top 10
-        recommendations.sort(key=lambda x: x['cost'])
-        return recommendations[:10]
+    city_info = city_data[city]
+    places = city_info.get('places', [])
     
-    except Exception as e:
-        print(f"OpenStreetMap API Error: {e}")
-        # Fallback to sample data if API fails
-        return get_fallback_recommendations(max_spend, categories)
+    # Filter places by selected categories and budget
+    for place in places:
+        place_category = place.get('category', '')
+        place_cost = place.get('cost', 0)
+        
+        # Include place if category matches and cost is within budget
+        if place_category in categories and place_cost <= max_spend:
+            recommendations.append({
+                'name': place.get('name', 'Unknown Place'),
+                'category': place_category,
+                'cost': place_cost,
+                'duration': place.get('duration', '1-2 hours'),
+                'description': place.get('description', f'Located in {city}')
+            })
+    
+    # Sort by cost and return top 10
+    recommendations.sort(key=lambda x: x['cost'])
+    return recommendations[:10]
 
 
 def get_fallback_recommendations(max_spend, categories):
@@ -384,12 +321,17 @@ def generate_plan():
         return render_template('input.html', day=day_val, error='Please select at least one category')
     if len(categories) > 3:
         return render_template('input.html', day=day_val, error='Please select no more than 3 categories')
-
-    # Add city to database if new
-    add_city_to_database(city)
     
     # Generate recommendations based on budget, city, and categories
     recommendations = get_recommendations(city, budget_val, categories)
+    
+    # Load available cities for re-rendering in case of error
+    city_data = load_city_data()
+    available_cities = list(city_data.keys())
+    
+    # Validate that the selected city exists in our database
+    if city not in available_cities:
+        return render_template('input.html', day=day_val, available_cities=available_cities, error='Please select a city from the available options')
 
     # Load users, append trip to user's trips
     users = load_users()
@@ -436,13 +378,27 @@ def generate_plan():
         users[username] = user
         save_users(users)
         session['last_trip'] = trip
+        session['recommendations'] = recommendations
         session['saved'] = True
 
-        # Render results immediately so user lands on results page after submitting
+        # Convert recommendations to format for result.html
         activities = []
-        transport_cost = 0.0
-        total_cost = trip.get('budget', 0.0)
-        chart_data = ''
+        for rec in recommendations:
+            activities.append({
+                'title': rec.get('name', ''),
+                'place': city,
+                'description': rec.get('description', ''),
+                'price': rec.get('cost', 0),
+                'food': rec.get('category', ''),
+                'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+            })
+        
+        # Calculate transport estimate (default 10-15% of budget or $5 minimum)
+        transport_cost = max(5, budget_val * 0.1)
+        total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
+        total_cost = total_activities_cost + transport_cost
+        
+        # Render results immediately so user lands on results page after submitting
         return render_template(
             'result.html',
             trip_name=trip.get('name', ''),
@@ -451,16 +407,31 @@ def generate_plan():
             activities=activities,
             transport_cost=transport_cost,
             total_cost=total_cost,
-            chart_data=chart_data
+            chart_data=''
         )
 
     # Anonymous (not logged in): do not save to users.json, but render results for viewing
     session['last_trip'] = trip
+    session['recommendations'] = recommendations
     session['saved'] = False
+    
+    # Convert recommendations to format for result.html
     activities = []
-    transport_cost = 0.0
-    total_cost = trip.get('budget', 0.0)
-    chart_data = ''
+    for rec in recommendations:
+        activities.append({
+            'title': rec.get('name', ''),
+            'place': city,
+            'description': rec.get('description', ''),
+            'price': rec.get('cost', 0),
+            'food': rec.get('category', ''),
+            'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+        })
+    
+    # Calculate transport estimate (default 10-15% of budget or $5 minimum)
+    transport_cost = max(5, budget_val * 0.1)
+    total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
+    total_cost = total_activities_cost + transport_cost
+    
     return render_template(
         'result.html',
         trip_name=trip.get('name', ''),
@@ -469,7 +440,7 @@ def generate_plan():
         activities=activities,
         transport_cost=transport_cost,
         total_cost=total_cost,
-        chart_data=chart_data
+        chart_data=''
     )
 
 
