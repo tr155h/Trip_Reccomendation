@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 import json
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -102,49 +103,137 @@ def add_city_to_database(city_name):
 
 def get_recommendations(city, budget, categories):
     """Generate recommendations based on city, budget, and categories
-    Returns a list of recommended places within budget"""
+    Uses OpenStreetMap (Nominatim) API to get actual places"""
     
-    # Sample database of places by category and approximate cost
+    recommendations = []
+    max_spend = budget - 25  # Keep $25 under budget
+    
+    # Map categories to OpenStreetMap/Nominatim search queries
+    category_queries = {
+        'Food': ['restaurant', 'cafe', 'fast_food', 'bar'],
+        'Shopping': ['shop', 'supermarket', 'marketplace', 'mall'],
+        'Culture/History': ['museum', 'monument', 'temple', 'historic', 'archaeological_site'],
+        'Sightseeing': ['viewpoint', 'tourism', 'attraction', 'park', 'landmark']
+    }
+    
+    # Sample cost estimates for each category (in case we use them)
+    category_costs = {
+        'Food': 12,
+        'Shopping': 25,
+        'Culture/History': 12,
+        'Sightseeing': 15
+    }
+    
+    try:
+        # Get coordinates for the city using Nominatim
+        nominatim_url = 'https://nominatim.openstreetmap.org/search'
+        city_params = {
+            'q': city,
+            'format': 'json',
+            'limit': 1
+        }
+        headers = {'User-Agent': 'PlanMyTrip/1.0'}
+        
+        city_response = requests.get(nominatim_url, params=city_params, headers=headers, timeout=5)
+        city_results = city_response.json()
+        
+        if not city_results:
+            # If city not found, use fallback recommendations
+            return get_fallback_recommendations(max_spend, categories)
+        
+        city_data = city_results[0]
+        lat = float(city_data['lat'])
+        lon = float(city_data['lon'])
+        
+        # Search for places in each selected category near the city
+        for category in categories:
+            if category not in category_queries:
+                continue
+            
+            queries = category_queries[category]
+            estimated_cost = category_costs.get(category, 15)
+            
+            for query in queries:
+                try:
+                    # Search for this type of place near the city
+                    search_params = {
+                        'q': f'{query} {city}',
+                        'format': 'json',
+                        'limit': 5,
+                        'viewbox': f'{lon-0.05},{lat+0.05},{lon+0.05},{lat-0.05}',
+                        'bounded': 1
+                    }
+                    
+                    search_response = requests.get(nominatim_url, params=search_params, headers=headers, timeout=5)
+                    places = search_response.json()
+                    
+                    for place in places:
+                        # Skip if already added
+                        if any(r['name'] == place.get('name') for r in recommendations):
+                            continue
+                        
+                        # Only add if cost is within budget
+                        if estimated_cost <= max_spend:
+                            recommendations.append({
+                                'name': place.get('name', query.title()),
+                                'category': category,
+                                'cost': estimated_cost,
+                                'duration': '1-2 hours',
+                                'description': f'Located in {city}'
+                            })
+                
+                except Exception as e:
+                    print(f"Error searching for {query}: {e}")
+                    continue
+        
+        # If no results from API, add fallback recommendations
+        if not recommendations:
+            return get_fallback_recommendations(max_spend, categories)
+        
+        # Sort by cost and return top 10
+        recommendations.sort(key=lambda x: x['cost'])
+        return recommendations[:10]
+    
+    except Exception as e:
+        print(f"OpenStreetMap API Error: {e}")
+        # Fallback to sample data if API fails
+        return get_fallback_recommendations(max_spend, categories)
+
+
+def get_fallback_recommendations(max_spend, categories):
+    """Fallback recommendations if OpenStreetMap API fails"""
+    
     sample_places = {
         'Food': [
             {'name': 'Street Food Tour', 'category': 'Food', 'cost': 8, 'duration': '1.5 hours', 'description': 'Explore local street food'},
             {'name': 'Local Restaurant', 'category': 'Food', 'cost': 15, 'duration': '1.5 hours', 'description': 'Traditional local cuisine'},
-            {'name': 'Fine Dining Experience', 'category': 'Food', 'cost': 45, 'duration': '2.5 hours', 'description': 'Upscale dining experience'},
             {'name': 'Food Market Tour', 'category': 'Food', 'cost': 12, 'duration': '2 hours', 'description': 'Visit local food markets'}
         ],
         'Shopping': [
             {'name': 'Local Market', 'category': 'Shopping', 'cost': 20, 'duration': '2 hours', 'description': 'Browse local shops'},
-            {'name': 'Shopping District', 'category': 'Shopping', 'cost': 50, 'duration': '3 hours', 'description': 'Main shopping district'},
-            {'name': 'Souvenir Shops', 'category': 'Shopping', 'cost': 25, 'duration': '1.5 hours', 'description': 'Find local souvenirs'},
-            {'name': 'Night Market', 'category': 'Shopping', 'cost': 30, 'duration': '3 hours', 'description': 'Evening shopping markets'}
+            {'name': 'Souvenir Shops', 'category': 'Shopping', 'cost': 25, 'duration': '1.5 hours', 'description': 'Find local souvenirs'}
         ],
         'Culture/History': [
             {'name': 'Museum Visit', 'category': 'Culture/History', 'cost': 12, 'duration': '2 hours', 'description': 'Local history museum'},
             {'name': 'Ancient Temple Tour', 'category': 'Culture/History', 'cost': 8, 'duration': '1.5 hours', 'description': 'Historical temple exploration'},
-            {'name': 'Art Gallery', 'category': 'Culture/History', 'cost': 10, 'duration': '1.5 hours', 'description': 'Contemporary and traditional art'},
-            {'name': 'Heritage Site', 'category': 'Culture/History', 'cost': 20, 'duration': '2.5 hours', 'description': 'UNESCO heritage sites'}
+            {'name': 'Art Gallery', 'category': 'Culture/History', 'cost': 10, 'duration': '1.5 hours', 'description': 'Contemporary and traditional art'}
         ],
         'Sightseeing': [
             {'name': 'City Viewpoint', 'category': 'Sightseeing', 'cost': 5, 'duration': '1 hour', 'description': 'Panoramic city views'},
             {'name': 'City Walking Tour', 'category': 'Sightseeing', 'cost': 18, 'duration': '2 hours', 'description': 'Guided walking tour'},
-            {'name': 'Nature Park Visit', 'category': 'Sightseeing', 'cost': 0, 'duration': '2 hours', 'description': 'Beautiful nature trails'},
-            {'name': 'Scenic Photography Tour', 'category': 'Sightseeing', 'cost': 25, 'duration': '3 hours', 'description': 'Photo tour of highlights'}
+            {'name': 'Nature Park Visit', 'category': 'Sightseeing', 'cost': 0, 'duration': '2 hours', 'description': 'Beautiful nature trails'}
         ]
     }
     
     recommendations = []
     
-    # Generate recommendations from sample data based on selected categories
     for category in categories:
         if category in sample_places:
             for place in sample_places[category]:
-                # Only add if within budget and not already added
-                if place['cost'] <= budget:
-                    # Check if already added
+                if place['cost'] <= max_spend:
                     if not any(r['name'] == place['name'] for r in recommendations):
                         recommendations.append(place)
     
-    # Sort by cost (cheapest first) and return top 10
     recommendations.sort(key=lambda x: x['cost'])
     return recommendations[:10]
 

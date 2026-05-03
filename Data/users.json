@@ -8,8 +8,79 @@
         "city": "Paris",
         "budget": 100.0,
         "categories": [
-          "Food",
-          "Culture/History"
+          "Shopping"
+        ],
+        "recommendations": [
+          {
+            "name": "Cuv\u00e9e Noire - Coffee Shop - Paris 9e",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "BLESS Shop Paris",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Model Shop Paris",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Lab Paris Tattoo Shop",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Kilo-Shop",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Supermarket",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Boucherie Supermarket Ha\u00efti",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Leader Supermarket",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "Mini Supermarket",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          },
+          {
+            "name": "March\u00e9 du Livre ancien et d'occasion de Paris",
+            "category": "Shopping",
+            "cost": 25,
+            "duration": "1-2 hours",
+            "description": "Located in Paris"
+          }
         ]
       }
     ]
