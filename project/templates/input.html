@@ -127,17 +127,51 @@
           required
         />
 
-        <label for="category">Category</label>
-        <select id="category" name="category" required>
-          <option value="">Select a category</option>
+        <label for="category">Category (select up to 3)</label>
+        <select id="category" name="category" multiple size="4" required>
           <option value="Food">Food</option>
+          <option value="Culture/History">Culture/History</option>
           <option value="Shopping">Shopping</option>
           <option value="Sightseeing">Sightseeing</option>
-          <option value="Mixed">Mixed</option>
         </select>
+
+        <p class="hint">Hold Ctrl (Cmd on Mac) or use the checkboxes to select multiple categories. Maximum 3.</p>
 
         <button type="submit">Generate Plan</button>
       </form>
+
+      <script>
+        (function(){
+          const form = document.getElementById('tripForm');
+          const category = document.getElementById('category');
+
+          function selectedCount() {
+            return Array.from(category.options).filter(o => o.selected).length;
+          }
+
+          // Prevent selecting more than 3 options via click
+          category.addEventListener('change', (e) => {
+            const count = selectedCount();
+            if (count > 3) {
+              // Deselect the last changed option
+              e.target.options[e.target.selectedIndex].selected = false;
+              alert('You can select up to 3 categories only.');
+            }
+          });
+
+          // Validate on submit: at least 1 and at most 3
+          form.addEventListener('submit', (e) => {
+            const count = selectedCount();
+            if (count === 0) {
+              e.preventDefault();
+              alert('Please select at least one category.');
+            } else if (count > 3) {
+              e.preventDefault();
+              alert('Please select no more than 3 categories.');
+            }
+          });
+        })();
+      </script>
 
       {% if error %}
         <p class="message">{{ error }}</p>
