@@ -76,7 +76,10 @@ def login():
         session['username'] = username
         return redirect(url_for('profile'))
 
-    return render_template('login.html')
+    # If GET, allow optional success message and prefilled username from query params
+    success = request.args.get('success')
+    prefill = request.args.get('username')
+    return render_template('login.html', success=success, username=prefill)
 
 
 
@@ -104,8 +107,8 @@ def signup():
         }
         save_users(users)
 
-        session['username'] = username
-        return redirect(url_for('profile'))
+        # After creating account, redirect user to login so they can sign in
+        return redirect(url_for('login', success='Account created. Please log in.', username=username))
 
     return render_template('signup.html')
 
