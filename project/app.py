@@ -315,6 +315,12 @@ def signup():
 
     return render_template('signup.html')
 
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 @app.route('/profile')
 def profile():
     username = session.get('username')
@@ -342,6 +348,14 @@ def input_page():
 def generate_plan():
     # Read username if present; allow anonymous users to generate a plan (won't be saved)
     username = session.get('username')
+
+    # Debug log incoming form and session keys
+    try:
+        app.logger.info('generate_plan called by user: %s', username)
+        app.logger.info('form keys: %s', list(request.form.keys()))
+        app.logger.info('session keys: %s', list(session.keys()))
+    except Exception:
+        pass
 
     trip_name = request.form.get('tripName', '').strip()
     city = request.form.get('city', '').strip()
@@ -423,17 +437,46 @@ def generate_plan():
         save_users(users)
         session['last_trip'] = trip
         session['saved'] = True
-        return redirect(url_for('results'))
 
-    # Anonymous (not logged in): do not save to users.json, but allow viewing results
+        # Render results immediately so user lands on results page after submitting
+        activities = []
+        transport_cost = 0.0
+        total_cost = trip.get('budget', 0.0)
+        chart_data = ''
+        return render_template(
+            'result.html',
+            trip_name=trip.get('name', ''),
+            day=trip.get('day', 1),
+            budget=trip.get('budget', 0.0),
+            activities=activities,
+            transport_cost=transport_cost,
+            total_cost=total_cost,
+            chart_data=chart_data
+        )
+
+    # Anonymous (not logged in): do not save to users.json, but render results for viewing
     session['last_trip'] = trip
     session['saved'] = False
-    return redirect(url_for('results'))
+    activities = []
+    transport_cost = 0.0
+    total_cost = trip.get('budget', 0.0)
+    chart_data = ''
+    return render_template(
+        'result.html',
+        trip_name=trip.get('name', ''),
+        day=trip.get('day', 1),
+        budget=trip.get('budget', 0.0),
+        activities=activities,
+        transport_cost=transport_cost,
+        total_cost=total_cost,
+        chart_data=chart_data
+    )
 
 
 @app.route('/results')
 def results():
-    # Render results page using trip and recommendations stored in session
+    # Render results page using last generated trip stored in session
+    app.logger.info('results called; session keys: %s', list(session.keys()))
     trip = session.get('last_trip')
     if not trip:
         return redirect(url_for('profile'))
