@@ -221,7 +221,34 @@ def generate_plan():
     users[username] = user
     save_users(users)
 
-    return redirect(url_for('profile'))
+    # Store last generated trip in session and redirect to results page
+    session['last_trip'] = trip
+    return redirect(url_for('results'))
+
+
+@app.route('/results')
+def results():
+    # Render results page using last generated trip stored in session
+    trip = session.get('last_trip')
+    if not trip:
+        return redirect(url_for('profile'))
+
+    # Minimal defaults for activities and chart data; real recommender can replace these
+    activities = []
+    transport_cost = 0.0
+    total_cost = trip.get('budget', 0.0)
+    chart_data = ''
+
+    return render_template(
+        'result.html',
+        trip_name=trip.get('name', ''),
+        day=trip.get('day', 1),
+        budget=trip.get('budget', 0.0),
+        activities=activities,
+        transport_cost=transport_cost,
+        total_cost=total_cost,
+        chart_data=chart_data
+    )
 
 
 

@@ -90,7 +90,7 @@
           id="tripName"
           name="tripName"
           type="text"
-          placeholder="e.g., Paris 2026 Day {{ day }}"
+          placeholder="e.g., Paris 2026"
           required
         />
 
@@ -127,15 +127,15 @@
           required
         />
 
-        <label for="category">Category (select up to 3)</label>
-        <select id="category" name="category" multiple size="4" required>
-          <option value="Food">Food</option>
-          <option value="Culture/History">Culture/History</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Sightseeing">Sightseeing</option>
-        </select>
+        <label>Category (select up to 3)</label>
+        <div id="categoryGroup">
+          <label><input type="checkbox" name="category" value="Food"> Food</label>
+          <label><input type="checkbox" name="category" value="Culture/History"> Culture/History</label>
+          <label><input type="checkbox" name="category" value="Shopping"> Shopping</label>
+          <label><input type="checkbox" name="category" value="Sightseeing"> Sightseeing</label>
+        </div>
 
-        <p class="hint">Hold Ctrl (Cmd on Mac) or use the checkboxes to select multiple categories. Maximum 3.</p>
+        <p class="hint">Select up to 3 categories.</p>
 
         <button type="submit">Generate Plan</button>
       </form>
@@ -143,25 +143,21 @@
       <script>
         (function(){
           const form = document.getElementById('tripForm');
-          const category = document.getElementById('category');
+          const checkboxes = Array.from(document.querySelectorAll('input[name="category"]'));
 
-          function selectedCount() {
-            return Array.from(category.options).filter(o => o.selected).length;
+          function checkedCount() {
+            return checkboxes.filter(cb => cb.checked).length;
           }
 
-          // Prevent selecting more than 3 options via click
-          category.addEventListener('change', (e) => {
-            const count = selectedCount();
-            if (count > 3) {
-              // Deselect the last changed option
-              e.target.options[e.target.selectedIndex].selected = false;
+          checkboxes.forEach(cb => cb.addEventListener('change', (e) => {
+            if (checkedCount() > 3) {
+              e.target.checked = false;
               alert('You can select up to 3 categories only.');
             }
-          });
+          }));
 
-          // Validate on submit: at least 1 and at most 3
           form.addEventListener('submit', (e) => {
-            const count = selectedCount();
+            const count = checkedCount();
             if (count === 0) {
               e.preventDefault();
               alert('Please select at least one category.');
