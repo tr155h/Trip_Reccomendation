@@ -157,5 +157,73 @@ def input_page():
 
 
 
+@app.route('/generate_plan', methods=['POST'])
+def generate_plan():
+    # Ensure user is logged in
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login', error='Please log in to create a trip'))
+
+    trip_name = request.form.get('tripName', '').strip()
+    city = request.form.get('city', '').strip()
+    budget = request.form.get('budget', '').strip()
+    day = request.form.get('day', '1')
+    try:
+        day_val = int(day)
+    except (ValueError, TypeError):
+        day_val = 1
+
+    # categories sent as multiple select
+    categories = request.form.getlist('category')
+
+    # Basic validation
+    if not trip_name or not city or not budget:
+        return render_template('input.html', day=day_val, error='Trip name, city and budget are required')
+
+    try:
+        budget_val = float(budget)
+    except ValueError:
+        return render_template('input.html', day=day_val, error='Invalid budget value')
+
+    if not categories or len(categories) == 0:
+        return render_template('input.html', day=day_val, error='Please select at least one category')
+    if len(categories) > 3:
+        return render_template('input.html', day=day_val, error='Please select no more than 3 categories')
+
+    # Load users, append trip to user's trips
+    users = load_users()
+    user = users.get(username)
+    if user is None:
+        return redirect(url_for('login', error='User not found. Please log in.'))
+
+    user = user if isinstance(user, dict) else {'password': user, 'trips': []}
+    user.setdefault('trips', [])
+
+    # Create trip object
+    trip = {
+        'day': day_val,
+        'name': trip_name,
+        'city': city,
+        'budget': budget_val,
+        'categories': categories
+    }
+
+    # If a trip for this day already exists, replace it, else append
+    replaced = False
+    for i, t in enumerate(user['trips']):
+        if t.get('day') == day_val:
+            user['trips'][i] = trip
+            replaced = True
+            break
+    if not replaced:
+        user['trips'].append(trip)
+
+    users[username] = user
+    save_users(users)
+
+    return redirect(url_for('profile'))
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
