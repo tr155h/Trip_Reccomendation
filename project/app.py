@@ -49,6 +49,19 @@ def username_exists(username):
     users = load_users()
     return username in users
 
+
+def is_valid_username(username):
+    """Validate username format (must end with 4 digits)"""
+    if not username or len(username) < 5:
+        return False
+    # Check if last 4 characters are digits
+    return username[-4:].isdigit()
+
+
+def is_valid_password(password):
+    """Validate password length (minimum 6 characters)"""
+    return password and len(password) >= 6
+
 @app.route('/')
 def index():
     return render_template('login.html')
@@ -62,6 +75,9 @@ def login():
         # Validate inputs
         if not username or not password:
             return render_template('login.html', error='Username and password are required')
+
+        if not is_valid_password(password):
+            return render_template('login.html', error='Password must be at least 6 characters long')
 
         # Load user record
         user = load_user(username)
@@ -89,6 +105,12 @@ def signup():
         # Validate inputs
         if not username or not password or not confirm_password:
             return render_template('signup.html', error='Username and passwords are required')
+
+        if not is_valid_username(username):
+            return render_template('signup.html', error='Username must end with 4 digits (e.g., michael1234)')
+
+        if not is_valid_password(password):
+            return render_template('signup.html', error='Password must be at least 6 characters long')
 
         if password != confirm_password:
             return render_template('signup.html', error='Passwords do not match')

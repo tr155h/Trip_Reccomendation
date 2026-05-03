@@ -114,7 +114,7 @@
       </form>
 
          <p class="hint">Use a username ending with 4 digits, for example <strong>alex1234</strong>. Enter your password to sign in.</p>
-      <button id="signupButton" type="button" onclick="window.location.href='signup.html'">Sign Up</button>
+      <button id="signupButton" type="button" onclick="window.location.href='{{ url_for('signup') }}'">Sign Up</button>
 
       {% if error %}
         <p id="message" class="message">{{ error }}</p>
