@@ -128,7 +128,7 @@
         <p class="subtitle">Choose from planned trips or create a new one.</p>
       </div>
       <div>
-        <a class="create-button create-link" href="input.html?day=1">+ Create new trip</a>
+        <a class="create-button create-link" href="{{ url_for('input_page') }}?day=1">+ Create new trip</a>
       </div>
     </div>
 
@@ -152,7 +152,7 @@
             <div class="day-action">
               {% if trip %}
                 <a class="create-button create-link" href="view_plan.html?day={{ day }}">View</a>
-                <a class="create-button create-link" href="input.html?day={{ day }}">+</a>
+                <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ day }}">+</a>
               {% else %}
                 <button class="icon-button" disabled>+</button>
               {% endif %}
@@ -165,7 +165,7 @@
             <strong>Add day</strong>
           </div>
           <div class="day-action">
-            <a class="create-button create-link" href="input.html?day={{ next_day }}">+</a>
+            <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ next_day }}">+</a>
           </div>
         </div>
       {% else %}
@@ -175,7 +175,7 @@
             <strong>Create a new trip</strong>
           </div>
           <div class="day-action">
-            <a class="create-button create-link" href="input.html?day=1">+</a>
+            <a class="create-button create-link" href="{{ url_for('input_page') }}?day=1">+</a>
           </div>
         </div>
         <p class="footer-note">Start with Day 1. After you save your first trip, daily slots will become active.</p>
