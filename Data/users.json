@@ -1,7 +1,17 @@
 {
   "trisha1234": {
     "password": "hello1234",
-    "trips": []
+    "trips": [
+      {
+        "day": 1,
+        "name": "Paris 2026",
+        "city": "Paris",
+        "budget": 100.0,
+        "categories": [
+          "Shopping"
+        ]
+      }
+    ]
   },
   "hugrefjods2356": {
     "password": "scrypt:32768:8:1$4DnmkuMb4t1wedWR$827b06b903ed6103891fdce6cc4e8359445e80f466cdf55ebb1c52ab629cd3d9caea1beee788d501c4dede200a01993ee39bd562ce7e3a9cfc299b851efc76df",
