@@ -384,6 +384,49 @@ def generate_plan():
     )
 
 
+@app.route('/view_plan')
+def view_plan():
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+
+    day = request.args.get('day', '1')
+    try:
+        day_val = int(day)
+    except (ValueError, TypeError):
+        day_val = 1
+
+    user = load_user(username)
+    if not user:
+        return redirect(url_for('profile'))
+
+    trips = user.get('trips', [])
+    trip = None
+    for t in trips:
+        if t.get('day') == day_val:
+            trip = t
+            break
+
+    if not trip:
+        return redirect(url_for('profile'))
+
+    # Render the result view for the saved trip
+    activities = []
+    transport_cost = 0.0
+    total_cost = trip.get('budget', 0.0)
+    chart_data = ''
+    return render_template(
+        'result.html',
+        trip_name=trip.get('name', ''),
+        day=trip.get('day', 1),
+        budget=trip.get('budget', 0.0),
+        activities=activities,
+        transport_cost=transport_cost,
+        total_cost=total_cost,
+        chart_data=chart_data
+    )
+
+
 @app.route('/results')
 def results():
     # Render results page using last generated trip stored in session

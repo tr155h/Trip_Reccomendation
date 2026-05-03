@@ -136,6 +136,7 @@
       <h2>Choose from planned trips:</h2>
 
       {% if saved_trips and saved_trips|length > 0 %}
+        {% set next_day = (saved_trips | map(attribute='day') | max) + 1 %}
         {% set days = [1,2,3,4,5,6,7] %}
         {% for day in days %}
           {% set trip_list = saved_trips | selectattr('day', 'equalto', day) | list %}
@@ -151,7 +152,9 @@
             </div>
             <div class="day-action">
               {% if trip %}
-                <a class="create-button create-link" href="view_plan.html?day={{ day }}">View</a>
+                <a class="create-button create-link" href="{{ url_for('view_plan') }}?day={{ day }}">View</a>
+                <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ day }}">+</a>
+              {% elif day == next_day and next_day <= 7 %}
                 <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ day }}">+</a>
               {% else %}
                 <button class="icon-button" disabled>+</button>
@@ -159,7 +162,7 @@
             </div>
           </div>
         {% endfor %}
-        {% set next_day = (saved_trips | map(attribute='day') | max) + 1 %}
+        {% if next_day <= 7 %}
         <div class="new-trip-row">
           <div>
             <strong>Add day</strong>
@@ -168,6 +171,7 @@
             <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ next_day }}">+</a>
           </div>
         </div>
+        {% endif %}
       {% else %}
         <p class="no-plans">No Plans Saved.</p>
         <div class="new-trip-row">
