@@ -99,6 +99,7 @@
           required
           pattern=".*\d{4}$"
           title="Your username should end with 4 digits"
+          value="{{ username or '' }}"
         />
 
         <label for="password">Password</label>
@@ -114,7 +115,7 @@
       </form>
 
          <p class="hint">Use a username ending with 4 digits, for example <strong>alex1234</strong>. Enter your password to sign in.</p>
-      <button id="signupButton" type="button" onclick="window.location.href='{{ url_for('signup') }}'">Sign Up</button>
+      <a id="signupButton" href="{{ url_for('signup') }}" style="display:inline-block;width:100%;margin-top:18px;padding:14px 16px;border:none;border-radius:12px;font-size:1rem;cursor:pointer;background:rgba(255,255,255,0.14);color:#fff;text-align:center;text-decoration:none;">Sign Up</a>
 
       {% if error %}
         <p id="message" class="message">{{ error }}</p>
