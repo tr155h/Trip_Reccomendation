@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import json
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -68,8 +69,8 @@ def login():
         if not user:
             return render_template('login.html', error='Username not found. Please sign up first.')
 
-        # Verify password
-        if user['password'] != password:
+        # Verify password (check hashed password)
+        if not check_password_hash(user['password'], password):
             return render_template('login.html', error='Incorrect password. Please try again.')
 
         session['username'] = username
@@ -98,7 +99,7 @@ def signup():
 
         users = load_users()
         users[username] = {
-            'password': password,
+            'password': generate_password_hash(password),
             'trips': []
         }
         save_users(users)
