@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanMyTrip - Trip Results</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 860px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+    }
+    .header {
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 2.4rem;
+    }
+    .header .subtitle {
+      margin: 8px 0 0;
+      opacity: 0.85;
+    }
+    .section {
+      margin-bottom: 24px;
+    }
+    .section h2 {
+      margin-bottom: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-body h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .card-body p {
+      margin: 0;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+    .card-body .price {
+      margin-top: auto;
+      font-weight: 700;
+      color: #ffdd82;
+    }
+    .summary-list {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 18px;
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .summary-row strong {
+      font-size: 1rem;
+    }
+    .summary-row span {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffdd82;
+    }
+    .chart-box {
+      margin-top: 14px;
+      text-align: center;
+    }
+    .chart-box img {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .button {
+      flex: 1;
+      min-width: 180px;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      color: #111;
+      background: #ff8c42;
+    }
+    .button.secondary {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>{{ trip_name }}</h1>
+      <p class="subtitle">Day {{ day }} · Budget: ${{ "%.2f"|format(budget) }}</p>
+    </div>
+
+    <div class="section">
+      <h2>Recommended Activities</h2>
+      <p>These activities are selected to stay within your budget after reserving $25 for local transport.</p>
+      <div class="grid">
+        {% for activity in activities %}
+        <div class="card">
+          <img src="{{ activity.image_url }}" alt="{{ activity.title }}" />
+          <div class="card-body">
+            <h3>{{ activity.title }}</h3>
+            <p><strong>Place:</strong> {{ activity.place }}</p>
+            <p>{{ activity.description }}</p>
+            <p><strong>Food:</strong> {{ activity.food }}</p>
+            <p class="price">${{ "%.2f"|format(activity.price) }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="section summary-list">
+      <div class="summary-row">
+        <strong>Average transportation fare</strong>
+        <span>${{ "%.2f"|format(transport_cost) }}</span>
+      </div>
+      <div class="summary-row">
+        <strong>Estimated total cost</strong>
+        <span>${{ "%.2f"|format(total_cost) }}</span>
+      </div>
+    </div>
+
+    <div class="section chart-box">
+      <h2>Budget comparison</h2>
+      <img src="data:image/png;base64,{{ chart_data }}" alt="Budget vs estimated cost chart" />
+    </div>
+
+    <div class="actions">
+      <a class="button" href="{{ url_for('profile') }}">Back to Profile</a>
+      <a class="button secondary" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+</body>
+</html>

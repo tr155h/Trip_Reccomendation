@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlanMyTrip - New User Input</title>
+  <title>PlanMyTrip - Input</title>
   <style>
     body {
       margin: 0;
@@ -79,16 +79,18 @@
     <p class="subtitle">Plan Smart. Travel Better.</p>
 
     <div class="card">
-      <h2>Welcome, New User!</h2>
-      <p>Let's plan your trip. Fill in the details below.</p>
+      <h2>Plan Your Trip for Day {{ day }}</h2>
+      <p>Fill in the details below to generate a plan.</p>
 
-      <form id="tripForm" action="/generate_plan" method="post"> <!-- Placeholder action; update to Flask route later -->
+      <form id="tripForm" action="{{ url_for('generate_plan') }}" method="post">
+        <input type="hidden" name="day" value="{{ day }}" />
+
         <label for="tripName">Trip Name</label>
         <input
           id="tripName"
           name="tripName"
           type="text"
-          placeholder="e.g., Paris 2026 Day 1"
+          placeholder="e.g., Paris 2026 Day {{ day }}"
           required
         />
 
