@@ -123,6 +123,17 @@ def profile():
     return render_template('profile.html', username=username, saved_trips=saved_trips)
 
 
+@app.route('/input', methods=['GET'])
+def input_page():
+    # Render the trip input page. day is expected as a query parameter.
+    day = request.args.get('day', '1')
+    try:
+        day_val = int(day)
+    except (ValueError, TypeError):
+        day_val = 1
+    return render_template('input.html', day=day_val)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
