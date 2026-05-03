@@ -251,10 +251,8 @@ def input_page():
 
 @app.route('/generate_plan', methods=['POST'])
 def generate_plan():
-    # Ensure user is logged in
+    # Read username if present; allow anonymous users to generate a plan (won't be saved)
     username = session.get('username')
-    if not username:
-        return redirect(url_for('login', error='Please log in to create a trip'))
 
     trip_name = request.form.get('tripName', '').strip()
     city = request.form.get('city', '').strip()
@@ -309,27 +307,38 @@ def generate_plan():
         'recommendations': recommendations
     }
 
-    # If a trip for this day already exists, replace it, else append
-    replaced = False
-    for i, t in enumerate(user['trips']):
-        if t.get('day') == day_val:
-            user['trips'][i] = trip
-            replaced = True
-            break
-    if not replaced:
-        user['trips'].append(trip)
+    # If user is logged in, save trip to their account; otherwise just keep it in session
+    if username:
+        users = load_users()
+        user = users.get(username)
+        if user is None:
+            # If user disappeared, fall back to anonymous flow
+            session['last_trip'] = trip
+            session['saved'] = False
+            return redirect(url_for('results'))
 
-    users[username] = user
-    save_users(users)
+        user = user if isinstance(user, dict) else {'password': user, 'trips': []}
+        user.setdefault('trips', [])
 
-    # Calculate total estimated cost
-    total_cost = sum(rec.get('cost', 0) for rec in recommendations)
+        # If a trip for this day already exists, replace it, else append
+        replaced = False
+        for i, t in enumerate(user['trips']):
+            if t.get('day') == day_val:
+                user['trips'][i] = trip
+                replaced = True
+                break
+        if not replaced:
+            user['trips'].append(trip)
 
-    # Store trip data in session for results page
+        users[username] = user
+        save_users(users)
+        session['last_trip'] = trip
+        session['saved'] = True
+        return redirect(url_for('results'))
+
+    # Anonymous (not logged in): do not save to users.json, but allow viewing results
     session['last_trip'] = trip
-    session['recommendations'] = recommendations
-    session['total_cost'] = total_cost
-    
+    session['saved'] = False
     return redirect(url_for('results'))
 
 
