@@ -85,9 +85,14 @@ def login():
         if not user:
             return render_template('login.html', error='Username not found. Please sign up first.')
 
-        # Verify password (check hashed password)
-        if not check_password_hash(user['password'], password):
-            return render_template('login.html', error='Incorrect password. Please try again.')
+        # Verify password - handle both hashed and plain text passwords for backwards compatibility
+        stored_password = user['password']
+        if stored_password.startswith('scrypt:'):  # Hashed password format
+            if not check_password_hash(stored_password, password):
+                return render_template('login.html', error='Incorrect password. Please try again.')
+        else:  # Plain text password (legacy format)
+            if stored_password != password:
+                return render_template('login.html', error='Incorrect password. Please try again.')
 
         session['username'] = username
         return redirect(url_for('profile'))
