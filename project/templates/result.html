@@ -87,9 +87,16 @@
       align-items: center;
       justify-content: center;
       transition: background 0.2s ease;
+      z-index: 10;
     }
     .remove-btn:hover {
       background: rgba(255, 40, 40, 1);
+    }
+    .remove-btn.re-add {
+      background: rgba(76, 175, 80, 0.9);
+    }
+    .remove-btn.re-add:hover {
+      background: rgba(56, 155, 60, 1);
     }
     .card-body h3 {
       margin: 0;
@@ -164,8 +171,8 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>{{ trip_name }}</h1>
-      <p class="subtitle">Day {{ day }} · Budget: ${{ "%.2f"|format(budget) }}</p>
+      <h1>{{ trip_name }} - Day {{ day }}</h1>
+      <p class="subtitle">{{ plan_name }} · Budget: ${{ "%.2f"|format(budget) }}</p>
     </div>
 
     <div class="section">
@@ -217,7 +224,17 @@
     
     function removeActivity(activityId) {
       const card = document.querySelector(`[data-activity-id="${activityId}"]`);
-      card.classList.add('removed');
+      const button = card.querySelector('.remove-btn');
+      
+      card.classList.toggle('removed');
+      button.classList.toggle('re-add');
+      
+      if (card.classList.contains('removed')) {
+        button.title = 'Add back this activity';
+      } else {
+        button.title = 'Remove this activity';
+      }
+      
       updateTotalCost();
     }
     

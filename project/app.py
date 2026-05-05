@@ -271,13 +271,29 @@ def profile():
 
 @app.route('/input', methods=['GET'])
 def input_page():
-    # Render the trip input page. day is expected as a query parameter.
+    # Render the trip input page. trip_name and day are expected as query parameters.
+    trip_name = request.args.get('trip_name')
     day = request.args.get('day', '1')
     try:
         day_val = int(day)
     except (ValueError, TypeError):
         day_val = 1
-    return render_template('input.html', day=day_val)
+    return render_template('input.html', trip_name=trip_name, day=day_val)
+
+
+@app.route('/create_trip', methods=['GET', 'POST'])
+def create_trip():
+    """Page to create a new trip with a custom name"""
+    if request.method == 'POST':
+        trip_name = request.form.get('tripName', '').strip()
+        
+        if not trip_name:
+            return render_template('create_trip.html', error='Trip name is required')
+        
+        # Redirect to input page with the trip name
+        return redirect(url_for('input_page', trip_name=trip_name, day='1'))
+    
+    return render_template('create_trip.html')
 
 
 
@@ -294,7 +310,8 @@ def generate_plan():
     except Exception:
         pass
 
-    trip_name = request.form.get('tripName', '').strip()
+    plan_name = request.form.get('planName', '').strip()  # Name for this specific day's plan
+    trip_name = request.form.get('tripName', '').strip()   # Name of the trip
     city = request.form.get('city', '').strip()
     budget = request.form.get('budget', '').strip()
     day = request.form.get('day', '1')
@@ -307,20 +324,20 @@ def generate_plan():
     categories = request.form.getlist('category')
 
     # Basic validation
-    if not trip_name or not city or not budget:
-        return render_template('input.html', day=day_val, error='Trip name, city and budget are required')
+    if not plan_name or not city or not budget or not trip_name:
+        return render_template('input.html', trip_name=trip_name, day=day_val, error='All fields are required')
 
     try:
         budget_val = float(budget)
         if budget_val < 0:
-            return render_template('input.html', day=day_val, error='Budget must be a positive number')
+            return render_template('input.html', trip_name=trip_name, day=day_val, error='Budget must be a positive number')
     except ValueError:
-        return render_template('input.html', day=day_val, error='Invalid budget value')
+        return render_template('input.html', trip_name=trip_name, day=day_val, error='Invalid budget value')
 
     if not categories or len(categories) == 0:
-        return render_template('input.html', day=day_val, error='Please select at least one category')
+        return render_template('input.html', trip_name=trip_name, day=day_val, error='Please select at least one category')
     if len(categories) > 3:
-        return render_template('input.html', day=day_val, error='Please select no more than 3 categories')
+        return render_template('input.html', trip_name=trip_name, day=day_val, error='Please select no more than 3 categories')
     
     # Generate recommendations based on budget, city, and categories
     recommendations = get_recommendations(city, budget_val, categories)
@@ -331,53 +348,53 @@ def generate_plan():
     
     # Validate that the selected city exists in our database
     if city not in available_cities:
-        return render_template('input.html', day=day_val, available_cities=available_cities, error='Please select a city from the available options')
+        return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select a city from the available options')
 
-    # Load users, append trip to user's trips
-    users = load_users()
-    user = users.get(username)
-    if user is None:
-        return redirect(url_for('login', error='User not found. Please log in.'))
-
-    user = user if isinstance(user, dict) else {'password': user, 'trips': []}
-    user.setdefault('trips', [])
-
-    # Create trip object with recommendations
-    trip = {
+    # Create day plan object with recommendations
+    day_plan = {
         'day': day_val,
-        'name': trip_name,
+        'name': plan_name,
         'city': city,
         'budget': budget_val,
         'categories': categories,
         'recommendations': recommendations
     }
 
-    # If user is logged in, save trip to their account; otherwise just keep it in session
+    # If user is logged in, save day plan to their account
     if username:
         users = load_users()
         user = users.get(username)
         if user is None:
             # If user disappeared, fall back to anonymous flow
-            session['last_trip'] = trip
+            session['last_trip'] = day_plan
             session['saved'] = False
             return redirect(url_for('results'))
 
         user = user if isinstance(user, dict) else {'password': user, 'trips': []}
         user.setdefault('trips', [])
 
-        # If a trip for this day already exists, replace it, else append
-        replaced = False
-        for i, t in enumerate(user['trips']):
-            if t.get('day') == day_val:
-                user['trips'][i] = trip
-                replaced = True
+        # Find or create the trip with this trip_name
+        trip = None
+        for t in user['trips']:
+            if t.get('trip_name') == trip_name:
+                trip = t
                 break
-        if not replaced:
+        
+        if trip is None:
+            # Create new trip
+            trip = {
+                'trip_name': trip_name,
+                'days': {}
+            }
             user['trips'].append(trip)
+        
+        # Add or replace the day plan
+        trip['days'][str(day_val)] = day_plan
 
         users[username] = user
         save_users(users)
-        session['last_trip'] = trip
+        session['last_trip'] = day_plan
+        session['trip_name'] = trip_name
         session['recommendations'] = recommendations
         session['saved'] = True
 
@@ -401,9 +418,10 @@ def generate_plan():
         # Render results immediately so user lands on results page after submitting
         return render_template(
             'result.html',
-            trip_name=trip.get('name', ''),
-            day=trip.get('day', 1),
-            budget=trip.get('budget', 0.0),
+            plan_name=plan_name,
+            trip_name=trip_name,
+            day=day_val,
+            budget=budget_val,
             activities=activities,
             transport_cost=transport_cost,
             total_cost=total_cost,
@@ -411,7 +429,8 @@ def generate_plan():
         )
 
     # Anonymous (not logged in): do not save to users.json, but render results for viewing
-    session['last_trip'] = trip
+    session['last_trip'] = day_plan
+    session['trip_name'] = trip_name
     session['recommendations'] = recommendations
     session['saved'] = False
     
@@ -434,9 +453,10 @@ def generate_plan():
     
     return render_template(
         'result.html',
-        trip_name=trip.get('name', ''),
-        day=trip.get('day', 1),
-        budget=trip.get('budget', 0.0),
+        plan_name=plan_name,
+        trip_name=trip_name,
+        day=day_val,
+        budget=budget_val,
         activities=activities,
         transport_cost=transport_cost,
         total_cost=total_cost,
@@ -450,11 +470,15 @@ def view_plan():
     if not username:
         return redirect(url_for('login'))
 
+    trip_name = request.args.get('trip_name')
     day = request.args.get('day', '1')
     try:
         day_val = int(day)
     except (ValueError, TypeError):
         day_val = 1
+
+    if not trip_name:
+        return redirect(url_for('profile'))
 
     user = load_user(username)
     if not user:
@@ -463,17 +487,23 @@ def view_plan():
     trips = user.get('trips', [])
     trip = None
     for t in trips:
-        if t.get('day') == day_val:
+        if t.get('trip_name') == trip_name:
             trip = t
             break
 
     if not trip:
         return redirect(url_for('profile'))
 
-    # Get recommendations from the saved trip
-    recommendations = trip.get('recommendations', [])
-    city = trip.get('city', '')
-    budget = trip.get('budget', 0.0)
+    # Get the specific day plan
+    day_plan = trip.get('days', {}).get(str(day_val))
+    if not day_plan:
+        return redirect(url_for('profile'))
+
+    # Get recommendations from the saved day plan
+    recommendations = day_plan.get('recommendations', [])
+    city = day_plan.get('city', '')
+    budget = day_plan.get('budget', 0.0)
+    plan_name = day_plan.get('name', '')
     
     # Convert recommendations to format for result.html
     activities = []
@@ -495,8 +525,9 @@ def view_plan():
     # Render the result view for the saved trip
     return render_template(
         'result.html',
-        trip_name=trip.get('name', ''),
-        day=trip.get('day', 1),
+        plan_name=plan_name,
+        trip_name=trip_name,
+        day=day_val,
         budget=budget,
         activities=activities,
         transport_cost=transport_cost,
@@ -509,22 +540,22 @@ def view_plan():
 def results():
     # Render results page using last generated trip stored in session
     app.logger.info('results called; session keys: %s', list(session.keys()))
-    trip = session.get('last_trip')
-    if not trip:
+    day_plan = session.get('last_trip')
+    if not day_plan:
         return redirect(url_for('profile'))
 
     recommendations = session.get('recommendations', [])
     total_cost = session.get('total_cost', 0)
     
     # Calculate transport estimate (default 10-15% of budget or $5 minimum)
-    transport_cost = max(5, trip.get('budget', 0) * 0.1)
+    transport_cost = max(5, day_plan.get('budget', 0) * 0.1)
     
     # Convert recommendations to format for result.html
     activities = []
     for i, rec in enumerate(recommendations):
         activities.append({
             'title': rec.get('name', ''),
-            'place': trip.get('city', ''),
+            'place': day_plan.get('city', ''),
             'description': rec.get('description', ''),
             'price': rec.get('cost', 0),
             'food': rec.get('category', ''),
@@ -533,9 +564,10 @@ def results():
 
     return render_template(
         'result.html',
-        trip_name=trip.get('name', ''),
-        day=trip.get('day', 1),
-        budget=trip.get('budget', 0.0),
+        plan_name=day_plan.get('name', ''),
+        trip_name=session.get('trip_name', 'Trip'),
+        day=day_plan.get('day', 1),
+        budget=day_plan.get('budget', 0.0),
         activities=activities,
         transport_cost=transport_cost,
         total_cost=total_cost + transport_cost,

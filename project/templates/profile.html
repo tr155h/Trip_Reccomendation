@@ -52,6 +52,50 @@
       margin-top: 0;
       font-size: 1.25rem;
     }
+    .trip-container {
+      margin-bottom: 12px;
+    }
+    .trip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .trip-header:hover {
+      background: rgba(0, 0, 0, 0.18);
+    }
+    .trip-header.expanded {
+      background: rgba(0, 0, 0, 0.18);
+    }
+    .trip-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .trip-toggle {
+      display: inline-block;
+      transition: transform 0.2s ease;
+      font-size: 0.9rem;
+    }
+    .trip-toggle.expanded {
+      transform: rotate(180deg);
+    }
+    .trip-days {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 0 0 16px 16px;
+    }
+    .trip-days.expanded {
+      max-height: 600px;
+    }
     .day-row,
     .new-trip-row {
       display: grid;
@@ -59,9 +103,10 @@
       align-items: center;
       gap: 16px;
       padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(0, 0, 0, 0.12);
-      margin-bottom: 12px;
+      border-radius: 0;
+      background: transparent;
+      margin-bottom: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
     .day-row.no-plan {
       opacity: 0.88;
@@ -109,6 +154,16 @@
       color: #fff;
       text-decoration: none;
     }
+    .new-trip-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.12);
+      margin-bottom: 12px;
+    }
     .no-plans {
       opacity: 0.9;
       margin-bottom: 18px;
@@ -128,63 +183,89 @@
         <p class="subtitle">Choose from planned trips or create a new one.</p>
       </div>
       <div>
-        <a class="create-button create-link" href="{{ url_for('input_page') }}?day=1">+ Create new trip</a>
+        <a class="create-button create-link" href="{{ url_for('create_trip') }}">+ Create new trip</a>
       </div>
     </div>
 
     <div class="bubble">
-      <h2>Choose from planned trips:</h2>
+      <h2>Your Trips:</h2>
 
       {% if saved_trips and saved_trips|length > 0 %}
-        {% set next_day = (saved_trips | map(attribute='day') | max) + 1 %}
-        {% set days = [1,2,3,4,5,6,7] %}
-        {% for day in days %}
-          {% set trip_list = saved_trips | selectattr('day', 'equalto', day) | list %}
-          {% set trip = trip_list[0] if trip_list else None %}
-          <div class="day-row {% if not trip %}no-plan{% endif %}">
-            <div class="day-info">
-              <strong>Day {{ day }}</strong>
-              {% if trip %}
-                <span>{{ trip.name }}</span>
-              {% else %}
-                <span>No plans yet</span>
-              {% endif %}
+        {% for trip in saved_trips %}
+          {% if trip.get('trip_name') %}
+            {# New format trip with days #}
+            <div class="trip-container">
+              <div class="trip-header" onclick="toggleTrip(this)">
+                <div class="trip-title">
+                  <span class="trip-toggle">▼</span>
+                  {{ trip.trip_name }}
+                </div>
+              </div>
+              <div class="trip-days">
+                {% set days = [1,2,3,4,5,6,7] %}
+                {% for day in days %}
+                  {% set day_plan = trip.get('days', {}).get(day|string) %}
+                  <div class="day-row {% if not day_plan %}no-plan{% endif %}">
+                    <div class="day-info">
+                      <strong>Day {{ day }}</strong>
+                      {% if day_plan %}
+                        <span>{{ day_plan.name }}</span>
+                      {% else %}
+                        <span>No plan yet</span>
+                      {% endif %}
+                    </div>
+                    <div class="day-action">
+                      {% if day_plan %}
+                        <a class="create-button create-link" href="{{ url_for('view_plan', trip_name=trip.trip_name, day=day) }}">View</a>
+                        <a class="create-button create-link" href="{{ url_for('input_page', trip_name=trip.trip_name, day=day) }}">+</a>
+                      {% else %}
+                        {% set has_previous_days = day > 1 and trip.get('days', {}).get((day-1)|string) %}
+                        {% if day == 1 or has_previous_days %}
+                          <a class="create-button create-link" href="{{ url_for('input_page', trip_name=trip.trip_name, day=day) }}">+</a>
+                        {% else %}
+                          <button class="icon-button" disabled>+</button>
+                        {% endif %}
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
-            <div class="day-action">
-              {% if trip %}
-                <a class="create-button create-link" href="{{ url_for('view_plan') }}?day={{ day }}">View</a>
-                <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ day }}">+</a>
-              {% elif day == next_day and next_day <= 7 %}
-                <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ day }}">+</a>
-              {% else %}
-                <button class="icon-button" disabled>+</button>
-              {% endif %}
-            </div>
-          </div>
+          {% else %}
+            {# Old format trip (single day) - ignore #}
+          {% endif %}
         {% endfor %}
-        {% if next_day <= 7 %}
+
         <div class="new-trip-row">
           <div>
-            <strong>Add day</strong>
+            <strong>+ Create New Trip</strong>
           </div>
           <div class="day-action">
-            <a class="create-button create-link" href="{{ url_for('input_page') }}?day={{ next_day }}">+</a>
+            <a class="create-button create-link" href="{{ url_for('create_trip') }}">+</a>
           </div>
         </div>
-        {% endif %}
       {% else %}
-        <p class="no-plans">No Plans Saved.</p>
+        <p class="no-plans">No Trips Saved Yet.</p>
         <div class="new-trip-row">
           <div>
-            <strong>Create a new trip</strong>
+            <strong>Create your first trip</strong>
           </div>
           <div class="day-action">
-            <a class="create-button create-link" href="{{ url_for('input_page') }}?day=1">+</a>
+            <a class="create-button create-link" href="{{ url_for('create_trip') }}">+</a>
           </div>
         </div>
-        <p class="footer-note">Start with Day 1. After you save your first trip, daily slots will become active.</p>
       {% endif %}
     </div>
+
+  <script>
+    function toggleTrip(header) {
+      header.classList.toggle('expanded');
+      const toggle = header.querySelector('.trip-toggle');
+      toggle.classList.toggle('expanded');
+      const days = header.nextElementSibling;
+      days.classList.toggle('expanded');
+    }
+  </script>
   </div>
 </body>
 </html>

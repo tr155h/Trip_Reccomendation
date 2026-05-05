@@ -79,18 +79,19 @@
     <p class="subtitle">Plan Smart. Travel Better.</p>
 
     <div class="card">
-      <h2>Plan Your Trip for Day {{ day }}</h2>
+      <h2>{% if trip_name %}{{ trip_name }} - Day {{ day }}{% else %}Plan Your Trip{% endif %}</h2>
       <p>Fill in the details below to generate a plan.</p>
 
       <form id="tripForm" action="{{ url_for('generate_plan') }}" method="post">
+        <input type="hidden" name="tripName" value="{{ trip_name }}" />
         <input type="hidden" name="day" value="{{ day }}" />
 
-        <label for="tripName">Trip Name</label>
+        <label for="planName">Plan Name for Day {{ day }}</label>
         <input
-          id="tripName"
-          name="tripName"
+          id="planName"
+          name="planName"
           type="text"
-          placeholder="e.g., Paris 2026"
+          placeholder="e.g., Museums & Cafes"
           required
         />
 

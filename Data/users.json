@@ -73,6 +73,96 @@
             "description": "Authentic French bistro with local wine"
           }
         ]
+      },
+      {
+        "trip_name": "Paris 2026",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Paris 1",
+            "city": "Paris",
+            "budget": 100.0,
+            "categories": [
+              "Culture/History",
+              "Shopping"
+            ],
+            "recommendations": [
+              {
+                "name": "Notre-Dame Cathedral",
+                "category": "Culture/History",
+                "cost": 15,
+                "duration": "1-2 hours",
+                "description": "Iconic Gothic cathedral of Paris"
+              },
+              {
+                "name": "Louvre Museum",
+                "category": "Culture/History",
+                "cost": 17,
+                "duration": "1-2 hours",
+                "description": "World's largest art museum with Mona Lisa"
+              },
+              {
+                "name": "Marais District Boutiques",
+                "category": "Shopping",
+                "cost": 40,
+                "duration": "1-2 hours",
+                "description": "Vintage and contemporary fashion shops"
+              },
+              {
+                "name": "Champs-\u00c9lys\u00e9es Shopping",
+                "category": "Shopping",
+                "cost": 60,
+                "duration": "1-2 hours",
+                "description": "Luxury brands and designer boutiques"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trip_name": "japan 2026",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "gyufweiu",
+            "city": "Tokyo",
+            "budget": 100.0,
+            "categories": [
+              "Culture/History",
+              "Shopping"
+            ],
+            "recommendations": [
+              {
+                "name": "Senso-ji Temple",
+                "category": "Culture/History",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Ancient Buddhist temple in Asakusa"
+              },
+              {
+                "name": "Tokyo National Museum",
+                "category": "Culture/History",
+                "cost": 14,
+                "duration": "1-2 hours",
+                "description": "Japan's largest museum with historical artifacts"
+              },
+              {
+                "name": "Akihabara Electronics Market",
+                "category": "Shopping",
+                "cost": 25,
+                "duration": "1-2 hours",
+                "description": "Tech gadgets and anime merchandise"
+              },
+              {
+                "name": "Shibuya Shopping District",
+                "category": "Shopping",
+                "cost": 30,
+                "duration": "1-2 hours",
+                "description": "High-end fashion and electronics shopping"
+              }
+            ]
+          }
+        }
       }
     ]
   },
