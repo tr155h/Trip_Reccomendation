@@ -197,6 +197,105 @@
             "description": "World's largest art museum with Mona Lisa"
           }
         ]
+      },
+      {
+        "trip_name": "Paris 2026",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "museum",
+            "city": "Tokyo",
+            "budget": 100.0,
+            "categories": [
+              "Food",
+              "Culture/History"
+            ],
+            "recommendations": [
+              {
+                "name": "Senso-ji Temple",
+                "category": "Culture/History",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Ancient Buddhist temple in Asakusa"
+              },
+              {
+                "name": "Ramen Yokocho",
+                "category": "Food",
+                "cost": 9,
+                "duration": "1-2 hours",
+                "description": "Authentic ramen alley with local favorites"
+              },
+              {
+                "name": "Tsukiji Outer Market",
+                "category": "Food",
+                "cost": 10,
+                "duration": "1-2 hours",
+                "description": "Fresh sushi and seafood market in central Tokyo"
+              },
+              {
+                "name": "Tokyo National Museum",
+                "category": "Culture/History",
+                "cost": 14,
+                "duration": "1-2 hours",
+                "description": "Japan's largest museum with historical artifacts"
+              },
+              {
+                "name": "Izakaya Hopping",
+                "category": "Food",
+                "cost": 18,
+                "duration": "1-2 hours",
+                "description": "Traditional Japanese pub crawl experience"
+              }
+            ]
+          },
+          "2": {
+            "day": 2,
+            "name": "Paris",
+            "city": "Paris",
+            "budget": 100.0,
+            "categories": [
+              "Food",
+              "Culture/History"
+            ],
+            "recommendations": [
+              {
+                "name": "Caf\u00e9 au Lait & Croissant",
+                "category": "Food",
+                "cost": 6,
+                "duration": "1-2 hours",
+                "description": "Traditional French breakfast experience"
+              },
+              {
+                "name": "Street Crepes Tour",
+                "category": "Food",
+                "cost": 8,
+                "duration": "1-2 hours",
+                "description": "Explore Paris's best crepe vendors"
+              },
+              {
+                "name": "Notre-Dame Cathedral",
+                "category": "Culture/History",
+                "cost": 15,
+                "duration": "1-2 hours",
+                "description": "Iconic Gothic cathedral of Paris"
+              },
+              {
+                "name": "Louvre Museum",
+                "category": "Culture/History",
+                "cost": 17,
+                "duration": "1-2 hours",
+                "description": "World's largest art museum with Mona Lisa"
+              },
+              {
+                "name": "Bistro Dinner",
+                "category": "Food",
+                "cost": 35,
+                "duration": "1-2 hours",
+                "description": "Authentic French bistro with local wine"
+              }
+            ]
+          }
+        }
       }
     ]
   }

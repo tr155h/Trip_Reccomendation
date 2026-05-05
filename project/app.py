@@ -310,7 +310,6 @@ def generate_plan():
     except Exception:
         pass
 
-    plan_name = request.form.get('planName', '').strip()  # Name for this specific day's plan
     trip_name = request.form.get('tripName', '').strip()   # Name of the trip
     city = request.form.get('city', '').strip()
     budget = request.form.get('budget', '').strip()
@@ -324,7 +323,7 @@ def generate_plan():
     categories = request.form.getlist('category')
 
     # Basic validation
-    if not plan_name or not city or not budget or not trip_name:
+    if not city or not budget or not trip_name:
         return render_template('input.html', trip_name=trip_name, day=day_val, error='All fields are required')
 
     try:
@@ -351,9 +350,10 @@ def generate_plan():
         return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select a city from the available options')
 
     # Create day plan object with recommendations
+    categories_str = ', '.join(categories)
     day_plan = {
         'day': day_val,
-        'name': plan_name,
+        'name': categories_str,
         'city': city,
         'budget': budget_val,
         'categories': categories,
@@ -418,7 +418,7 @@ def generate_plan():
         # Render results immediately so user lands on results page after submitting
         return render_template(
             'result.html',
-            plan_name=plan_name,
+            plan_name=categories_str,
             trip_name=trip_name,
             day=day_val,
             budget=budget_val,
@@ -453,7 +453,7 @@ def generate_plan():
     
     return render_template(
         'result.html',
-        plan_name=plan_name,
+        plan_name=', '.join(day_plan.get('categories', [])),
         trip_name=trip_name,
         day=day_val,
         budget=budget_val,
