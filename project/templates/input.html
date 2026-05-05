@@ -92,25 +92,8 @@
       <p>Fill in the details below to generate a plan.</p>
 
       <form id="tripForm" action="{{ url_for('generate_plan') }}" method="post">
-        <label for="tripName">Trip Name</label>
-        <input
-          id="tripName"
-          name="tripName"
-          type="text"
-          value="{{ trip_name }}"
-          readonly
-          required
-        />
-
-        <label for="day">Day</label>
-        <input
-          id="day"
-          name="day"
-          type="text"
-          value="{{ day }}"
-          readonly
-          required
-        />
+        <input type="hidden" name="tripName" value="{{ trip_name }}" />
+        <input type="hidden" name="day" value="{{ day }}" />
 
         <label for="city">Choose a City</label>
         <select id="city" name="city" required>
