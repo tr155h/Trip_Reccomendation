@@ -50,6 +50,10 @@
       border-radius: 12px;
       font-size: 1rem;
     }
+    input[readonly] {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
     button {
       width: 100%;
       margin-top: 18px;
@@ -71,6 +75,11 @@
       font-size: 0.95rem;
       color: #ffe7e7;
     }
+    .category-checkboxes label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: normal;
+    }
   </style>
 </head>
 <body>
@@ -83,15 +92,23 @@
       <p>Fill in the details below to generate a plan.</p>
 
       <form id="tripForm" action="{{ url_for('generate_plan') }}" method="post">
-        <input type="hidden" name="tripName" value="{{ trip_name }}" />
-        <input type="hidden" name="day" value="{{ day }}" />
-
-        <label for="planName">Plan Name for Day {{ day }}</label>
+        <label for="tripName">Trip Name</label>
         <input
-          id="planName"
-          name="planName"
+          id="tripName"
+          name="tripName"
           type="text"
-          placeholder="e.g., Museums & Cafes"
+          value="{{ trip_name }}"
+          readonly
+          required
+        />
+
+        <label for="day">Day</label>
+        <input
+          id="day"
+          name="day"
+          type="text"
+          value="{{ day }}"
+          readonly
           required
         />
 
@@ -102,6 +119,11 @@
           <option value="Paris">Paris</option>
           <option value="New York">New York</option>
           <option value="Shanghai">Shanghai</option>
+          <option value="Phuket">Phuket</option>
+          <option value="Denpasar">Denpasar</option>
+          <option value="Jakarta">Jakarta</option>
+          <option value="Stockholm">Stockholm</option>
+          <option value="Rome">Rome</option>
         </select>
         <p class="hint">Choose one of the available cities.</p>
 
@@ -117,46 +139,18 @@
         />
 
         <label>Category (select up to 3)</label>
-        <div id="categoryGroup">
+        <div id="categoryGroup" class="category-checkboxes">
           <label><input type="checkbox" name="category" value="Food"> Food</label>
           <label><input type="checkbox" name="category" value="Culture/History"> Culture/History</label>
           <label><input type="checkbox" name="category" value="Shopping"> Shopping</label>
           <label><input type="checkbox" name="category" value="Sightseeing"> Sightseeing</label>
+          <label><input type="checkbox" name="category" value="Mixed"> Mixed</label>
         </div>
 
         <p class="hint">Select up to 3 categories.</p>
 
         <button type="submit">Generate Plan</button>
       </form>
-
-      <script>
-        (function(){
-          const form = document.getElementById('tripForm');
-          const checkboxes = Array.from(document.querySelectorAll('input[name="category"]'));
-
-          function checkedCount() {
-            return checkboxes.filter(cb => cb.checked).length;
-          }
-
-          checkboxes.forEach(cb => cb.addEventListener('change', (e) => {
-            if (checkedCount() > 3) {
-              e.target.checked = false;
-              alert('You can select up to 3 categories only.');
-            }
-          }));
-
-          form.addEventListener('submit', (e) => {
-            const count = checkedCount();
-            if (count === 0) {
-              e.preventDefault();
-              alert('Please select at least one category.');
-            } else if (count > 3) {
-              e.preventDefault();
-              alert('Please select no more than 3 categories.');
-            }
-          });
-        })();
-      </script>
 
       {% if error %}
         <p class="message">{{ error }}</p>
@@ -166,5 +160,34 @@
       {% endif %}
     </div>
   </div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('tripForm');
+      const checkboxes = Array.from(document.querySelectorAll('input[name="category"]'));
+
+      function checkedCount() {
+        return checkboxes.filter(cb => cb.checked).length;
+      }
+
+      checkboxes.forEach(cb => cb.addEventListener('change', (e) => {
+        if (checkedCount() > 3) {
+          e.target.checked = false;
+          alert('You can select up to 3 categories only.');
+        }
+      }));
+
+      form.addEventListener('submit', (e) => {
+        const count = checkedCount();
+        if (count === 0) {
+          e.preventDefault();
+          alert('Please select at least one category.');
+        } else if (count > 3) {
+          e.preventDefault();
+          alert('Please select no more than 3 categories.');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
