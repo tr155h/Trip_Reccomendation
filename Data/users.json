@@ -4,83 +4,73 @@
     "trips": [
       {
         "day": 1,
+        "name": "paris 2026",
+        "city": "Paris",
+        "budget": 90.0,
+        "categories": [
+          "Culture/History",
+          "Shopping"
+        ],
+        "recommendations": [
+          {
+            "name": "Notre-Dame Cathedral",
+            "category": "Culture/History",
+            "cost": 15,
+            "duration": "1-2 hours",
+            "description": "Iconic Gothic cathedral of Paris"
+          },
+          {
+            "name": "Louvre Museum",
+            "category": "Culture/History",
+            "cost": 17,
+            "duration": "1-2 hours",
+            "description": "World's largest art museum with Mona Lisa"
+          },
+          {
+            "name": "Marais District Boutiques",
+            "category": "Shopping",
+            "cost": 40,
+            "duration": "1-2 hours",
+            "description": "Vintage and contemporary fashion shops"
+          },
+          {
+            "name": "Champs-\u00c9lys\u00e9es Shopping",
+            "category": "Shopping",
+            "cost": 60,
+            "duration": "1-2 hours",
+            "description": "Luxury brands and designer boutiques"
+          }
+        ]
+      },
+      {
+        "day": 2,
         "name": "Paris 2026",
         "city": "Paris",
         "budget": 100.0,
         "categories": [
-          "Food",
-          "Culture/History"
+          "Food"
         ],
         "recommendations": [
           {
-            "name": "Paris",
+            "name": "Caf\u00e9 au Lait & Croissant",
             "category": "Food",
-            "cost": 12,
+            "cost": 6,
             "duration": "1-2 hours",
-            "description": "Located in Paris"
+            "description": "Traditional French breakfast experience"
           },
           {
-            "name": "Buddha-Bar Paris",
+            "name": "Street Crepes Tour",
             "category": "Food",
-            "cost": 12,
+            "cost": 8,
             "duration": "1-2 hours",
-            "description": "Located in Paris"
+            "description": "Explore Paris's best crepe vendors"
           },
           {
-            "name": "Le ciel de Paris",
+            "name": "Bistro Dinner",
             "category": "Food",
-            "cost": 12,
+            "cost": 35,
             "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Cafe",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Paris Fried Chicken",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Beit caf\u00e9",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Paris Beirut",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Paris Kebab",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Paris Istanbul",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
-          },
-          {
-            "name": "Bar",
-            "category": "Food",
-            "cost": 12,
-            "duration": "1-2 hours",
-            "description": "Located in Paris"
+            "description": "Authentic French bistro with local wine"
           }
         ]
       }
@@ -89,5 +79,35 @@
   "hugrefjods2356": {
     "password": "scrypt:32768:8:1$4DnmkuMb4t1wedWR$827b06b903ed6103891fdce6cc4e8359445e80f466cdf55ebb1c52ab629cd3d9caea1beee788d501c4dede200a01993ee39bd562ce7e3a9cfc299b851efc76df",
     "trips": []
+  },
+  "trishah1234": {
+    "password": "scrypt:32768:8:1$1MjXmuyzSmprVZYx$4232932d9b43acc3b33c94321b7b50a8df06d0ab20840b2800302f58907f6187fc1a7c7ba185652a8b383a1aeec7382cfab33606e03a4961e5618975e2c570a0",
+    "trips": [
+      {
+        "day": 1,
+        "name": "fxdgyhu",
+        "city": "Paris",
+        "budget": 100.0,
+        "categories": [
+          "Culture/History"
+        ],
+        "recommendations": [
+          {
+            "name": "Notre-Dame Cathedral",
+            "category": "Culture/History",
+            "cost": 15,
+            "duration": "1-2 hours",
+            "description": "Iconic Gothic cathedral of Paris"
+          },
+          {
+            "name": "Louvre Museum",
+            "category": "Culture/History",
+            "cost": 17,
+            "duration": "1-2 hours",
+            "description": "World's largest art museum with Mona Lisa"
+          }
+        ]
+      }
+    ]
   }
 }

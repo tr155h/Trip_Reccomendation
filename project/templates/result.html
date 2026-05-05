@@ -53,6 +53,12 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
+      transition: opacity 0.3s ease;
+    }
+    .card.removed {
+      opacity: 0.5;
+      pointer-events: none;
     }
     .card img {
       width: 100%;
@@ -64,6 +70,26 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 67, 67, 0.9);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    .remove-btn:hover {
+      background: rgba(255, 40, 40, 1);
     }
     .card-body h3 {
       margin: 0;
@@ -147,7 +173,8 @@
       <p>These activities are selected to stay within your budget after reserving $25 for local transport.</p>
       <div class="grid">
         {% for activity in activities %}
-        <div class="card">
+        <div class="card" data-price="{{ activity.price }}" data-activity-id="{{ loop.index0 }}">
+          <button class="remove-btn" onclick="removeActivity({{ loop.index0 }})" title="Remove this activity">×</button>
           <img src="{{ activity.image_url }}" alt="{{ activity.title }}" />
           <div class="card-body">
             <h3>{{ activity.title }}</h3>
@@ -182,5 +209,30 @@
       <a class="button secondary" href="{{ url_for('logout') }}">Logout</a>
     </div>
   </div>
+
+  <script>
+    const initialBudget = {{ budget }};
+    const transportCost = {{ transport_cost }};
+    const totalCostElement = document.querySelector('.summary-list .summary-row:last-child span');
+    
+    function removeActivity(activityId) {
+      const card = document.querySelector(`[data-activity-id="${activityId}"]`);
+      card.classList.add('removed');
+      updateTotalCost();
+    }
+    
+    function updateTotalCost() {
+      let activitiesTotal = 0;
+      const cards = document.querySelectorAll('.card:not(.removed)');
+      
+      cards.forEach(card => {
+        const price = parseFloat(card.getAttribute('data-price'));
+        activitiesTotal += price;
+      });
+      
+      const newTotal = activitiesTotal + transportCost;
+      totalCostElement.textContent = `$${newTotal.toFixed(2)}`;
+    }
+  </script>
 </body>
 </html>

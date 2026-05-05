@@ -470,20 +470,38 @@ def view_plan():
     if not trip:
         return redirect(url_for('profile'))
 
-    # Render the result view for the saved trip
+    # Get recommendations from the saved trip
+    recommendations = trip.get('recommendations', [])
+    city = trip.get('city', '')
+    budget = trip.get('budget', 0.0)
+    
+    # Convert recommendations to format for result.html
     activities = []
-    transport_cost = 0.0
-    total_cost = trip.get('budget', 0.0)
-    chart_data = ''
+    for rec in recommendations:
+        activities.append({
+            'title': rec.get('name', ''),
+            'place': city,
+            'description': rec.get('description', ''),
+            'price': rec.get('cost', 0),
+            'food': rec.get('category', ''),
+            'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+        })
+    
+    # Calculate transport estimate (default 10-15% of budget or $5 minimum)
+    transport_cost = max(5, budget * 0.1)
+    total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
+    total_cost = total_activities_cost + transport_cost
+    
+    # Render the result view for the saved trip
     return render_template(
         'result.html',
         trip_name=trip.get('name', ''),
         day=trip.get('day', 1),
-        budget=trip.get('budget', 0.0),
+        budget=budget,
         activities=activities,
         transport_cost=transport_cost,
         total_cost=total_cost,
-        chart_data=chart_data
+        chart_data=''
     )
 
 
