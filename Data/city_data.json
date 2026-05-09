@@ -278,7 +278,7 @@
         "category": "Food",
         "cost": 12,
         "description": "Traditional Hong Kong dim sum experience with tea",
-        "image_url": "/static/images/dumsum.jpg"
+        "image_url": "/static/images/dimsum.jpg"
       },
       {
         "name": "Street Food Tour",
