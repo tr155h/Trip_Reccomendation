@@ -78,6 +78,15 @@ def load_city_data():
             pass
     return {}
 
+
+def activity_image_url(rec):
+    """Use the saved static image path, or fall back to a simple placeholder."""
+    if rec.get('image_url'):
+        return rec.get('image_url')
+
+    title = rec.get('name', '')[:20]
+    return 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=title)
+
 def save_city_data(city_data):
     """Save city data to JSON file"""
     with open(CITY_DATA_FILE, 'w', encoding='utf-8') as f:
@@ -179,7 +188,8 @@ def get_recommendations(city, budget, categories):
                 'category': place_category,
                 'cost': place_cost,
                 'duration': place.get('duration', '1-2 hours'),
-                'description': place.get('description', f'Located in {city}')
+                'description': place.get('description', f'Located in {city}'),
+                'image_url': place.get('image_url', '')
             })
     
     # Sort by cost and return top 10
@@ -457,7 +467,7 @@ def generate_plan():
                 'description': rec.get('description', ''),
                 'price': rec.get('cost', 0),
                 'food': rec.get('category', ''),
-                'image_url': rec.get('image_url', '')
+                'image_url': activity_image_url(rec)
             })
         
         # Calculate transport estimate (default 10-15% of budget or $5 minimum)
@@ -493,7 +503,7 @@ def generate_plan():
             'description': rec.get('description', ''),
             'price': rec.get('cost', 0),
             'food': rec.get('category', ''),
-            'image_url': rec.get('image_url', '')
+            'image_url': activity_image_url(rec)
         })
     
     # Calculate transport estimate (default 10-15% of budget or $5 minimum)
@@ -564,7 +574,7 @@ def view_plan():
             'description': rec.get('description', ''),
             'price': rec.get('cost', 0),
             'food': rec.get('category', ''),
-            'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+            'image_url': activity_image_url(rec)
         })
     
     # Calculate transport estimate (default 10-15% of budget or $5 minimum)
@@ -609,7 +619,7 @@ def results():
             'description': rec.get('description', ''),
             'price': rec.get('cost', 0),
             'food': rec.get('category', ''),
-            'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+            'image_url': activity_image_url(rec)
         })
 
     return render_template(
