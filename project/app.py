@@ -338,7 +338,9 @@ def input_page():
         day_val = int(day)
     except (ValueError, TypeError):
         day_val = 1
-    return render_template('input.html', trip_name=trip_name, day=day_val)
+    city_data = load_city_data()
+    available_cities = list(city_data.keys())
+    return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities)
 
 
 @app.route('/create_trip', methods=['GET', 'POST'])
@@ -381,30 +383,28 @@ def generate_plan():
 
     # categories sent as multiple select
     categories = request.form.getlist('category')
+    city_data = load_city_data()
+    available_cities = list(city_data.keys())
 
     # Basic validation
     if not city or not budget or not trip_name:
-        return render_template('input.html', trip_name=trip_name, day=day_val, error='All fields are required')
+        return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='All fields are required')
 
     try:
         budget_val = float(budget)
         if budget_val < 0:
-            return render_template('input.html', trip_name=trip_name, day=day_val, error='Budget must be a positive number')
+            return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Budget must be a positive number')
     except ValueError:
-        return render_template('input.html', trip_name=trip_name, day=day_val, error='Invalid budget value')
+        return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Invalid budget value')
 
     if not categories or len(categories) == 0:
-        return render_template('input.html', trip_name=trip_name, day=day_val, error='Please select at least one category')
+        return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select at least one category')
     if len(categories) > 3:
-        return render_template('input.html', trip_name=trip_name, day=day_val, error='Please select no more than 3 categories')
+        return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select no more than 3 categories')
     
     # Generate recommendations based on budget, city, and categories
     recommendations = get_recommendations(city, budget_val, categories)
-    
-    # Load available cities for re-rendering in case of error
-    city_data = load_city_data()
-    available_cities = list(city_data.keys())
-    
+
     # Validate that the selected city exists in our database
     if city not in available_cities:
         return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select a city from the available options')

@@ -98,11 +98,9 @@
         <label for="city">Choose a City</label>
         <select id="city" name="city" required>
           <option value="">Select a city</option>
-          <option value="Tokyo">Tokyo</option>
-          <option value="Paris">Paris</option>
-          <option value="New York">New York</option>
-          <option value="Shanghai">Shanghai</option>
-          <option value="Hong Kong">Hong Kong</option>
+          {% for city in available_cities %}
+          <option value="{{ city }}">{{ city }}</option>
+          {% endfor %}
         </select>
         <p class="hint">Choose one of the available cities.</p>
 

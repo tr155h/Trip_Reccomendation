@@ -158,7 +158,7 @@
         "name": "Fine Dining Experience",
         "category": "Food",
         "cost": 50,
-        "description": "Michelin-starred restaurant dinner"
+        "description": "Michelin-starred restaurant dinner",
         "image_url": "/static/images/finedining.jpg"
       },
       {
@@ -346,55 +346,57 @@
         "name": "Phuket Weekend Night Market",
         "category": "Food",
         "cost": 8,
-        "description": "Bustling market with Thai street food, desserts, and snacks"
+        "description": "Bustling market with Thai street food, desserts, and snacks",
+        "image_url": "/static/images/phuket.jpg"
       },
       {
         "name": "Beachfront Seafood Dinner",
         "category": "Food",
         "cost": 22,
-        "description": "Fresh grilled seafood served by the beach"
+        "description": "Fresh grilled seafood served by the beach",
+        "image_url": "/static/images/seafood.jpg"
       },
       {
         "name": "Thai Cooking Class",
         "category": "Food",
         "cost": 35,
-        "description": "Hands-on class making curry, noodles, and local Thai dishes"
-      },
-      {
-        "name": "Old Phuket Town Boutiques",
-        "category": "Shopping",
-        "cost": 25,
-        "description": "Colorful streets with local shops, souvenirs, and handmade goods"
+        "description": "Hands-on class making curry, noodles, and local Thai dishes",
+        "image_url": "/static/images/thaicooking.jpg"
       },
       {
         "name": "Jungceylon Shopping Center",
         "category": "Shopping",
         "cost": 40,
-        "description": "Large mall with fashion, dining, electronics, and entertainment"
+        "description": "Large mall with fashion, dining, electronics, and entertainment",
+        "image_url": "/static/images/jungceylon.jpg"
       },
       {
         "name": "Big Buddha",
         "category": "Culture/History",
         "cost": 0,
-        "description": "Hilltop Buddhist landmark with sweeping island views"
+        "description": "Hilltop Buddhist landmark with sweeping island views",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Wat Chalong",
         "category": "Culture/History",
         "cost": 0,
-        "description": "Important Buddhist temple complex with ornate architecture"
+        "description": "Important Buddhist temple complex with ornate architecture",
+        "image_url": "/static/images/watchalong.jpg"
       },
       {
         "name": "Phi Phi Islands Day Trip",
         "category": "Sightseeing",
         "cost": 55,
-        "description": "Boat tour to clear water beaches, cliffs, and snorkeling spots"
+        "description": "Boat tour to clear water beaches, cliffs, and snorkeling spots",
+        "image_url": "/static/images/phi_phi.jpg"
       },
       {
         "name": "Promthep Cape Sunset",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Popular viewpoint for sunset over the Andaman Sea"
+        "description": "Popular viewpoint for sunset over the Andaman Sea",
+        "image_url": "/static/images/promthep.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -406,55 +408,50 @@
         "name": "Babi Guling Lunch",
         "category": "Food",
         "cost": 7,
-        "description": "Traditional Balinese roasted pork meal with rice and spices"
+        "description": "Traditional Balinese roasted pork meal with rice and spices",
+        "image_url": "/static/images/babiguling.jpg"
       },
       {
         "name": "Nasi Campur Tasting",
         "category": "Food",
         "cost": 6,
-        "description": "Mixed rice plate with vegetables, sambal, and Balinese sides"
+        "description": "Mixed rice plate with vegetables, sambal, and Balinese sides",
+        "image_url": "/static/images/nasicampur.jpg"
       },
       {
         "name": "Jimbaran Seafood Dinner",
         "category": "Food",
         "cost": 24,
-        "description": "Grilled seafood meal on the nearby beach"
+        "description": "Grilled seafood meal on the nearby beach",
+        "image_url": "/static/images/jimbaran.jpg"
       },
       {
         "name": "Badung Market",
         "category": "Shopping",
         "cost": 18,
-        "description": "Local market for textiles, produce, spices, and souvenirs"
-      },
-      {
-        "name": "Kumbasari Art Market",
-        "category": "Shopping",
-        "cost": 22,
-        "description": "Traditional market for crafts, paintings, fabrics, and gifts"
+        "description": "Local market for textiles, produce, spices, and souvenirs",
+        "image_url": "/static/images/pasar.jpg"
       },
       {
         "name": "Bali Museum",
         "category": "Culture/History",
         "cost": 5,
-        "description": "Museum highlighting Balinese art, history, and cultural traditions"
-      },
-      {
-        "name": "Pura Jagatnatha",
-        "category": "Culture/History",
-        "cost": 0,
-        "description": "Central Hindu temple dedicated to the supreme god Sanghyang Widi"
+        "description": "Museum highlighting Balinese art, history, and cultural traditions",
+        "image_url": "/static/images/balimuseum.jpg"
       },
       {
         "name": "Sanur Beach Sunrise",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Calm coastal walk with sunrise views over the water"
+        "description": "Calm coastal walk with sunrise views over the water",
+        "image_url": "/static/images/sanur.jpg"
       },
       {
         "name": "Bajra Sandhi Monument",
         "category": "Sightseeing",
         "cost": 4,
-        "description": "Striking monument and viewpoint honoring Balinese history"
+        "description": "Striking monument and viewpoint honoring Balinese history",
+        "image_url": "/static/images/bajra.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
