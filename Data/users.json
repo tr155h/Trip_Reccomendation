@@ -361,6 +361,68 @@
                 "description": "High-end fashion and electronics shopping"
               }
             ]
+          },
+          "2": {
+            "day": 2,
+            "name": "Food, Culture/History, Shopping",
+            "city": "Tokyo",
+            "budget": 100.0,
+            "categories": [
+              "Food",
+              "Culture/History",
+              "Shopping"
+            ],
+            "recommendations": [
+              {
+                "name": "Senso-ji Temple",
+                "category": "Culture/History",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Ancient Buddhist temple in Asakusa"
+              },
+              {
+                "name": "Ramen Yokocho",
+                "category": "Food",
+                "cost": 9,
+                "duration": "1-2 hours",
+                "description": "Authentic ramen alley with local favorites"
+              },
+              {
+                "name": "Tsukiji Outer Market",
+                "category": "Food",
+                "cost": 10,
+                "duration": "1-2 hours",
+                "description": "Fresh sushi and seafood market in central Tokyo"
+              },
+              {
+                "name": "Tokyo National Museum",
+                "category": "Culture/History",
+                "cost": 14,
+                "duration": "1-2 hours",
+                "description": "Japan's largest museum with historical artifacts"
+              },
+              {
+                "name": "Izakaya Hopping",
+                "category": "Food",
+                "cost": 18,
+                "duration": "1-2 hours",
+                "description": "Traditional Japanese pub crawl experience"
+              },
+              {
+                "name": "Akihabara Electronics Market",
+                "category": "Shopping",
+                "cost": 25,
+                "duration": "1-2 hours",
+                "description": "Tech gadgets and anime merchandise"
+              },
+              {
+                "name": "Shibuya Shopping District",
+                "category": "Shopping",
+                "cost": 30,
+                "duration": "1-2 hours",
+                "description": "High-end fashion and electronics shopping"
+              }
+            ]
           }
         }
       }

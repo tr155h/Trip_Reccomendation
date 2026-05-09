@@ -457,7 +457,7 @@ def generate_plan():
                 'description': rec.get('description', ''),
                 'price': rec.get('cost', 0),
                 'food': rec.get('category', ''),
-                'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+                'image_url': rec.get('image_url', '')
             })
         
         # Calculate transport estimate (default 10-15% of budget or $5 minimum)
@@ -493,7 +493,7 @@ def generate_plan():
             'description': rec.get('description', ''),
             'price': rec.get('cost', 0),
             'food': rec.get('category', ''),
-            'image_url': 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=rec.get('name', '')[:20])
+            'image_url': rec.get('image_url', '')
         })
     
     # Calculate transport estimate (default 10-15% of budget or $5 minimum)

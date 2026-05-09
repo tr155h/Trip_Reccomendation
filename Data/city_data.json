@@ -7,7 +7,7 @@
         "category": "Food",
         "cost": 10,
         "description": "Fresh sushi and seafood market in central Tokyo",
-        "image_url": "/static/images/tsukiji.jpg"
+        "image_url": "/static/images/Tsukiji.jpg"
       },
       {
         "name": "Ramen Yokocho",
