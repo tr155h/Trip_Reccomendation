@@ -195,13 +195,15 @@
         "name": "Xiaolongbao Dumplings",
         "category": "Food",
         "cost": 5,
-        "description": "Famous Shanghai soup dumplings at local restaurants"
+        "description": "Famous Shanghai soup dumplings at local restaurants",
+        "image_url": "/static/images/xiaolongbao.jpg"
       },
       {
-        "name": "Yu Garden Noodles",
+        "name": "Yuyuan Old Street",
         "category": "Food",
-        "cost": 4,
-        "description": "Hand-pulled noodles near historic garden"
+        "cost": 25,
+        "description": "Located near Yu Garden, this bustling street is filled with traditional food stalls and local snacks, offering a taste of authentic Shanghai cuisine in a vibrant setting.",
+        "image_url": "/static/images/yuyuan.jpg"
       },
       {
         "name": "River Dining Cruise",
@@ -255,55 +257,64 @@
         "name": "Dim Sum Brunch",
         "category": "Food",
         "cost": 12,
-        "description": "Traditional Hong Kong dim sum experience with tea"
+        "description": "Traditional Hong Kong dim sum experience with tea",
+        "image_url": "/static/images/dumsum.jpg"
       },
       {
         "name": "Street Food Tour",
         "category": "Food",
         "cost": 8,
-        "description": "Explore local street stalls for dai pai dong (open-air food stalls)"
+        "description": "Explore local street stalls for dai pai dong (open-air food stalls)",
+        "image_url": "/static/images/streetfood.jpg"
       },
       {
         "name": "Seafood Dinner",
         "category": "Food",
         "cost": 25,
-        "description": "Fresh seafood at harbor restaurants"
+        "description": "Fresh seafood at harbor restaurants",
+        "image_url": "/static/images/seafood.jpg"
       },
       {
         "name": "Harbour City Shopping",
         "category": "Shopping",
         "cost": 50,
-        "description": "Luxury shopping mall with international brands"
+        "description": "Largest and diverse shopping mall in Hong Kong with international brands",
+        "image_url": "/static/images/harbourcity.jpg"
       },
       {
         "name": "Ladies' Market",
         "category": "Shopping",
         "cost": 20,
-        "description": "Famous street market with clothing and accessories"
+        "description": "Famous street market with clothing and accessories",
+        "image_url": "/static/images/ladiesmarket.jpg"
       },
       {
         "name": "Star Ferry & Walk",
         "category": "Culture/History",
         "cost": 5,
-        "description": "Iconic ferry ride and waterfront promenade"
+        "description": "Iconic ferry ride and waterfront promenade",
+        "image_url": "/static/images/starferry.jpg"
       },
       {
         "name": "Hong Kong Museum of History",
         "category": "Culture/History",
-        "cost": 10,
-        "description": "Comprehensive museum showcasing Hong Kong's heritage"
+        "cost": 0,
+        "description": "Comprehensive museum showcasing Hong Kong's heritage. Main permenanet exhibit is free to the public. Special exhibits may have a fee.",
+        "image_url": "/static/images/historymuseum.jpg"
       },
       {
         "name": "Peak Tram & Victoria Peak",
         "category": "Sightseeing",
         "cost": 18,
-        "description": "Cable car ride to panoramic city views"
+        "description": "Cable car ride to panoramic city views",
+        "image_url": "/static/images/peaktramvictoria.jpg"
       },
       {
         "name": "Victoria Harbour Sunset Cruise",
         "category": "Sightseeing",
         "cost": 22,
-        "description": "Scenic boat tour with views of harbor and skyline"
+        "description": "Scenic boat tour with views of harbor and skyline",
+        "image_url": "/static/images/victoriaharbour.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
