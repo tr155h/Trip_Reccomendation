@@ -55,7 +55,7 @@
         "name": "Tokyo Tower",
         "category": "Sightseeing",
         "cost": 16,
-        "description": "Panoramic views of Tokyo from iconic tower"
+        "description": "Panoramic views of Tokyo from iconic tower",
         "image_url": "/static/images/tokyo_tower.jpg"
       },
       {
@@ -252,60 +252,60 @@
     "name": "Hong Kong",
     "places": [
       {
-        "name": "Café au Lait & Croissant",
+        "name": "Dim Sum Brunch",
         "category": "Food",
-        "cost": 6,
-        "description": "Traditional French breakfast experience"
+        "cost": 12,
+        "description": "Traditional Hong Kong dim sum experience with tea"
       },
       {
-        "name": "Bistro Dinner",
-        "category": "Food",
-        "cost": 35,
-        "description": "Authentic French bistro with local wine"
-      },
-      {
-        "name": "Street Crepes Tour",
+        "name": "Street Food Tour",
         "category": "Food",
         "cost": 8,
-        "description": "Explore Paris's best crepe vendors"
+        "description": "Explore local street stalls for dai pai dong (open-air food stalls)"
       },
       {
-        "name": "Champs-Élysées Shopping",
+        "name": "Seafood Dinner",
+        "category": "Food",
+        "cost": 25,
+        "description": "Fresh seafood at harbor restaurants"
+      },
+      {
+        "name": "Harbour City Shopping",
         "category": "Shopping",
-        "cost": 60,
-        "description": "Luxury brands and designer boutiques"
+        "cost": 50,
+        "description": "Luxury shopping mall with international brands"
       },
       {
-        "name": "Marais District Boutiques",
+        "name": "Ladies' Market",
         "category": "Shopping",
-        "cost": 40,
-        "description": "Vintage and contemporary fashion shops"
+        "cost": 20,
+        "description": "Famous street market with clothing and accessories"
       },
       {
-        "name": "Louvre Museum",
+        "name": "Star Ferry & Walk",
         "category": "Culture/History",
-        "cost": 17,
-        "description": "World's largest art museum with Mona Lisa"
+        "cost": 5,
+        "description": "Iconic ferry ride and waterfront promenade"
       },
       {
-        "name": "Notre-Dame Cathedral",
+        "name": "Hong Kong Museum of History",
         "category": "Culture/History",
-        "cost": 15,
-        "description": "Iconic Gothic cathedral of Paris"
+        "cost": 10,
+        "description": "Comprehensive museum showcasing Hong Kong's heritage"
       },
       {
-        "name": "Eiffel Tower Visit",
+        "name": "Peak Tram & Victoria Peak",
         "category": "Sightseeing",
-        "cost": 26,
-        "description": "Climb or elevator ride to the top"
+        "cost": 18,
+        "description": "Cable car ride to panoramic city views"
       },
       {
-        "name": "Seine River Cruise",
+        "name": "Victoria Harbour Sunset Cruise",
         "category": "Sightseeing",
-        "cost": 19,
-        "description": "Scenic boat tour along Paris landmarks"
+        "cost": 22,
+        "description": "Scenic boat tour with views of harbor and skyline"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
-
+  }
 }
