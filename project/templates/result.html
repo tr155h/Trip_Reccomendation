@@ -12,8 +12,54 @@
       color: #fff;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
+    }
+    .navbar {
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .navbar-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffdd82;
+    }
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .navbar-user {
+      opacity: 0.9;
+      font-weight: 600;
+    }
+    .navbar-link {
+      text-decoration: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      font-weight: 600;
+    }
+    .navbar-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .navbar-link.forum {
+      background: rgba(76, 175, 80, 0.8);
+    }
+    .navbar-link.forum:hover {
+      background: rgba(76, 175, 80, 1);
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     .container {
       width: 100%;
@@ -58,7 +104,9 @@
     }
     .card.removed {
       opacity: 0.5;
-      pointer-events: none;
+    }
+    .card.removed .remove-btn {
+      pointer-events: auto;
     }
     .card img {
       width: 100%;
@@ -138,6 +186,13 @@
       margin-top: 14px;
       text-align: center;
     }
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
     .chart-box img {
       width: 100%;
       max-width: 100%;
@@ -169,7 +224,21 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  
+  <div class="navbar">
+    <div class="navbar-brand">PlanMyTrip</div>
+    <div class="navbar-links">
+      <span class="navbar-user">{{ session.get('username', 'Guest') }}</span>
+      <a href="{{ url_for('profile') }}" class="navbar-link">Profile</a>
+      <a href="{{ url_for('forum') }}" class="navbar-link forum">Forum</a>
+      <a href="{{ url_for('logout') }}" class="navbar-link">Logout</a>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="container">
     <div class="header">
       <h1>{{ trip_name }} - Day {{ day }}</h1>
       <p class="subtitle">Budget: ${{ "%.2f"|format(budget) }}</p>
@@ -208,18 +277,135 @@
 
     <div class="section chart-box">
       <h2>Budget comparison</h2>
-      <img src="data:image/png;base64,{{ chart_data }}" alt="Budget vs estimated cost chart" />
+      <div class="chart-container">
+        <canvas id="budgetChart"></canvas>
+      </div>
     </div>
 
     <div class="actions">
       <a class="button" href="{{ url_for('profile') }}">Back to Profile</a>
       <a class="button secondary" href="{{ url_for('logout') }}">Logout</a>
     </div>
+    </div>
   </div>
 
   <script>
     const transportCost = {{ transport_cost|default(25) }};
     const totalCostElement = document.getElementById('estimatedTotal');
+    const budgetAmount = {{ budget|default(100) }};
+    let chartInstance = null;
+
+    // Initialize the chart
+    function initChart() {
+      const ctx = document.getElementById('budgetChart').getContext('2d');
+      const plannedCost = calculateActivitiesCost();
+      const isOverBudget = plannedCost > budgetAmount;
+      
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Budget', 'Planned Activities'],
+          datasets: [{
+            label: 'Cost ($)',
+            data: [budgetAmount, plannedCost],
+            backgroundColor: [
+              'rgba(76, 175, 80, 0.8)',
+              isOverBudget ? 'rgba(244, 67, 54, 0.8)' : 'rgba(255, 152, 0, 0.8)'
+            ],
+            borderColor: [
+              'rgba(76, 175, 80, 1)',
+              isOverBudget ? 'rgba(244, 67, 54, 1)' : 'rgba(255, 152, 0, 1)'
+            ],
+            borderWidth: 2,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'x',
+          plugins: {
+            legend: {
+              display: false
+            },
+            datalabels: {
+              color: 'rgba(255, 255, 255, 1)',
+              font: {
+                size: 14,
+                weight: 'bold'
+              },
+              anchor: 'end',
+              align: 'top',
+              offset: 10,
+              formatter: function(value) {
+                return '$' + value.toFixed(2);
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              padding: 12,
+              titleFont: {
+                size: 14
+              },
+              bodyFont: {
+                size: 13
+              },
+              callbacks: {
+                afterLabel: function(context) {
+                  if (context.dataIndex === 1) {
+                    const remaining = budgetAmount - context.parsed.y;
+                    if (remaining >= 0) {
+                      return 'Remaining: $' + remaining.toFixed(2);
+                    } else {
+                      return 'Over budget by: $' + Math.abs(remaining).toFixed(2);
+                    }
+                  }
+                  return '';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: Math.max(budgetAmount, plannedCost) * 1.15,
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.8)',
+                callback: function(value) {
+                  return '$' + value.toFixed(0);
+                }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
+            x: {
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.8)',
+                font: {
+                  size: 13,
+                  weight: 'bold'
+                }
+              },
+              grid: {
+                display: false
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    function calculateActivitiesCost() {
+      let total = 0;
+      const cards = document.querySelectorAll('.card:not(.removed)');
+      cards.forEach(card => {
+        const price = parseFloat(card.getAttribute('data-price')) || 0;
+        total += price;
+      });
+      return total + transportCost;
+    }
 
     function removeActivity(activityId) {
       const card = document.querySelector(`[data-activity-id="${activityId}"]`);
@@ -234,6 +420,7 @@
         : 'Remove this activity';
 
       updateTotalCost();
+      updateChart();
     }
 
     function updateTotalCost() {
@@ -247,6 +434,31 @@
       const newTotal = activitiesTotal + transportCost;
       totalCostElement.textContent = `$${newTotal.toFixed(2)}`;
     }
+
+    function updateChart() {
+      if (chartInstance) {
+        const plannedCost = calculateActivitiesCost();
+        const isOverBudget = plannedCost > budgetAmount;
+        
+        chartInstance.data.datasets[0].data = [budgetAmount, plannedCost];
+        chartInstance.data.datasets[0].backgroundColor = [
+          'rgba(76, 175, 80, 0.8)',
+          isOverBudget ? 'rgba(244, 67, 54, 0.8)' : 'rgba(255, 152, 0, 0.8)'
+        ];
+        chartInstance.data.datasets[0].borderColor = [
+          'rgba(76, 175, 80, 1)',
+          isOverBudget ? 'rgba(244, 67, 54, 1)' : 'rgba(255, 152, 0, 1)'
+        ];
+        
+        // Update y-axis max based on new values
+        chartInstance.options.scales.y.max = Math.max(budgetAmount, plannedCost) * 1.15;
+        
+        chartInstance.update();
+      }
+    }
+
+    // Initialize chart when page loads
+    document.addEventListener('DOMContentLoaded', initChart);
   </script>
 </body>
 </html>

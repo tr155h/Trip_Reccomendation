@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanMyTrip - Community Forum</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4b79a1, #283e51);
+      color: #fff;
+      min-height: 100vh;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .navbar {
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .navbar-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffdd82;
+    }
+    
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .navbar-user {
+      opacity: 0.9;
+      font-weight: 600;
+    }
+    
+    .navbar-link {
+      text-decoration: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      font-weight: 600;
+    }
+    
+    .navbar-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .navbar-link.profile {
+      background: rgba(255, 152, 0, 0.8);
+    }
+    
+    .navbar-link.profile:hover {
+      background: rgba(255, 152, 0, 1);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+    }
+    
+    .header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+    }
+    
+    .header p {
+      opacity: 0.85;
+      margin-bottom: 16px;
+    }
+    
+    .new-post-btn {
+      display: inline-block;
+      background: #ff8c42;
+      color: #111;
+      padding: 12px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    
+    .new-post-btn:hover {
+      background: #ff7a1f;
+    }
+    
+    .post-form {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: none;
+    }
+    
+    .post-form.show {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+    
+    .form-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .form-buttons button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .form-buttons .submit-btn {
+      background: #ff8c42;
+      color: #111;
+      flex: 1;
+    }
+    
+    .form-buttons .submit-btn:hover {
+      background: #ff7a1f;
+    }
+    
+    .form-buttons .cancel-btn {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    
+    .form-buttons .cancel-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .posts-section {
+      margin-top: 24px;
+    }
+    
+    .post {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+    
+    .post-info {
+      flex: 1;
+    }
+    
+    .post-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    
+    .post-meta {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .post-meta .author {
+      font-weight: 700;
+    }
+    
+    .post-meta .city {
+      display: inline-block;
+      background: rgba(76, 175, 80, 0.3);
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 8px;
+      font-size: 0.85rem;
+    }
+    
+    .post-content {
+      margin: 16px 0;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+    
+    .post-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .reply-btn {
+      background: rgba(76, 175, 80, 0.8);
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    
+    .reply-btn:hover {
+      background: rgba(76, 175, 80, 1);
+    }
+    
+    .reply-count {
+      background: rgba(255, 152, 0, 0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    
+    .replies {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .reply {
+      background: rgba(255,255,255,0.05);
+      border-left: 3px solid rgba(76, 175, 80, 0.6);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .reply-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .reply-author {
+      font-weight: 700;
+    }
+    
+    .reply-time {
+      opacity: 0.7;
+    }
+    
+    .reply-content {
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+    
+    .reply-form {
+      background: rgba(255,255,255,0.05);
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      display: none;
+    }
+    
+    .reply-form.show {
+      display: block;
+    }
+    
+    .reply-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      resize: vertical;
+      min-height: 60px;
+    }
+    
+    .reply-form textarea::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+    
+    .reply-form-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .reply-form-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    
+    .reply-form-buttons .submit-btn {
+      background: #ff8c42;
+      color: #111;
+      flex: 1;
+    }
+    
+    .reply-form-buttons .submit-btn:hover {
+      background: #ff7a1f;
+    }
+    
+    .reply-form-buttons .cancel-btn {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    
+    .reply-form-buttons .cancel-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .no-posts {
+      text-align: center;
+      padding: 48px 24px;
+      opacity: 0.8;
+    }
+    
+    .no-posts p {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .nav-btn {
+      display: inline-block;
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.18);
+      cursor: pointer;
+    }
+    
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="navbar-brand">PlanMyTrip</div>
+    <div class="navbar-links">
+      {% if username %}
+      <span class="navbar-user">{{ username }}</span>
+      <a href="{{ url_for('profile') }}" class="navbar-link profile">Profile</a>
+      {% endif %}
+      <a href="{{ url_for('logout') }}" class="navbar-link">Logout</a>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="container">
+    <div class="header">
+      <h1>Community Forum</h1>
+      <p>Ask questions, share tips, and connect with other travelers planning their trips!</p>
+      
+      {% if username %}
+      <button class="new-post-btn" onclick="togglePostForm()">+ New Question</button>
+      {% else %}
+      <p style="color: #ffdd82; margin-bottom: 0;">
+        <a href="{{ url_for('login') }}" style="color: #ffdd82; text-decoration: underline;">Log in</a> to post or reply
+      </p>
+      {% endif %}
+    </div>
+    
+    {% if username %}
+    <div class="post-form" id="postForm">
+      <form method="POST" action="{{ url_for('create_forum_post') }}">
+        <div class="form-group">
+          <label for="title">Question Title</label>
+          <input type="text" id="title" name="title" placeholder="What would you like to ask?" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="content">Details</label>
+          <textarea id="content" name="content" placeholder="Provide more details about your question..." required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="city">City (Optional)</label>
+          <input type="text" id="city" name="city" placeholder="e.g., Paris, Tokyo, New York">
+        </div>
+        
+        <div class="form-buttons">
+          <button type="submit" class="submit-btn">Post Question</button>
+          <button type="button" class="cancel-btn" onclick="togglePostForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+    
+    <div class="posts-section">
+      {% if posts %}
+        {% for post in posts %}
+        <div class="post">
+          <div class="post-header">
+            <div class="post-info">
+              <div class="post-title">{{ post.title }}</div>
+              <div class="post-meta">
+                <span class="author">{{ post.username }}</span>
+                <span style="opacity: 0.6;">• {{ post.created_at }}</span>
+                {% if post.city %}
+                <span class="city">{{ post.city }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-content">
+            {{ post.content }}
+          </div>
+          
+          <div class="post-actions">
+            {% if username %}
+            <button class="reply-btn" onclick="toggleReplyForm({{ post.id }})">Reply ({{ post.replies|length }})</button>
+            {% else %}
+            <div class="reply-count">{{ post.replies|length }} {{ "reply" if post.replies|length == 1 else "replies" }}</div>
+            {% endif %}
+          </div>
+          
+          {% if post.replies %}
+          <div class="replies">
+            <strong style="opacity: 0.8;">Replies:</strong>
+            {% for reply in post.replies %}
+            <div class="reply">
+              <div class="reply-header">
+                <span class="reply-author">{{ reply.username }}</span>
+                <span class="reply-time">{{ reply.created_at }}</span>
+              </div>
+              <div class="reply-content">
+                {{ reply.content }}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          
+          {% if username %}
+          <div class="reply-form" id="replyForm{{ post.id }}">
+            <form method="POST" action="{{ url_for('reply_to_post', post_id=post.id) }}">
+              <textarea name="reply_content" placeholder="Write your reply..." required></textarea>
+              <div class="reply-form-buttons">
+                <button type="submit" class="submit-btn">Post Reply</button>
+                <button type="button" class="cancel-btn" onclick="toggleReplyForm({{ post.id }})">Cancel</button>
+              </div>
+            </form>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="no-posts">
+        <p>No questions yet. Be the first to ask!</p>
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="nav-buttons">
+      <a href="{{ url_for('profile') }}" class="nav-btn">Back to Profile</a>
+      <a href="{{ url_for('logout') }}" class="nav-btn">Logout</a>
+    </div>
+  </div>
+  
+  <script>
+    function togglePostForm() {
+      const form = document.getElementById('postForm');
+      form.classList.toggle('show');
+    }
+    
+    function toggleReplyForm(postId) {
+      const form = document.getElementById('replyForm' + postId);
+      form.classList.toggle('show');
+    }
+  </script>
+    </div>
+  </div>
+</body>
+</html>

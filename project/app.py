@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 import json
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -10,6 +11,7 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
 # Path to users.json file
 USERS_FILE = os.path.join(os.path.dirname(__file__), '../Data/users.json')
 CITY_DATA_FILE = os.path.join(os.path.dirname(__file__), '../Data/city_data.json')
+FORUM_FILE = os.path.join(os.path.dirname(__file__), '../Data/forum.json')
 
 def load_users():
     """Load users from JSON file"""
@@ -99,6 +101,54 @@ def add_city_to_database(city_name):
     }
     save_city_data(city_data)
     return True
+
+def load_forum():
+    """Load forum posts from JSON file"""
+    if os.path.exists(FORUM_FILE):
+        try:
+            with open(FORUM_FILE, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+                if content:
+                    return json.loads(content)
+        except:
+            pass
+    return []
+
+def save_forum(posts):
+    """Save forum posts to JSON file"""
+    with open(FORUM_FILE, 'w', encoding='utf-8') as f:
+        json.dump(posts, f, indent=2)
+
+def add_forum_post(username, title, content, city=None):
+    """Add a new forum post"""
+    posts = load_forum()
+    new_post = {
+        'id': len(posts) + 1,
+        'username': username,
+        'title': title,
+        'content': content,
+        'city': city,
+        'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'replies': []
+    }
+    posts.append(new_post)
+    save_forum(posts)
+    return new_post
+
+def add_reply_to_post(post_id, username, content):
+    """Add a reply to a forum post"""
+    posts = load_forum()
+    for post in posts:
+        if post['id'] == post_id:
+            reply = {
+                'username': username,
+                'content': content,
+                'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+            post['replies'].append(reply)
+            save_forum(posts)
+            return True
+    return False
 
 def get_recommendations(city, budget, categories):
     """Generate recommendations based on city, budget, and categories
@@ -574,6 +624,63 @@ def results():
         chart_data=''
     )
 
+
+
+@app.route('/forum', methods=['GET'])
+def forum():
+    """Display forum page with all posts"""
+    username = session.get('username')
+    city_filter = request.args.get('city', '')
+    
+    posts = load_forum()
+    
+    # Filter by city if specified
+    if city_filter:
+        posts = [p for p in posts if p.get('city', '').lower() == city_filter.lower()]
+    
+    # Sort by most recent first
+    posts = sorted(posts, key=lambda x: x['created_at'], reverse=True)
+    
+    return render_template(
+        'forum.html',
+        posts=posts,
+        username=username,
+        city_filter=city_filter
+    )
+
+
+@app.route('/forum/post', methods=['POST'])
+def create_forum_post():
+    """Create a new forum post"""
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+    
+    title = request.form.get('title', '').strip()
+    content = request.form.get('content', '').strip()
+    city = request.form.get('city', '').strip()
+    
+    if not title or not content:
+        return redirect(url_for('forum'))
+    
+    add_forum_post(username, title, content, city)
+    return redirect(url_for('forum'))
+
+
+@app.route('/forum/reply/<int:post_id>', methods=['POST'])
+def reply_to_post(post_id):
+    """Add a reply to a forum post"""
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+    
+    content = request.form.get('reply_content', '').strip()
+    
+    if not content:
+        return redirect(url_for('forum'))
+    
+    add_reply_to_post(post_id, username, content)
+    return redirect(url_for('forum'))
 
 
 if __name__ == '__main__':

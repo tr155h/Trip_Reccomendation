@@ -247,5 +247,65 @@
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
+  },
+  "Hong Kong": {
+    "name": "Hong Kong",
+    "places": [
+      {
+        "name": "Dim Sum Brunch",
+        "category": "Food",
+        "cost": 12,
+        "description": "Traditional Hong Kong dim sum experience with tea"
+      },
+      {
+        "name": "Street Food Tour",
+        "category": "Food",
+        "cost": 8,
+        "description": "Explore local street stalls for dai pai dong (open-air food stalls)"
+      },
+      {
+        "name": "Seafood Dinner",
+        "category": "Food",
+        "cost": 25,
+        "description": "Fresh seafood at harbor restaurants"
+      },
+      {
+        "name": "Harbour City Shopping",
+        "category": "Shopping",
+        "cost": 50,
+        "description": "Luxury shopping mall with international brands"
+      },
+      {
+        "name": "Ladies' Market",
+        "category": "Shopping",
+        "cost": 20,
+        "description": "Famous street market with clothing and accessories"
+      },
+      {
+        "name": "Star Ferry & Walk",
+        "category": "Culture/History",
+        "cost": 5,
+        "description": "Iconic ferry ride and waterfront promenade"
+      },
+      {
+        "name": "Hong Kong Museum of History",
+        "category": "Culture/History",
+        "cost": 10,
+        "description": "Comprehensive museum showcasing Hong Kong's heritage"
+      },
+      {
+        "name": "Peak Tram & Victoria Peak",
+        "category": "Sightseeing",
+        "cost": 18,
+        "description": "Cable car ride to panoramic city views"
+      },
+      {
+        "name": "Victoria Harbour Sunset Cruise",
+        "category": "Sightseeing",
+        "cost": 22,
+        "description": "Scenic boat tour with views of harbor and skyline"
+      }
+    ],
+    "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
   }
 }
