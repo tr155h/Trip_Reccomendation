@@ -238,5 +238,65 @@
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
-  }
+  },
+  "Hong Kong": {
+    "name": "Hong Kong",
+    "places": [
+      {
+        "name": "Café au Lait & Croissant",
+        "category": "Food",
+        "cost": 6,
+        "description": "Traditional French breakfast experience"
+      },
+      {
+        "name": "Bistro Dinner",
+        "category": "Food",
+        "cost": 35,
+        "description": "Authentic French bistro with local wine"
+      },
+      {
+        "name": "Street Crepes Tour",
+        "category": "Food",
+        "cost": 8,
+        "description": "Explore Paris's best crepe vendors"
+      },
+      {
+        "name": "Champs-Élysées Shopping",
+        "category": "Shopping",
+        "cost": 60,
+        "description": "Luxury brands and designer boutiques"
+      },
+      {
+        "name": "Marais District Boutiques",
+        "category": "Shopping",
+        "cost": 40,
+        "description": "Vintage and contemporary fashion shops"
+      },
+      {
+        "name": "Louvre Museum",
+        "category": "Culture/History",
+        "cost": 17,
+        "description": "World's largest art museum with Mona Lisa"
+      },
+      {
+        "name": "Notre-Dame Cathedral",
+        "category": "Culture/History",
+        "cost": 15,
+        "description": "Iconic Gothic cathedral of Paris"
+      },
+      {
+        "name": "Eiffel Tower Visit",
+        "category": "Sightseeing",
+        "cost": 26,
+        "description": "Climb or elevator ride to the top"
+      },
+      {
+        "name": "Seine River Cruise",
+        "category": "Sightseeing",
+        "cost": 19,
+        "description": "Scenic boat tour along Paris landmarks"
+      }
+    ],
+    "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
+
 }

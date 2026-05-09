@@ -12,8 +12,54 @@
       color: #fff;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
+    }
+    .navbar {
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .navbar-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffdd82;
+    }
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .navbar-user {
+      opacity: 0.9;
+      font-weight: 600;
+    }
+    .navbar-link {
+      text-decoration: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      font-weight: 600;
+    }
+    .navbar-link:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .navbar-link.forum {
+      background: rgba(76, 175, 80, 0.8);
+    }
+    .navbar-link.forum:hover {
+      background: rgba(76, 175, 80, 1);
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     .container {
       width: 100%;
@@ -176,7 +222,18 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="navbar">
+    <div class="navbar-brand">PlanMyTrip</div>
+    <div class="navbar-links">
+      <span class="navbar-user">{{ username }}</span>
+      <a href="{{ url_for('profile') }}" class="navbar-link">Profile</a>
+      <a href="{{ url_for('forum') }}" class="navbar-link forum">Forum</a>
+      <a href="{{ url_for('logout') }}" class="navbar-link">Logout</a>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="container">
     <div class="header">
       <div>
         <h1>Welcome, {{ username }}!</h1>
@@ -266,6 +323,7 @@
       days.classList.toggle('expanded');
     }
   </script>
+    </div>
   </div>
 </body>
 </html>
