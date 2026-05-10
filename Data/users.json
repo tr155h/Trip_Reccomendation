@@ -476,6 +476,212 @@
             ]
           }
         }
+      },
+      {
+        "trip_name": "phuket",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Food, Culture/History, Shopping",
+            "city": "Phuket",
+            "budget": 100.0,
+            "categories": [
+              "Food",
+              "Culture/History",
+              "Shopping"
+            ],
+            "recommendations": [
+              {
+                "name": "Big Buddha",
+                "category": "Culture/History",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Hilltop Buddhist landmark with sweeping island views",
+                "image_url": "/static/images/bigbuddha.jpg"
+              },
+              {
+                "name": "Wat Chalong",
+                "category": "Culture/History",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Important Buddhist temple complex with ornate architecture",
+                "image_url": "/static/images/watchalong.jpg"
+              },
+              {
+                "name": "Phuket Weekend Night Market",
+                "category": "Food",
+                "cost": 8,
+                "duration": "1-2 hours",
+                "description": "Bustling market with Thai street food, desserts, and snacks",
+                "image_url": "/static/images/phuket.jpg"
+              },
+              {
+                "name": "Beachfront Seafood Dinner",
+                "category": "Food",
+                "cost": 22,
+                "duration": "1-2 hours",
+                "description": "Fresh grilled seafood served by the beach",
+                "image_url": "/static/images/seafood.jpg"
+              },
+              {
+                "name": "Thai Cooking Class",
+                "category": "Food",
+                "cost": 35,
+                "duration": "1-2 hours",
+                "description": "Hands-on class making curry, noodles, and local Thai dishes",
+                "image_url": "/static/images/thaicooking.jpg"
+              },
+              {
+                "name": "Jungceylon Shopping Center",
+                "category": "Shopping",
+                "cost": 40,
+                "duration": "1-2 hours",
+                "description": "Large mall with fashion, dining, electronics, and entertainment",
+                "image_url": "/static/images/jungceylon.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trip_name": "shanghai",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Culture/History, Shopping, Sightseeing",
+            "city": "Shanghai",
+            "budget": 100.0,
+            "categories": [
+              "Culture/History",
+              "Shopping",
+              "Sightseeing"
+            ],
+            "recommendations": [
+              {
+                "name": "The Bund Walk",
+                "category": "Sightseeing",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Historic waterfront promenade with architecture",
+                "image_url": ""
+              },
+              {
+                "name": "Yu Garden Complex",
+                "category": "Culture/History",
+                "cost": 7,
+                "duration": "1-2 hours",
+                "description": "Classical Chinese landscape garden",
+                "image_url": ""
+              },
+              {
+                "name": "Shanghai Museum",
+                "category": "Culture/History",
+                "cost": 9,
+                "duration": "1-2 hours",
+                "description": "Chinese art, ceramics, and history",
+                "image_url": ""
+              },
+              {
+                "name": "Oriental Pearl Tower",
+                "category": "Sightseeing",
+                "cost": 14,
+                "duration": "1-2 hours",
+                "description": "Observation decks with city skyline views",
+                "image_url": ""
+              },
+              {
+                "name": "Jing An Temple District",
+                "category": "Shopping",
+                "cost": 25,
+                "duration": "1-2 hours",
+                "description": "Modern malls and lifestyle brands",
+                "image_url": ""
+              },
+              {
+                "name": "Nanjing Road Shopping",
+                "category": "Shopping",
+                "cost": 35,
+                "duration": "1-2 hours",
+                "description": "China's most famous shopping street",
+                "image_url": "/static/images/nanjingroad.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trip_name": "hong kong",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Food, Culture/History, Shopping",
+            "city": "Hong Kong",
+            "budget": 100.0,
+            "categories": [
+              "Food",
+              "Culture/History",
+              "Shopping"
+            ],
+            "recommendations": [
+              {
+                "name": "Hong Kong Museum of History",
+                "category": "Culture/History",
+                "cost": 0,
+                "duration": "1-2 hours",
+                "description": "Comprehensive museum showcasing Hong Kong's heritage. Main permenanet exhibit is free to the public. Special exhibits may have a fee.",
+                "image_url": "/static/images/historymuseum.jpg"
+              },
+              {
+                "name": "Star Ferry & Walk",
+                "category": "Culture/History",
+                "cost": 5,
+                "duration": "1-2 hours",
+                "description": "Iconic ferry ride and waterfront promenade",
+                "image_url": "/static/images/starferry.jpg"
+              },
+              {
+                "name": "Street Food Tour",
+                "category": "Food",
+                "cost": 8,
+                "duration": "1-2 hours",
+                "description": "Explore local street stalls for dai pai dong (open-air food stalls)",
+                "image_url": "/static/images/streetfoodhongkong.jpg"
+              },
+              {
+                "name": "Dim Sum Brunch",
+                "category": "Food",
+                "cost": 12,
+                "duration": "1-2 hours",
+                "description": "Traditional Hong Kong dim sum experience with tea",
+                "image_url": "/static/images/dimsum.jpg"
+              },
+              {
+                "name": "Ladies' Market",
+                "category": "Shopping",
+                "cost": 20,
+                "duration": "1-2 hours",
+                "description": "Famous street market with clothing and accessories",
+                "image_url": "/static/images/ladiesmarket.jpg"
+              },
+              {
+                "name": "Seafood Dinner",
+                "category": "Food",
+                "cost": 25,
+                "duration": "1-2 hours",
+                "description": "Fresh seafood at harbor restaurants",
+                "image_url": "/static/images/seafoodhongkong.jpg"
+              },
+              {
+                "name": "Harbour City Shopping",
+                "category": "Shopping",
+                "cost": 50,
+                "duration": "1-2 hours",
+                "description": "Largest and diverse shopping mall in Hong Kong with international brands",
+                "image_url": "/static/images/harbourcity.jpg"
+              }
+            ]
+          }
+        }
       }
     ]
   }

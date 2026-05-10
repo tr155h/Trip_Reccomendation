@@ -221,19 +221,21 @@
         "category": "Food",
         "cost": 25,
         "description": "Located near Yu Garden, this bustling street is filled with traditional food stalls and local snacks, offering a taste of authentic Shanghai cuisine in a vibrant setting.",
-        "image_url": "/static/images/yuyuan.jpg"
+        "image_url": "/static/images/yuyuanstreet.jpg"
       },
       {
         "name": "River Dining Cruise",
         "category": "Food",
         "cost": 20,
-        "description": "Dinner cruise with Huangpu River views"
+        "description": "Dinner cruise with Huangpu River views",
+        "image_url": "/static/images/huangpuriver.jpg"
       },
       {
         "name": "Nanjing Road Shopping",
         "category": "Shopping",
         "cost": 35,
-        "description": "China's most famous shopping street"
+        "description": "China's most famous shopping street",
+        "image_url": "/static/images/nanjingroad.jpg"
       },
       {
         "name": "Jing An Temple District",
@@ -276,21 +278,21 @@
         "category": "Food",
         "cost": 12,
         "description": "Traditional Hong Kong dim sum experience with tea",
-        "image_url": "/static/images/dumsum.jpg"
+        "image_url": "/static/images/dimsum.jpg"
       },
       {
         "name": "Street Food Tour",
         "category": "Food",
         "cost": 8,
         "description": "Explore local street stalls for dai pai dong (open-air food stalls)",
-        "image_url": "/static/images/streetfood.jpg"
+        "image_url": "/static/images/streetfoodhongkong.jpg"
       },
       {
         "name": "Seafood Dinner",
         "category": "Food",
         "cost": 25,
         "description": "Fresh seafood at harbor restaurants",
-        "image_url": "/static/images/seafood.jpg"
+        "image_url": "/static/images/seafoodhongkong.jpg"
       },
       {
         "name": "Harbour City Shopping",
