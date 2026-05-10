@@ -763,55 +763,64 @@
         "name": "Trastevere Pasta Dinner",
         "category": "Food",
         "cost": 24,
-        "description": "Roman pasta dishes in a lively historic neighborhood"
+        "description": "Roman pasta dishes in a lively historic neighborhood",
+        "image_url": "/static/images/italianpasta.jpg"
       },
       {
         "name": "Gelato Tasting",
         "category": "Food",
         "cost": 6,
-        "description": "Sample classic Italian gelato flavors from local shops"
+        "description": "Sample classic Italian gelato flavors from local shops",
+        "image_url": "/static/images/romegellato.jpg"
       },
       {
         "name": "Roman Pizza al Taglio",
         "category": "Food",
         "cost": 8,
-        "description": "Crispy rectangular pizza slices sold by weight"
+        "description": "Crispy rectangular pizza slices sold by weight",
+        "image_url": "/static/images/italianpizza.jpg"
       },
       {
         "name": "Via del Corso Shopping",
         "category": "Shopping",
         "cost": 50,
-        "description": "Central shopping street with Italian and international brands"
+        "description": "Central shopping street with Italian and international brands",
+        "image_url": "/static/images/viadelcorso.jpg"
       },
       {
         "name": "Campo de' Fiori Market",
         "category": "Shopping",
         "cost": 20,
-        "description": "Historic market for produce, flowers, spices, and souvenirs"
+        "description": "Historic market for produce, flowers, spices, and souvenirs",
+        "image_url": "/static/images/campo.jpg"
       },
       {
         "name": "Colosseum Tour",
         "category": "Culture/History",
         "cost": 18,
-        "description": "Ancient amphitheater and landmark of imperial Rome"
+        "description": "Ancient amphitheater and landmark of imperial Rome",
+        "image_url": "/static/images/colosseum.jpg"
       },
       {
         "name": "Vatican Museums",
         "category": "Culture/History",
         "cost": 22,
-        "description": "Major art and history collections including the Sistine Chapel"
+        "description": "Major art and history collections including the Sistine Chapel",
+        "image_url": "/static/images/vatican.jpg"
       },
       {
         "name": "Trevi Fountain",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Baroque fountain and one of Rome's most famous landmarks"
+        "description": "Baroque fountain and one of Rome's most famous landmarks",
+        "image_url": "/static/images/trevi.jpg"
       },
       {
         "name": "Spanish Steps",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Historic staircase and popular viewpoint near Piazza di Spagna"
+        "description": "Historic staircase and popular viewpoint near Piazza di Spagna",
+        "image_url": "/static/images/spanishsteps.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -823,55 +832,57 @@
         "name": "Al Fahidi Emirati Dinner",
         "category": "Food",
         "cost": 28,
-        "description": "Traditional Emirati meal in a historic neighborhood setting"
+        "description": "Traditional Emirati meal in a historic neighborhood setting",
+        "image_url": "/static/images/emirati.jpg"
       },
       {
         "name": "Shawarma Street Snack",
         "category": "Food",
         "cost": 7,
-        "description": "Quick local-style wrap with grilled meat, sauce, and pickles"
-      },
-      {
-        "name": "Desert Camp BBQ Dinner",
-        "category": "Food",
-        "cost": 50,
-        "description": "Outdoor barbecue meal during an evening desert excursion"
+        "description": "Quick local-style wrap with grilled meat, sauce, and pickles",
+        "image_url": "/static/images/shawarma.jpg"
       },
       {
         "name": "Dubai Mall",
         "category": "Shopping",
         "cost": 80,
-        "description": "Massive shopping complex with luxury stores and entertainment"
+        "description": "Massive shopping complex with luxury stores and entertainment",
+        "image_url": "/static/images/dubaimall.jpg"
       },
       {
         "name": "Gold Souk",
         "category": "Shopping",
         "cost": 45,
-        "description": "Traditional market known for gold jewelry and precious stones"
+        "description": "Traditional market known for gold jewelry and precious stones",
+        "image_url": "/static/images/goldsouk.jpg"
       },
       {
         "name": "Al Fahidi Historical District",
         "category": "Culture/History",
         "cost": 5,
-        "description": "Restored heritage area with museums, galleries, and wind towers"
+        "description": "Restored heritage area with museums, galleries, and wind towers",
+        "image_url": "/static/images/alfahidi.jpg"
       },
       {
         "name": "Dubai Museum",
         "category": "Culture/History",
         "cost": 3,
-        "description": "Museum in Al Fahidi Fort covering Dubai's early history"
+        "description": "Museum in Al Fahidi Fort covering Dubai's early history",
+        "image_url": "/static/images/dubaimuseum.jpg"
       },
       {
         "name": "Burj Khalifa Observation Deck",
         "category": "Sightseeing",
         "cost": 45,
-        "description": "Sky-high views from the world's tallest building"
+        "description": "Sky-high views from the world's tallest building",
+        "image_url": "/static/images/burjkhalifa.jpg"
       },
       {
         "name": "Dubai Marina Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Waterfront promenade with skyscrapers, yachts, and restaurants"
+        "description": "Waterfront promenade with skyscrapers, yachts, and restaurants",
+        "image_url": "/static/images/dubaimarina.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -883,55 +894,57 @@
         "name": "La Boqueria Market",
         "category": "Food",
         "cost": 16,
-        "description": "Famous food market with tapas, seafood, fruit, and local snacks"
+        "description": "Famous food market with tapas, seafood, fruit, and local snacks",
+        "image_url": "/static/images/laboqueria.jpg"
       },
       {
         "name": "Paella Dinner",
         "category": "Food",
         "cost": 26,
-        "description": "Spanish rice dish with seafood, meat, or vegetables"
+        "description": "Spanish rice dish with seafood, meat, or vegetables",
+        "image_url": "/static/images/paella.jpg"
       },
       {
         "name": "Gothic Quarter Tapas",
         "category": "Food",
         "cost": 20,
-        "description": "Tapas crawl through narrow historic streets"
+        "description": "Tapas crawl through narrow historic streets",
+        "image_url": "/static/images/gothic.jpg"
       },
       {
         "name": "Passeig de Gracia Shopping",
         "category": "Shopping",
         "cost": 55,
-        "description": "Elegant avenue with designer stores and modernist architecture"
-      },
-      {
-        "name": "El Born Boutiques",
-        "category": "Shopping",
-        "cost": 35,
-        "description": "Independent shops for fashion, crafts, design, and gifts"
+        "description": "Elegant avenue with designer stores and modernist architecture",
+        "image_url": "/static/images/passeig.jpg"
       },
       {
         "name": "Sagrada Familia",
         "category": "Culture/History",
         "cost": 30,
-        "description": "Gaudi's landmark basilica known for bold architecture and detail"
+        "description": "Gaudi's landmark basilica known for bold architecture and detail",
+        "image_url": "/static/images/sagradafamilia.jpg"
       },
       {
         "name": "Picasso Museum",
         "category": "Culture/History",
         "cost": 14,
-        "description": "Museum focused on Picasso's early work and artistic development"
+        "description": "Museum focused on Picasso's early work and artistic development",
+        "image_url": "/static/images/picasso.jpg"
       },
       {
         "name": "Park Guell",
         "category": "Sightseeing",
         "cost": 13,
-        "description": "Colorful hillside park with mosaics and city views"
+        "description": "Colorful hillside park with mosaics and city views",
+        "image_url": "/static/images/parkguell.jpg"
       },
       {
         "name": "Barceloneta Beach",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Popular city beach for walking, relaxing, and seaside views"
+        "description": "Popular city beach for walking, relaxing, and seaside views",
+        "image_url": "/static/images/barceloneta.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -943,55 +956,57 @@
         "name": "Laneway Coffee Crawl",
         "category": "Food",
         "cost": 14,
-        "description": "Sample specialty coffee and brunch spots in central laneways"
+        "description": "Sample specialty coffee and brunch spots in central laneways",
+        "image_url": "/static/images/laneway.jpg"
       },
       {
         "name": "South Melbourne Market Bites",
         "category": "Food",
         "cost": 18,
-        "description": "Market snacks, pastries, seafood, and local produce tastings"
-      },
-      {
-        "name": "Lygon Street Italian Dinner",
-        "category": "Food",
-        "cost": 25,
-        "description": "Pasta, pizza, and gelato in Melbourne's Italian dining district"
+        "description": "Market snacks, pastries, seafood, and local produce tastings",
+        "image_url": "/static/images/southmelbourne.jpg"
       },
       {
         "name": "Queen Victoria Market",
         "category": "Shopping",
         "cost": 30,
-        "description": "Historic market with produce, gifts, clothing, and local food"
+        "description": "Historic market with produce, gifts, clothing, and local food",
+        "image_url": "/static/images/queenvictoria.jpg"
       },
       {
         "name": "Melbourne Central Shopping",
         "category": "Shopping",
         "cost": 45,
-        "description": "Central shopping complex with fashion, food, and specialty stores"
+        "description": "Central shopping complex with fashion, food, and specialty stores",
+        "image_url": "/static/images/melbournecentral.jpg"
       },
       {
         "name": "National Gallery of Victoria",
         "category": "Culture/History",
         "cost": 0,
-        "description": "Major art museum with Australian and international collections"
+        "description": "Major art museum with Australian and international collections",
+        "image_url": "/static/images/victoria.jpg"
       },
       {
         "name": "Melbourne Museum",
         "category": "Culture/History",
         "cost": 15,
-        "description": "Museum covering natural history, culture, science, and design"
+        "description": "Museum covering natural history, culture, science, and design",
+        "image_url": "/static/images/melbournemuseum.jpg"
       },
       {
         "name": "Yarra River Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Scenic riverside route past bridges, gardens, and city landmarks"
+        "description": "Scenic riverside route past bridges, gardens, and city landmarks",
+        "image_url": "/static/images/yarra.jpg"
       },
       {
         "name": "Eureka Skydeck",
         "category": "Sightseeing",
         "cost": 28,
-        "description": "High-rise observation deck with sweeping city views"
+        "description": "High-rise observation deck with sweeping city views",
+        "image_url": "/static/images/eureka.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -1003,55 +1018,57 @@
         "name": "Dutch Pancake Breakfast",
         "category": "Food",
         "cost": 13,
-        "description": "Sweet or savory pancakes at a cozy Amsterdam cafe"
+        "description": "Sweet or savory pancakes at a cozy Amsterdam cafe",
+        "image_url": "/static/images/dutchpancake.jpg"
       },
       {
         "name": "Stroopwafel Stand",
         "category": "Food",
         "cost": 5,
-        "description": "Fresh caramel-filled waffle cookie from a market vendor"
+        "description": "Fresh caramel-filled waffle cookie from a market vendor",
+        "image_url": "/static/images/stroopwafel.jpg"
       },
       {
         "name": "Indonesian Rijsttafel Dinner",
         "category": "Food",
         "cost": 30,
-        "description": "Shared meal of many small Indonesian dishes popular in Amsterdam"
-      },
-      {
-        "name": "Nine Streets Shopping",
-        "category": "Shopping",
-        "cost": 45,
-        "description": "Canal-side boutiques with fashion, design, and vintage finds"
+        "description": "Shared meal of many small Indonesian dishes popular in Amsterdam",
+        "image_url": "/static/images/rijsttafel.jpg"
       },
       {
         "name": "Albert Cuyp Market",
         "category": "Shopping",
         "cost": 25,
-        "description": "Large street market for snacks, clothes, flowers, and souvenirs"
+        "description": "Large street market for snacks, clothes, flowers, and souvenirs",
+        "image_url": "/static/images/albertcuyp.jpg"
       },
       {
         "name": "Rijksmuseum",
         "category": "Culture/History",
         "cost": 24,
-        "description": "National museum with Dutch art, history, and masterpieces"
+        "description": "National museum with Dutch art, history, and masterpieces",
+        "image_url": "/static/images/rijksmuseum.jpg"
       },
       {
         "name": "Anne Frank House",
         "category": "Culture/History",
         "cost": 16,
-        "description": "Historic canal house museum sharing Anne Frank's story"
+        "description": "Historic canal house museum sharing Anne Frank's story",
+        "image_url": "/static/images/annefrank.jpg"
       },
       {
         "name": "Canal Boat Tour",
         "category": "Sightseeing",
         "cost": 18,
-        "description": "Classic boat ride through Amsterdam's historic canal ring"
+        "description": "Classic boat ride through Amsterdam's historic canal ring",
+        "image_url": "/static/images/canal.jpg"
       },
       {
         "name": "Vondelpark Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Relaxed walk through Amsterdam's best-known city park"
+        "description": "Relaxed walk through Amsterdam's best-known city park",
+        "image_url": "/static/images/vondelpark.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
