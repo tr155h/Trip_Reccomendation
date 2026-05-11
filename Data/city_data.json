@@ -241,31 +241,36 @@
         "name": "Jing An Temple District",
         "category": "Shopping",
         "cost": 25,
-        "description": "Modern malls and lifestyle brands"
+        "description": "Modern malls and lifestyle brands",
+        "image_url": "/static/images/jingan_district.jpg"
       },
       {
         "name": "Shanghai Museum",
         "category": "Culture/History",
         "cost": 9,
-        "description": "Chinese art, ceramics, and history"
+        "description": "Chinese art, ceramics, and history",
+        "image_url": "/static/images/shanghai_museum.jpg"
       },
       {
         "name": "Yu Garden Complex",
         "category": "Culture/History",
         "cost": 7,
-        "description": "Classical Chinese landscape garden"
+        "description": "Classical Chinese landscape garden",
+        "image_url": "/static/images/yu_garden.jpg"
       },
       {
         "name": "Oriental Pearl Tower",
         "category": "Sightseeing",
         "cost": 14,
-        "description": "Observation decks with city skyline views"
+        "description": "Observation decks with city skyline views",
+        "image_url": "/static/images/oriental_pearl_tower.jpg"
       },
       {
         "name": "The Bund Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Historic waterfront promenade with architecture"
+        "description": "Historic waterfront promenade with architecture",
+        "image_url": "/static/images/bund_walk.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
