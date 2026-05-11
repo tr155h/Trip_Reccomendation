@@ -469,63 +469,63 @@
         "category": "Food",
         "cost": 12,
         "description": "Explore Chinatown favorites like dumplings, noodles, and pastries",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/binondo_food.jpg"
       },
       {
         "name": "Jollibee Local Favorites",
         "category": "Food",
         "cost": 6,
         "description": "Try Filipino fast-food staples like Chickenjoy and sweet spaghetti",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/jollibee.jpg"
       },
       {
         "name": "Filipino Kamayan Dinner",
         "category": "Food",
         "cost": 18,
         "description": "Shared feast of grilled meats, seafood, rice, and tropical sides",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/kamayan_dinner.jpg"
       },
       {
         "name": "Greenbelt Shopping",
         "category": "Shopping",
         "cost": 35,
         "description": "Upscale mall complex with fashion, dining, and local brands",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/greenbelt_mall.jpg"
       },
       {
         "name": "Divisoria Market",
         "category": "Shopping",
         "cost": 20,
         "description": "Busy bargain district for clothes, accessories, and souvenirs",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/divisoria_market.jpg"
       },
       {
         "name": "Intramuros Walking Tour",
         "category": "Culture/History",
         "cost": 10,
         "description": "Historic walled city with Spanish colonial landmarks",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/intramuros.jpg"
       },
       {
         "name": "National Museum Complex",
         "category": "Culture/History",
         "cost": 0,
         "description": "Museums covering Filipino art, anthropology, and natural history",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/national_museum_manila.jpg"
       },
       {
         "name": "Manila Bay Sunset Walk",
         "category": "Sightseeing",
         "cost": 0,
         "description": "Waterfront promenade known for dramatic sunset views",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/manila_bay_walk.jpg"
       },
       {
         "name": "Rizal Park",
         "category": "Sightseeing",
         "cost": 0,
         "description": "Historic urban park with gardens, monuments, and open lawns",
-        "image_url": "/static/images/bigbuddha.jpg"
+        "image_url": "/static/images/rizal_park.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
