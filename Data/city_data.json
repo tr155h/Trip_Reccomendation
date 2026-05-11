@@ -468,55 +468,64 @@
         "name": "Binondo Food Crawl",
         "category": "Food",
         "cost": 12,
-        "description": "Explore Chinatown favorites like dumplings, noodles, and pastries"
+        "description": "Explore Chinatown favorites like dumplings, noodles, and pastries",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Jollibee Local Favorites",
         "category": "Food",
         "cost": 6,
-        "description": "Try Filipino fast-food staples like Chickenjoy and sweet spaghetti"
+        "description": "Try Filipino fast-food staples like Chickenjoy and sweet spaghetti",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Filipino Kamayan Dinner",
         "category": "Food",
         "cost": 18,
-        "description": "Shared feast of grilled meats, seafood, rice, and tropical sides"
+        "description": "Shared feast of grilled meats, seafood, rice, and tropical sides",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Greenbelt Shopping",
         "category": "Shopping",
         "cost": 35,
-        "description": "Upscale mall complex with fashion, dining, and local brands"
+        "description": "Upscale mall complex with fashion, dining, and local brands",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Divisoria Market",
         "category": "Shopping",
         "cost": 20,
-        "description": "Busy bargain district for clothes, accessories, and souvenirs"
+        "description": "Busy bargain district for clothes, accessories, and souvenirs",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Intramuros Walking Tour",
         "category": "Culture/History",
         "cost": 10,
-        "description": "Historic walled city with Spanish colonial landmarks"
+        "description": "Historic walled city with Spanish colonial landmarks",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "National Museum Complex",
         "category": "Culture/History",
         "cost": 0,
-        "description": "Museums covering Filipino art, anthropology, and natural history"
+        "description": "Museums covering Filipino art, anthropology, and natural history",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Manila Bay Sunset Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Waterfront promenade known for dramatic sunset views"
+        "description": "Waterfront promenade known for dramatic sunset views",
+        "image_url": "/static/images/bigbuddha.jpg"
       },
       {
         "name": "Rizal Park",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Historic urban park with gardens, monuments, and open lawns"
+        "description": "Historic urban park with gardens, monuments, and open lawns",
+        "image_url": "/static/images/bigbuddha.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -528,55 +537,64 @@
         "name": "Borough Market Lunch",
         "category": "Food",
         "cost": 18,
-        "description": "Historic food market with global dishes and British classics"
+        "description": "Historic food market with global dishes and British classics",
+        "image_url": "/static/images/borough_market.jpg"
       },
       {
         "name": "Afternoon Tea",
         "category": "Food",
         "cost": 38,
-        "description": "Classic tea service with sandwiches, pastries, and scones"
+        "description": "Classic tea service with sandwiches, pastries, and scones",
+        "image_url": "/static/images/afternoon_tea.jpg"
       },
       {
         "name": "Fish and Chips Pub Meal",
         "category": "Food",
         "cost": 17,
-        "description": "Traditional British pub meal with crispy fish and fries"
+        "description": "Traditional British pub meal with crispy fish and fries",
+        "image_url": "/static/images/fish_and_chips.jpg"
       },
       {
         "name": "Oxford Street Shopping",
         "category": "Shopping",
         "cost": 60,
-        "description": "Major shopping street with department stores and fashion brands"
+        "description": "Major shopping street with department stores and fashion brands",
+        "image_url": "/static/images/oxford_street_shopping.jpg"
       },
       {
         "name": "Camden Market",
         "category": "Shopping",
         "cost": 30,
-        "description": "Alternative fashion, crafts, street food, and vintage stalls"
+        "description": "Alternative fashion, crafts, street food, and vintage stalls",
+        "image_url": "/static/images/camden_market.jpg"
       },
       {
         "name": "Tower of London",
         "category": "Culture/History",
         "cost": 34,
-        "description": "Medieval fortress, royal history site, and home of the Crown Jewels"
+        "description": "Medieval fortress, royal history site, and home of the Crown Jewels",
+        "image_url": "/static/images/tower_of_london.jpg"
       },
       {
         "name": "British Museum",
         "category": "Culture/History",
         "cost": 0,
-        "description": "World history museum with artifacts from many civilizations"
+        "description": "World history museum with artifacts from many civilizations",
+        "image_url": "/static/images/british_museum.jpg"
       },
       {
         "name": "London Eye",
         "category": "Sightseeing",
         "cost": 32,
-        "description": "Large observation wheel with views across central London"
+        "description": "Large observation wheel with views across central London",
+        "image_url": "/static/images/london_eye.jpg"
       },
       {
         "name": "Westminster and Big Ben Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Walk past Parliament, Westminster Bridge, and famous clock tower views"
+        "description": "Walk past Parliament, Westminster Bridge, and famous clock tower views",
+        "image_url": "/static/images/westminster_big_ben.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -588,55 +606,64 @@
         "name": "Maxwell Food Centre",
         "category": "Food",
         "cost": 9,
-        "description": "Popular hawker center for chicken rice, noodles, and local dishes"
+        "description": "Popular hawker center for chicken rice, noodles, and local dishes",
+        "image_url": "/static/images/maxwell_food.jpg"
       },
       {
         "name": "Chili Crab Dinner",
         "category": "Food",
         "cost": 35,
-        "description": "Signature Singapore seafood dish with rich tomato-chili sauce"
+        "description": "Signature Singapore seafood dish with rich tomato-chili sauce",
+        "image_url": "/static/images/chili_crab.jpg"
       },
       {
         "name": "Kaya Toast Breakfast",
         "category": "Food",
         "cost": 5,
-        "description": "Local breakfast with coconut jam toast, eggs, and coffee"
+        "description": "Local breakfast with coconut jam toast, eggs, and coffee",
+        "image_url": "/static/images/kaya_breakfast.jpg"
       },
       {
         "name": "Orchard Road Shopping",
         "category": "Shopping",
         "cost": 70,
-        "description": "Famous retail boulevard with malls and international brands"
+        "description": "Famous retail boulevard with malls and international brands",
+        "image_url": "/static/images/orchard_road.jpg"
       },
       {
         "name": "Bugis Street Market",
         "category": "Shopping",
         "cost": 25,
-        "description": "Lively market for affordable fashion, souvenirs, and snacks"
+        "description": "Lively market for affordable fashion, souvenirs, and snacks",
+        "image_url": "/static/images/bugis_market.jpg"
       },
       {
         "name": "National Gallery Singapore",
         "category": "Culture/History",
         "cost": 15,
-        "description": "Southeast Asian art museum housed in historic civic buildings"
+        "description": "Southeast Asian art museum housed in historic civic buildings",
+        "image_url": "/static/images/national_gallery_singapore.jpg"
       },
       {
         "name": "Chinatown Heritage Centre",
         "category": "Culture/History",
         "cost": 12,
-        "description": "Museum sharing stories of early Chinese immigrants in Singapore"
+        "description": "Museum sharing stories of early Chinese immigrants in Singapore",
+        "image_url": "/static/images/chinatown_heritage_centre.jpg"
       },
       {
         "name": "Gardens by the Bay",
         "category": "Sightseeing",
         "cost": 20,
-        "description": "Futuristic gardens with conservatories and Supertree Grove"
+        "description": "Futuristic gardens with conservatories and Supertree Grove",
+        "image_url": "/static/images/gardensby_bay.jpg"
       },
       {
         "name": "Marina Bay Sands SkyPark",
         "category": "Sightseeing",
         "cost": 26,
-        "description": "Observation deck with skyline, harbor, and garden views"
+        "description": "Observation deck with skyline, harbor, and garden views",
+        "image_url": "/static/images/marina_skypark.webp"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -648,55 +675,64 @@
         "name": "Tapas in La Latina",
         "category": "Food",
         "cost": 18,
-        "description": "Traditional tapas bars in one of Madrid's liveliest neighborhoods"
+        "description": "Traditional tapas bars in one of Madrid's liveliest neighborhoods",
+        "image_url": "/static/images/tapas_madrid.jpg"
       },
       {
         "name": "Churros con Chocolate",
         "category": "Food",
         "cost": 6,
-        "description": "Crisp churros served with thick hot chocolate"
+        "description": "Crisp churros served with thick hot chocolate",
+        "image_url": "/static/images/churros_con_chocolate.jpg"
       },
       {
         "name": "Mercado de San Miguel",
         "category": "Food",
         "cost": 20,
-        "description": "Gourmet market with Spanish bites, seafood, and wine"
+        "description": "Gourmet market with Spanish bites, seafood, and wine",
+        "image_url": "/static/images/mercardo_de_san_miguel.jpg"
       },
       {
         "name": "Gran Via Shopping",
         "category": "Shopping",
         "cost": 45,
-        "description": "Central avenue with fashion stores, theaters, and cafes"
+        "description": "Central avenue with fashion stores, theaters, and cafes",
+        "image_url": "/static/images/gran_via.jpg"
       },
       {
         "name": "El Rastro Market",
         "category": "Shopping",
         "cost": 25,
-        "description": "Famous open-air flea market with antiques, clothes, and crafts"
+        "description": "Famous open-air flea market with antiques, clothes, and crafts",
+        "image_url": "/static/images/el_rastro.jpg"
       },
       {
         "name": "Prado Museum",
         "category": "Culture/History",
         "cost": 17,
-        "description": "Renowned art museum with Spanish and European masterpieces"
+        "description": "Renowned art museum with Spanish and European masterpieces",
+        "image_url": "/static/images/prado_museum.jpg"
       },
       {
         "name": "Royal Palace of Madrid",
         "category": "Culture/History",
         "cost": 14,
-        "description": "Grand palace with royal rooms, armory, and historic courtyards"
+        "description": "Grand palace with royal rooms, armory, and historic courtyards",
+        "image_url": "/static/images/royal_palace_madrid.jpg"
       },
       {
         "name": "Retiro Park Walk",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Elegant city park with gardens, monuments, and a boating lake"
+        "description": "Elegant city park with gardens, monuments, and a boating lake",
+        "image_url": "/static/images/retiro_park.jpg"
       },
       {
         "name": "Temple of Debod Sunset",
         "category": "Sightseeing",
         "cost": 0,
-        "description": "Ancient Egyptian temple and scenic sunset viewpoint"
+        "description": "Ancient Egyptian temple and scenic sunset viewpoint",
+        "image_url": "/static/images/temple_of_debod.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
@@ -708,55 +744,64 @@
         "name": "Feijoada Lunch",
         "category": "Food",
         "cost": 15,
-        "description": "Classic Brazilian black bean stew served with rice and sides"
+        "description": "Classic Brazilian black bean stew served with rice and sides",
+        "image_url": "/static/images/feijoada_lunch.jpg"
       },
       {
         "name": "Churrascaria Dinner",
         "category": "Food",
         "cost": 32,
-        "description": "Brazilian steakhouse experience with grilled meats and sides"
+        "description": "Brazilian steakhouse experience with grilled meats and sides",
+        "image_url": "/static/images/churrascaria_dinner.jpg"
       },
       {
         "name": "Acai Bowl by the Beach",
         "category": "Food",
         "cost": 7,
-        "description": "Refreshing acai bowl topped with fruit and granola"
+        "description": "Refreshing acai bowl topped with fruit and granola",
+        "image_url": "/static/images/acai_bowl.jpg"
       },
       {
         "name": "Ipanema Market",
         "category": "Shopping",
         "cost": 25,
-        "description": "Outdoor market with crafts, beachwear, art, and souvenirs"
+        "description": "Outdoor market with crafts, beachwear, art, and souvenirs",
+        "image_url": "/static/images/ipanema_market.jpg"
       },
       {
         "name": "Rio Sul Shopping",
         "category": "Shopping",
         "cost": 45,
-        "description": "Modern mall with Brazilian and international stores"
+        "description": "Modern mall with Brazilian and international stores",
+        "image_url": "/static/images/rio_sul_mall.jpg"
       },
       {
         "name": "Museum of Tomorrow",
         "category": "Culture/History",
         "cost": 8,
-        "description": "Waterfront science and culture museum with futuristic architecture"
+        "description": "Waterfront science and culture museum with futuristic architecture",
+        "image_url": "/static/images/museum_of_tomorrow.jpg"
       },
       {
         "name": "Selaron Steps",
         "category": "Culture/History",
         "cost": 0,
-        "description": "Colorful tiled staircase created by artist Jorge Selaron"
+        "description": "Colorful tiled staircase created by artist Jorge Selaron",
+        "image_url": "/static/images/selaron_steps.jpg"
       },
       {
         "name": "Christ the Redeemer",
         "category": "Sightseeing",
         "cost": 22,
-        "description": "Iconic mountaintop statue overlooking Rio and Guanabara Bay"
+        "description": "Iconic mountaintop statue overlooking Rio and Guanabara Bay",
+        "image_url": "/static/images/christ_redeemer.jpg"
       },
       {
         "name": "Sugarloaf Mountain Cable Car",
         "category": "Sightseeing",
         "cost": 30,
-        "description": "Cable car ride to panoramic views of Rio's coastline"
+        "description": "Cable car ride to panoramic views of Rio's coastline",
+        "image_url": "/static/images/sugarloaf_mountain.jpg"
       }
     ],
     "categories": ["Food", "Shopping", "Culture/History", "Sightseeing"]
