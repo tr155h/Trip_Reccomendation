@@ -4,6 +4,7 @@ import json
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from data_handler import load_json_file_safe, save_json_file
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -74,8 +75,8 @@ def load_city_data():
                 content = f.read().strip()
                 if content:
                     return json.loads(content)
-        except:
-            pass
+        except (json.JSONDecodeError, IOError) as e:
+            app.logger.error(f"Failed to load city data: {e}")
     return {}
 
 
@@ -111,6 +112,7 @@ def add_city_to_database(city_name):
     save_city_data(city_data)
     return True
 
+#forums
 def load_forum():
     """Load forum posts from JSON file"""
     if os.path.exists(FORUM_FILE):
@@ -119,8 +121,8 @@ def load_forum():
                 content = f.read().strip()
                 if content:
                     return json.loads(content)
-        except:
-            pass
+        except (json.JSONDecodeError, IOError) as e:
+            app.logger.error(f"Failed to load forum data: {e}")
     return []
 
 def save_forum(posts):
@@ -157,82 +159,40 @@ def add_reply_to_post(post_id, username, content):
             post['replies'].append(reply)
             save_forum(posts)
             return True
+    
+    # Post not found
+    app.logger.warning(f"Forum post {post_id} not found when adding reply")
+    return False
     return False
 
-def get_recommendations(city, budget, categories):
-    """Generate recommendations based on city, budget, and categories
-    Pulls data from city_data.json database"""
+#reccomendations
+def get_recommendations_for_city(city, budget, categories):
+    """Generate recommendations using recommender module with city_data"""
+    from recommender import get_recommendations
     
-    recommendations = []
-    max_spend = budget - 25  # Keep $25 under budget
-    
-    # Load city data from JSON
+    # Load city data from JSON using data_handler
     city_data = load_city_data()
     
-    # Check if city exists in database
+    # City must exist in database (enforced by dropdown in UI)
     if city not in city_data:
+        app.logger.error(f"City {city} not found in database")
         return []
     
     city_info = city_data[city]
     places = city_info.get('places', [])
     
-    # Filter places by selected categories and budget
-    for place in places:
-        place_category = place.get('category', '')
-        place_cost = place.get('cost', 0)
-        
-        # Include place if category matches and cost is within budget
-        if place_category in categories and place_cost <= max_spend:
-            recommendations.append({
-                'name': place.get('name', 'Unknown Place'),
-                'category': place_category,
-                'cost': place_cost,
-                'duration': place.get('duration', '1-2 hours'),
-                'description': place.get('description', f'Located in {city}'),
-                'image_url': place.get('image_url', '')
-            })
+    # Should always have places for city in data
+    if not places:
+        app.logger.error(f"No places found for {city}")
+        return []
     
-    # Sort by cost and return top 10
-    recommendations.sort(key=lambda x: x['cost'])
-    return recommendations[:10]
+    # Generate recommendations from actual city data
+    recommendations = get_recommendations(city, budget, categories, places)
+    
+    app.logger.info(f"Generated {len(recommendations)} recommendations for {city}")
+    return recommendations
 
 
-def get_fallback_recommendations(max_spend, categories):
-    """Fallback recommendations if OpenStreetMap API fails"""
-    
-    sample_places = {
-        'Food': [
-            {'name': 'Street Food Tour', 'category': 'Food', 'cost': 8, 'duration': '1.5 hours', 'description': 'Explore local street food'},
-            {'name': 'Local Restaurant', 'category': 'Food', 'cost': 15, 'duration': '1.5 hours', 'description': 'Traditional local cuisine'},
-            {'name': 'Food Market Tour', 'category': 'Food', 'cost': 12, 'duration': '2 hours', 'description': 'Visit local food markets'}
-        ],
-        'Shopping': [
-            {'name': 'Local Market', 'category': 'Shopping', 'cost': 20, 'duration': '2 hours', 'description': 'Browse local shops'},
-            {'name': 'Souvenir Shops', 'category': 'Shopping', 'cost': 25, 'duration': '1.5 hours', 'description': 'Find local souvenirs'}
-        ],
-        'Culture/History': [
-            {'name': 'Museum Visit', 'category': 'Culture/History', 'cost': 12, 'duration': '2 hours', 'description': 'Local history museum'},
-            {'name': 'Ancient Temple Tour', 'category': 'Culture/History', 'cost': 8, 'duration': '1.5 hours', 'description': 'Historical temple exploration'},
-            {'name': 'Art Gallery', 'category': 'Culture/History', 'cost': 10, 'duration': '1.5 hours', 'description': 'Contemporary and traditional art'}
-        ],
-        'Sightseeing': [
-            {'name': 'City Viewpoint', 'category': 'Sightseeing', 'cost': 5, 'duration': '1 hour', 'description': 'Panoramic city views'},
-            {'name': 'City Walking Tour', 'category': 'Sightseeing', 'cost': 18, 'duration': '2 hours', 'description': 'Guided walking tour'},
-            {'name': 'Nature Park Visit', 'category': 'Sightseeing', 'cost': 0, 'duration': '2 hours', 'description': 'Beautiful nature trails'}
-        ]
-    }
-    
-    recommendations = []
-    
-    for category in categories:
-        if category in sample_places:
-            for place in sample_places[category]:
-                if place['cost'] <= max_spend:
-                    if not any(r['name'] == place['name'] for r in recommendations):
-                        recommendations.append(place)
-    
-    recommendations.sort(key=lambda x: x['cost'])
-    return recommendations[:10]
 
 
 
@@ -258,14 +218,10 @@ def login():
         if not user:
             return render_template('login.html', error='Username not found. Please sign up first.')
 
-        # Verify password - handle both hashed and plain text passwords for backwards compatibility
+        # Verify password - all passwords must be hashed
         stored_password = user['password']
-        if stored_password.startswith('scrypt:'):  # Hashed password format
-            if not check_password_hash(stored_password, password):
-                return render_template('login.html', error='Incorrect password. Please try again.')
-        else:  # Plain text password (legacy format)
-            if stored_password != password:
-                return render_template('login.html', error='Incorrect password. Please try again.')
+        if not check_password_hash(stored_password, password):
+            return render_template('login.html', error='Incorrect password. Please try again.')
 
         session['username'] = username
         return redirect(url_for('profile'))
@@ -338,6 +294,11 @@ def input_page():
         day_val = int(day)
     except (ValueError, TypeError):
         day_val = 1
+    
+    # Validate day_val is not None
+    if day_val is None:
+        day_val = 1
+    
     city_data = load_city_data()
     available_cities = list(city_data.keys())
     return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities)
@@ -361,7 +322,7 @@ def create_trip():
 
 @app.route('/generate_plan', methods=['POST'])
 def generate_plan():
-    # Read username if present; allow anonymous users to generate a plan (won't be saved)
+    # Get username from session (login required to reach this route)
     username = session.get('username')
 
     # Debug log incoming form and session keys
@@ -379,6 +340,10 @@ def generate_plan():
     try:
         day_val = int(day)
     except (ValueError, TypeError):
+        day_val = 1
+    
+    # Validate day_val is not None
+    if day_val is None:
         day_val = 1
 
     # categories sent as multiple select
@@ -403,7 +368,8 @@ def generate_plan():
         return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select no more than 3 categories')
     
     # Generate recommendations based on budget, city, and categories
-    recommendations = get_recommendations(city, budget_val, categories)
+    # Recommender will reserve $25 under budget
+    recommendations = get_recommendations_for_city(city, budget_val, categories)
 
     # Validate that the selected city exists in our database
     if city not in available_cities:
@@ -470,9 +436,9 @@ def generate_plan():
                 'image_url': activity_image_url(rec)
             })
         
-        # Calculate transport estimate (default 10-15% of budget or $5 minimum)
-        transport_cost = max(5, budget_val * 0.1)
+        # Calculate transport estimate (10% of activities cost or $5 minimum)
         total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
+        transport_cost = max(5, total_activities_cost * 0.1)
         total_cost = total_activities_cost + transport_cost
         
         # Render results immediately so user lands on results page after submitting
@@ -488,41 +454,6 @@ def generate_plan():
             chart_data=''
         )
 
-    # Anonymous (not logged in): do not save to users.json, but render results for viewing
-    session['last_trip'] = day_plan
-    session['trip_name'] = trip_name
-    session['recommendations'] = recommendations
-    session['saved'] = False
-    
-    # Convert recommendations to format for result.html
-    activities = []
-    for rec in recommendations:
-        activities.append({
-            'title': rec.get('name', ''),
-            'place': city,
-            'description': rec.get('description', ''),
-            'price': rec.get('cost', 0),
-            'food': rec.get('category', ''),
-            'image_url': activity_image_url(rec)
-        })
-    
-    # Calculate transport estimate (default 10-15% of budget or $5 minimum)
-    transport_cost = max(5, budget_val * 0.1)
-    total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
-    total_cost = total_activities_cost + transport_cost
-    
-    return render_template(
-        'result.html',
-        plan_name=', '.join(day_plan.get('categories', [])),
-        trip_name=trip_name,
-        day=day_val,
-        budget=budget_val,
-        activities=activities,
-        transport_cost=transport_cost,
-        total_cost=total_cost,
-        chart_data=''
-    )
-
 
 @app.route('/view_plan')
 def view_plan():
@@ -535,6 +466,10 @@ def view_plan():
     try:
         day_val = int(day)
     except (ValueError, TypeError):
+        day_val = 1
+    
+    # Validate day_val is not None
+    if day_val is None:
         day_val = 1
 
     if not trip_name:
@@ -556,7 +491,10 @@ def view_plan():
 
     # Get the specific day plan
     day_plan = trip.get('days', {}).get(str(day_val))
+    
+    # Validate day_plan exists before accessing it
     if not day_plan:
+        app.logger.warning(f"Day plan not found for trip {trip_name} day {day_val}")
         return redirect(url_for('profile'))
 
     # Get recommendations from the saved day plan
@@ -577,8 +515,8 @@ def view_plan():
             'image_url': activity_image_url(rec)
         })
     
-    # Calculate transport estimate (default 10-15% of budget or $5 minimum)
-    transport_cost = max(5, budget * 0.1)
+    # Calculate transport estimate ($25 reserve as promised)
+    transport_cost = 25
     total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
     total_cost = total_activities_cost + transport_cost
     
@@ -670,10 +608,17 @@ def create_forum_post():
     content = request.form.get('content', '').strip()
     city = request.form.get('city', '').strip()
     
-    if not title or not content:
-        return redirect(url_for('forum'))
+    # Validate input
+    if not title:
+        app.logger.warning(f"Forum post creation attempted without title by {username}")
+        return render_template('forum.html', posts=load_forum(), username=username, error='Post title is required')
+    
+    if not content:
+        app.logger.warning(f"Forum post creation attempted without content by {username}")
+        return render_template('forum.html', posts=load_forum(), username=username, error='Post content is required')
     
     add_forum_post(username, title, content, city)
+    app.logger.info(f"Forum post created by {username}: {title}")
     return redirect(url_for('forum'))
 
 
@@ -687,9 +632,15 @@ def reply_to_post(post_id):
     content = request.form.get('reply_content', '').strip()
     
     if not content:
-        return redirect(url_for('forum'))
+        app.logger.warning(f"Forum reply attempted without content by {username} on post {post_id}")
+        return render_template('forum.html', posts=load_forum(), username=username, error='Reply content is required')
     
-    add_reply_to_post(post_id, username, content)
+    success = add_reply_to_post(post_id, username, content)
+    if not success:
+        app.logger.error(f"Failed to add reply to post {post_id}: post not found")
+        return render_template('forum.html', posts=load_forum(), username=username, error='Post not found. Your reply could not be added.')
+    
+    app.logger.info(f"Reply added by {username} to post {post_id}")
     return redirect(url_for('forum'))
 
 

@@ -1,6 +1,6 @@
 {
   "trisha1234": {
-    "password": "hello1234",
+    "password": "scrypt:32768:8:1$PBBP7mKyCd74jp6I$05d5594ca45c5cab4ee3f4d3a319f9165f1e7bd8714e26a929b480acea5dd55ee6d8c655ffc82c50df2057baa26900f29809e8de5ba32c148eb787dbf1b98699",
     "trips": [
       {
         "day": 1,
@@ -676,6 +676,66 @@
                 "category": "Shopping",
                 "cost": 50,
                 "duration": "1-2 hours",
+                "description": "Largest and diverse shopping mall in Hong Kong with international brands",
+                "image_url": "/static/images/harbourcity.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trip_name": "testing",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Culture/History, Shopping, Sightseeing",
+            "city": "Hong Kong",
+            "budget": 200.0,
+            "categories": [
+              "Culture/History",
+              "Shopping",
+              "Sightseeing"
+            ],
+            "recommendations": [
+              {
+                "name": "Hong Kong Museum of History",
+                "category": "Culture/History",
+                "cost": 0,
+                "description": "Comprehensive museum showcasing Hong Kong's heritage. Main permenanet exhibit is free to the public. Special exhibits may have a fee.",
+                "image_url": "/static/images/historymuseum.jpg"
+              },
+              {
+                "name": "Star Ferry & Walk",
+                "category": "Culture/History",
+                "cost": 5,
+                "description": "Iconic ferry ride and waterfront promenade",
+                "image_url": "/static/images/starferry.jpg"
+              },
+              {
+                "name": "Peak Tram & Victoria Peak",
+                "category": "Sightseeing",
+                "cost": 18,
+                "description": "Cable car ride to panoramic city views",
+                "image_url": "/static/images/peaktramvictoria.jpg"
+              },
+              {
+                "name": "Ladies' Market",
+                "category": "Shopping",
+                "cost": 20,
+                "description": "Famous street market with clothing and accessories",
+                "image_url": "/static/images/ladiesmarket.jpg"
+              },
+              {
+                "name": "Victoria Harbour Sunset Cruise",
+                "category": "Sightseeing",
+                "cost": 22,
+                "description": "Scenic boat tour with views of harbor and skyline",
+                "image_url": "/static/images/victoriaharbour.jpg"
+              },
+              {
+                "name": "Harbour City Shopping",
+                "category": "Shopping",
+                "cost": 50,
                 "description": "Largest and diverse shopping mall in Hong Kong with international brands",
                 "image_url": "/static/images/harbourcity.jpg"
               }

@@ -1,22 +1,11 @@
 [
   {
     "id": 1,
-    "username": "trishah1234",
-    "title": "Testing",
-    "content": "First forum",
-    "city": "Honolulu",
-    "created_at": "2026-05-09 10:30:27",
-    "replies": [
-      {
-        "username": "trishah1234",
-        "content": "hello",
-        "created_at": "2026-05-09 10:30:33"
-      },
-      {
-        "username": "trisha1234",
-        "content": "hi",
-        "created_at": "2026-05-09 10:31:06"
-      }
-    ]
+    "username": "user1234",
+    "title": "Title",
+    "content": "Content",
+    "city": "Paris",
+    "created_at": "2026-05-11 13:40:33",
+    "replies": []
   }
 ]
