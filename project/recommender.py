@@ -7,25 +7,24 @@ from typing import Dict, List, Any, Optional
 logger = logging.getLogger(__name__)
 
 
-def filter_by_budget(places: List[Dict], budget: float, reserve: float = 25.0) -> List[Dict]:
+def filter_by_budget(places: List[Dict], budget: float) -> List[Dict]:
     """
     Filter places by budget constraint.
     
     Args:
-        places (List[Dict]): List of places with 'cost' field
-        budget (float): Total budget available
-        reserve (float): Amount to reserve (default $25)
+        places (List[Dict]): List of places with 'cost' field (individual activity costs)
+        budget (float): Total budget available for activities
         
     Returns:
-        List[Dict]: Places within budget (after reserve)
+        List[Dict]: Places with cost <= budget
         
     Example:
         places = [
             {'name': 'Cheap', 'cost': 10},
             {'name': 'Expensive', 'cost': 100}
         ]
-        filtered = filter_by_budget(places, 50)  # budget=50, reserve=25
-        # Returns places with cost <= 25
+        filtered = filter_by_budget(places, 50)  # budget=50
+        # Returns places with cost <= 50
     """
     if not places or not isinstance(places, list):
         logger.warning("filter_by_budget: Invalid places input")
@@ -35,13 +34,8 @@ def filter_by_budget(places: List[Dict], budget: float, reserve: float = 25.0) -
         logger.warning(f"filter_by_budget: Invalid budget {budget}")
         return []
     
-    max_spend = budget - reserve
-    if max_spend <= 0:
-        logger.warning(f"filter_by_budget: Budget ${budget} after reserve ${reserve} is not positive")
-        return []
-    
-    filtered = [p for p in places if isinstance(p, dict) and p.get('cost', float('inf')) <= max_spend]
-    logger.debug(f"filter_by_budget: Filtered {len(places)} places to {len(filtered)} within ${max_spend}")
+    filtered = [p for p in places if isinstance(p, dict) and p.get('cost', float('inf')) <= budget]
+    logger.debug(f"filter_by_budget: Filtered {len(places)} places to {len(filtered)} within ${budget}")
     
     return filtered
 
@@ -143,12 +137,13 @@ def get_recommendations(city: str, budget: float, categories: List[str], places:
     
     Args:
         city (str): City name
-        budget (float): Total budget
+        budget (float): Total budget for activities (actual budget, no reserves)
         categories (List[str]): Selected categories
         places (List[Dict]): Available places in city from city_data.json
+                            Each place should have 'cost' as the individual activity cost
         
     Returns:
-        List[Dict]: Top 10 recommendations from city data
+        List[Dict]: Top 10 recommendations from city data with cost <= budget
     """
     if not places:
         logger.warning(f"get_recommendations: No places available for {city}")

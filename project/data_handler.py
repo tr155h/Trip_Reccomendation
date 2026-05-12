@@ -1,4 +1,4 @@
-#Save and load JSON files
+#save and load data to json files, with validation and error handling, city data, forums, trips, and users
 import json
 import os
 import logging
