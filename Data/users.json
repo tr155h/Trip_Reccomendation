@@ -221,11 +221,6 @@
         }
       }
     ]
-  },
-  "hugrefjods2356": {
-    "password": "scrypt:32768:8:1$4DnmkuMb4t1wedWR$827b06b903ed6103891fdce6cc4e8359445e80f466cdf55ebb1c52ab629cd3d9caea1beee788d501c4dede200a01993ee39bd562ce7e3a9cfc299b851efc76df",
-    "trips": []
-  },
   "trishah1234": {
     "password": "scrypt:32768:8:1$1MjXmuyzSmprVZYx$4232932d9b43acc3b33c94321b7b50a8df06d0ab20840b2800302f58907f6187fc1a7c7ba185652a8b383a1aeec7382cfab33606e03a4961e5618975e2c570a0",
     "trips": [
@@ -306,48 +301,56 @@
           },
           "2": {
             "day": 2,
-            "name": "Paris",
+            "name": "Culture/History, Shopping, Sightseeing",
             "city": "Paris",
             "budget": 100.0,
             "categories": [
-              "Food",
-              "Culture/History"
+              "Culture/History",
+              "Shopping",
+              "Sightseeing"
             ],
             "recommendations": [
-              {
-                "name": "Caf\u00e9 au Lait & Croissant",
-                "category": "Food",
-                "cost": 6,
-                "duration": "1-2 hours",
-                "description": "Traditional French breakfast experience"
-              },
-              {
-                "name": "Street Crepes Tour",
-                "category": "Food",
-                "cost": 8,
-                "duration": "1-2 hours",
-                "description": "Explore Paris's best crepe vendors"
-              },
               {
                 "name": "Notre-Dame Cathedral",
                 "category": "Culture/History",
                 "cost": 15,
-                "duration": "1-2 hours",
-                "description": "Iconic Gothic cathedral of Paris"
+                "description": "Iconic Gothic cathedral of Paris",
+                "image_url": "/static/images/notredame.jpg"
               },
               {
                 "name": "Louvre Museum",
                 "category": "Culture/History",
                 "cost": 17,
-                "duration": "1-2 hours",
-                "description": "World's largest art museum with Mona Lisa"
+                "description": "World's largest art museum with Mona Lisa",
+                "image_url": "/static/images/louvre.jpg"
               },
               {
-                "name": "Bistro Dinner",
-                "category": "Food",
-                "cost": 35,
-                "duration": "1-2 hours",
-                "description": "Authentic French bistro with local wine"
+                "name": "Marais District Boutiques",
+                "category": "Shopping",
+                "cost": 40,
+                "description": "Vintage and contemporary fashion shops",
+                "image_url": "/static/images/marais.jpg"
+              },
+              {
+                "name": "Champs-\u00c9lys\u00e9es Shopping",
+                "category": "Shopping",
+                "cost": 60,
+                "description": "Luxury brands and designer boutiques",
+                "image_url": "/static/images/Champs-Elysees.jpg"
+              },
+              {
+                "name": "Seine River Cruise",
+                "category": "Sightseeing",
+                "cost": 19,
+                "description": "Scenic boat tour along Paris landmarks",
+                "image_url": "/static/images/Cruise.jpg"
+              },
+              {
+                "name": "Eiffel Tower Visit",
+                "category": "Sightseeing",
+                "cost": 26,
+                "description": "Climb or elevator ride to the top",
+                "image_url": "/static/images/eiffel.jpg"
               }
             ]
           }
@@ -794,6 +797,121 @@
                 "cost": 50,
                 "description": "Largest and diverse shopping mall in Hong Kong with international brands",
                 "image_url": "/static/images/harbourcity.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trip_name": "paris 2026",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Culture/History, Shopping, Sightseeing",
+            "city": "Paris",
+            "budget": 100.0,
+            "categories": [
+              "Culture/History",
+              "Shopping",
+              "Sightseeing"
+            ],
+            "recommendations": [
+              {
+                "name": "Notre-Dame Cathedral",
+                "category": "Culture/History",
+                "cost": 15,
+                "description": "Iconic Gothic cathedral of Paris",
+                "image_url": "/static/images/notredame.jpg"
+              },
+              {
+                "name": "Louvre Museum",
+                "category": "Culture/History",
+                "cost": 17,
+                "description": "World's largest art museum with Mona Lisa",
+                "image_url": "/static/images/louvre.jpg"
+              },
+              {
+                "name": "Seine River Cruise",
+                "category": "Sightseeing",
+                "cost": 19,
+                "description": "Scenic boat tour along Paris landmarks",
+                "image_url": "/static/images/Cruise.jpg"
+              },
+              {
+                "name": "Eiffel Tower Visit",
+                "category": "Sightseeing",
+                "cost": 26,
+                "description": "Climb or elevator ride to the top",
+                "image_url": "/static/images/eiffel.jpg"
+              },
+              {
+                "name": "Marais District Boutiques",
+                "category": "Shopping",
+                "cost": 40,
+                "description": "Vintage and contemporary fashion shops",
+                "image_url": "/static/images/marais.jpg"
+              },
+              {
+                "name": "Champs-\u00c9lys\u00e9es Shopping",
+                "category": "Shopping",
+                "cost": 60,
+                "description": "Luxury brands and designer boutiques",
+                "image_url": "/static/images/Champs-Elysees.jpg"
+              }
+            ]
+          },
+          "2": {
+            "day": 2,
+            "name": "Food, Shopping, Sightseeing",
+            "city": "Phuket",
+            "budget": 200.0,
+            "categories": [
+              "Food",
+              "Shopping",
+              "Sightseeing"
+            ],
+            "recommendations": [
+              {
+                "name": "Promthep Cape Sunset",
+                "category": "Sightseeing",
+                "cost": 0,
+                "description": "Popular viewpoint for sunset over the Andaman Sea",
+                "image_url": "/static/images/promthep.jpg"
+              },
+              {
+                "name": "Phuket Weekend Night Market",
+                "category": "Food",
+                "cost": 8,
+                "description": "Bustling market with Thai street food, desserts, and snacks",
+                "image_url": "/static/images/phuket.jpg"
+              },
+              {
+                "name": "Beachfront Seafood Dinner",
+                "category": "Food",
+                "cost": 22,
+                "description": "Fresh grilled seafood served by the beach",
+                "image_url": "/static/images/seafood.jpg"
+              },
+              {
+                "name": "Thai Cooking Class",
+                "category": "Food",
+                "cost": 35,
+                "description": "Hands-on class making curry, noodles, and local Thai dishes",
+                "image_url": "/static/images/thaicook.jpg"
+              },
+              {
+                "name": "Jungceylon Shopping Center",
+                "category": "Shopping",
+                "cost": 40,
+                "description": "Large mall with fashion, dining, electronics, and entertainment",
+                "image_url": "/static/images/jungceylon.jpg"
+              },
+              {
+                "name": "Phi Phi Islands Day Trip",
+                "category": "Sightseeing",
+                "cost": 55,
+                "description": "Boat tour to clear water beaches, cliffs, and snorkeling spots",
+                "image_url": "/static/images/phi_phi.jpg"
               }
             ]
           }

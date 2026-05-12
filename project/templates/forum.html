@@ -543,6 +543,15 @@
             placeholder="Search by title or content..." 
             value="{{ request.args.get('search', '') }}"
           >
+          <select name="city" class="search-input" style="min-width: 150px;">
+            <option value="">Filter by city...</option>
+            <option value="Paris" {% if request.args.get('city') == 'Paris' %}selected{% endif %}>Paris</option>
+            <option value="Tokyo" {% if request.args.get('city') == 'Tokyo' %}selected{% endif %}>Tokyo</option>
+            <option value="New York" {% if request.args.get('city') == 'New York' %}selected{% endif %}>New York</option>
+            <option value="Barcelona" {% if request.args.get('city') == 'Barcelona' %}selected{% endif %}>Barcelona</option>
+            <option value="Rome" {% if request.args.get('city') == 'Rome' %}selected{% endif %}>Rome</option>
+            <option value="London" {% if request.args.get('city') == 'London' %}selected{% endif %}>London</option>
+          </select>
           <button type="submit" class="search-btn">Search</button>
           {% if request.args.get('search') or request.args.get('city') %}
           <a href="{{ url_for('forum') }}" class="clear-btn">Clear Filters</a>

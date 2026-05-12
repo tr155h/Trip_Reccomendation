@@ -8,24 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 def filter_by_budget(places: List[Dict], budget: float) -> List[Dict]:
-    """
-    Filter places by budget constraint.
-    
-    Args:
-        places (List[Dict]): List of places with 'cost' field (individual activity costs)
-        budget (float): Total budget available for activities
-        
-    Returns:
-        List[Dict]: Places with cost <= budget
-        
-    Example:
-        places = [
-            {'name': 'Cheap', 'cost': 10},
-            {'name': 'Expensive', 'cost': 100}
-        ]
-        filtered = filter_by_budget(places, 50)  # budget=50
-        # Returns places with cost <= 50
-    """
     if not places or not isinstance(places, list):
         logger.warning("filter_by_budget: Invalid places input")
         return []
@@ -161,8 +143,14 @@ def get_recommendations(city: str, budget: float, categories: List[str], places:
         logger.warning(f"get_recommendations: No places within budget ${budget}")
         return []
     
-    # Rank and return top 10
-    recommendations = rank_recommendations(by_budget, sort_by='cost', limit=10)
+    # Rank by cost and get top 10 per category
+    recommendations = []
+    for category in categories:
+        category_places = [p for p in by_budget if p.get('category', '') == category]
+        if category_places:
+            top_10_for_category = rank_recommendations(category_places, sort_by='cost', limit=10)
+            recommendations.extend(top_10_for_category)
+    
     logger.info(f"get_recommendations: Generated {len(recommendations)} recommendations for {city}")
     
     return recommendations

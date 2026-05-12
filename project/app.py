@@ -1,10 +1,9 @@
 #Main Flask app, routes and logic for the web application
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-import json
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from data_handler import load_json_file_safe, save_json_file
+from data_handler import load_json_file, save_json_file
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_secret_key')
@@ -16,12 +15,8 @@ FORUM_FILE = os.path.join(os.path.dirname(__file__), '../Data/forum.json')
 
 def load_users():
     """Load users from JSON file"""
-    if os.path.exists(USERS_FILE):
-        with open(USERS_FILE, 'r', encoding='utf-8') as f:
-            content = f.read().strip()
-            if content:
-                return json.loads(content)
-    return {}
+    data = load_json_file(USERS_FILE)
+    return data if isinstance(data, dict) else {}
 
 
 def load_user(username):
@@ -45,8 +40,7 @@ def load_user(username):
 
 def save_users(users):
     """Save users to JSON file"""
-    with open(USERS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(users, f, indent=2)
+    save_json_file(USERS_FILE, users)
 
 
 def username_exists(username):
@@ -69,19 +63,12 @@ def is_valid_password(password):
 
 def load_city_data():
     """Load city data from JSON file"""
-    if os.path.exists(CITY_DATA_FILE):
-        try:
-            with open(CITY_DATA_FILE, 'r', encoding='utf-8') as f:
-                content = f.read().strip()
-                if content:
-                    return json.loads(content)
-        except (json.JSONDecodeError, IOError) as e:
-            app.logger.error(f"Failed to load city data: {e}")
-    return {}
+    data = load_json_file(CITY_DATA_FILE)
+    return data if isinstance(data, dict) else {}
 
 
 def activity_image_url(rec):
-    """Use the saved static image path, or fall back to a simple placeholder."""
+    """Use the saved static image path"""
     if rec.get('image_url'):
         return rec.get('image_url')
 
@@ -104,45 +91,18 @@ def format_recommendations_to_activities(recommendations: list, city: str) -> li
 
 def save_city_data(city_data):
     """Save city data to JSON file"""
-    with open(CITY_DATA_FILE, 'w', encoding='utf-8') as f:
-        json.dump(city_data, f, indent=2)
+    save_json_file(CITY_DATA_FILE, city_data)
 
-def add_city_to_database(city_name):
-    """Add a new city to city_data.json if it doesn't exist"""
-    city_data = load_city_data()
-    city_name_lower = city_name.lower()
-    
-    # Check if city already exists (case-insensitive)
-    for existing_city in city_data.keys():
-        if existing_city.lower() == city_name_lower:
-            return True
-    
-    # Add new city with empty places list
-    city_data[city_name] = {
-        'name': city_name,
-        'places': [],
-        'categories': []
-    }
-    save_city_data(city_data)
-    return True
 
 #forums
 def load_forum():
     """Load forum posts from JSON file"""
-    if os.path.exists(FORUM_FILE):
-        try:
-            with open(FORUM_FILE, 'r', encoding='utf-8') as f:
-                content = f.read().strip()
-                if content:
-                    return json.loads(content)
-        except (json.JSONDecodeError, IOError) as e:
-            app.logger.error(f"Failed to load forum data: {e}")
-    return []
+    data = load_json_file(FORUM_FILE)
+    return data if isinstance(data, list) else []
 
 def save_forum(posts):
     """Save forum posts to JSON file"""
-    with open(FORUM_FILE, 'w', encoding='utf-8') as f:
-        json.dump(posts, f, indent=2)
+    save_json_file(FORUM_FILE, posts)
 
 def add_forum_post(username, title, content, city=None):
     """Add a new forum post"""
@@ -176,7 +136,6 @@ def add_reply_to_post(post_id, username, content):
     
     # Post not found
     app.logger.warning(f"Forum post {post_id} not found when adding reply")
-    return False
     return False
 
 #reccomendations
@@ -399,61 +358,53 @@ def generate_plan():
         'recommendations': recommendations
     }
 
-    # If user is logged in, save day plan to their account
-    if username:
-        users = load_users()
-        user = users.get(username)
-        if user is None:
-            # If user disappeared, fall back to anonymous flow
-            session['last_trip'] = day_plan
-            session['saved'] = False
-            return redirect(url_for('results'))
+    # Save day plan to user account
+    users = load_users()
+    user = users.get(username)
+    user = user if isinstance(user, dict) else {'password': user, 'trips': []}
+    user.setdefault('trips', [])
 
-        user = user if isinstance(user, dict) else {'password': user, 'trips': []}
-        user.setdefault('trips', [])
+    # Find or create the trip with this trip_name
+    trip = None
+    for t in user['trips']:
+        if t.get('trip_name') == trip_name:
+            trip = t
+            break
+    
+    if trip is None:
+        # Create new trip
+        trip = {
+            'trip_name': trip_name,
+            'days': {}
+        }
+        user['trips'].append(trip)
+    
+    # Add or replace the day plan
+    trip['days'][str(day_val)] = day_plan
+    #stores for session 
+    users[username] = user
+    save_users(users)
+    session['last_trip'] = day_plan
+    session['trip_name'] = trip_name
+    session['recommendations'] = recommendations
 
-        # Find or create the trip with this trip_name
-        trip = None
-        for t in user['trips']:
-            if t.get('trip_name') == trip_name:
-                trip = t
-                break
-        
-        if trip is None:
-            # Create new trip
-            trip = {
-                'trip_name': trip_name,
-                'days': {}
-            }
-            user['trips'].append(trip)
-        
-        # Add or replace the day plan
-        trip['days'][str(day_val)] = day_plan
-
-        users[username] = user
-        save_users(users)
-        session['last_trip'] = day_plan
-        session['trip_name'] = trip_name
-        session['recommendations'] = recommendations
-        session['saved'] = True
-
-        # Convert recommendations to format for result.html
-        activities = format_recommendations_to_activities(recommendations, city)
-        
-        # Calculate total activities cost
-        total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
-        
-        # Render results immediately so user lands on results page after submitting
-        return render_template(
-            'result.html',
-            plan_name=categories_str,
-            trip_name=trip_name,
-            day=day_val,
-            budget=budget_val,
-            activities=activities,
-            total_cost=total_activities_cost,
-            chart_data=''
-        )
+    # Convert recommendations to format for result.html
+    activities = format_recommendations_to_activities(recommendations, city)
+    
+    # Calculate total activities cost
+    total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
+    
+    # Render results immediately so user lands on results page after submitting
+    return render_template(
+        'result.html',
+        plan_name=categories_str,
+        trip_name=trip_name,
+        day=day_val,
+        budget=budget_val,
+        activities=activities,
+        total_cost=total_activities_cost,
+        chart_data=''
+    )
 
 
 @app.route('/view_plan')

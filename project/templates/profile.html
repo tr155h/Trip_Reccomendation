@@ -226,9 +226,9 @@
     <div class="navbar-brand">PlanMyTrip</div>
     <div class="navbar-links">
       <span class="navbar-user">{{ username }}</span>
-      <a href="{{ url_for('profile') }}" class="navbar-link">Profile</a> #adds link to profile
-      <a href="{{ url_for('forum') }}" class="navbar-link forum">Forum</a>#adds link to forum
-      <a href="{{ url_for('logout') }}" class="navbar-link">Logout</a>#adds link to logout
+      <a href="{{ url_for('profile') }}" class="navbar-link">Profile</a>
+      <a href="{{ url_for('forum') }}" class="navbar-link forum">Forum</a>
+      <a href="{{ url_for('logout') }}" class="navbar-link">Logout</a>
     </div>
   </div>
   
@@ -237,7 +237,7 @@
     <div class="header">
       <div>
         <h1>Welcome, {{ username }}!</h1>
-        <p class="subtitle">Choose from planned trips or create a new one.</p> #
+        <p class="subtitle">Choose from planned trips or create a new one.</p>
       </div>
       <div>
         <a class="create-button create-link" href="{{ url_for('create_trip') }}">+ Create new trip</a>
