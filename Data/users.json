@@ -124,10 +124,11 @@
         "days": {
           "1": {
             "day": 1,
-            "name": "gyufweiu",
+            "name": "Food, Culture/History, Shopping",
             "city": "Tokyo",
-            "budget": 100.0,
+            "budget": 220.0,
             "categories": [
+              "Food",
               "Culture/History",
               "Shopping"
             ],
@@ -136,29 +137,77 @@
                 "name": "Senso-ji Temple",
                 "category": "Culture/History",
                 "cost": 0,
-                "duration": "1-2 hours",
-                "description": "Ancient Buddhist temple in Asakusa"
+                "description": "Ancient Buddhist temple in Asakusa",
+                "image_url": "/static/images/senso-ji_temple.jpg"
+              },
+              {
+                "name": "Ramen Yokocho",
+                "category": "Food",
+                "cost": 9,
+                "description": "Authentic ramen alley with local favorites",
+                "image_url": "/static/images/ramen_yokocho.jpg"
+              },
+              {
+                "name": "Tsukiji Outer Market",
+                "category": "Food",
+                "cost": 10,
+                "description": "Fresh sushi and seafood market in central Tokyo",
+                "image_url": "/static/images/Tsukiji.jpg"
               },
               {
                 "name": "Tokyo National Museum",
                 "category": "Culture/History",
                 "cost": 14,
-                "duration": "1-2 hours",
-                "description": "Japan's largest museum with historical artifacts"
+                "description": "Japan's largest museum with historical artifacts",
+                "image_url": "/static/images/national_museum.jpg"
+              },
+              {
+                "name": "Izakaya Hopping",
+                "category": "Food",
+                "cost": 18,
+                "description": "Traditional Japanese pub crawl experience",
+                "image_url": "/static/images/izakaya.jpg"
               },
               {
                 "name": "Akihabara Electronics Market",
                 "category": "Shopping",
                 "cost": 25,
-                "duration": "1-2 hours",
-                "description": "Tech gadgets and anime merchandise"
+                "description": "Tech gadgets and anime merchandise",
+                "image_url": "/static/images/akihabara.jpg"
               },
               {
                 "name": "Shibuya Shopping District",
                 "category": "Shopping",
                 "cost": 30,
-                "duration": "1-2 hours",
-                "description": "High-end fashion and electronics shopping"
+                "description": "High-end fashion and electronics shopping",
+                "image_url": "/static/images/shibuya.jpg"
+              }
+            ]
+          },
+          "2": {
+            "day": 2,
+            "name": "Culture/History, Shopping, Sightseeing",
+            "city": "New York",
+            "budget": 50.0,
+            "categories": [
+              "Culture/History",
+              "Shopping",
+              "Sightseeing"
+            ],
+            "recommendations": [
+              {
+                "name": "Times Square Experience",
+                "category": "Sightseeing",
+                "cost": 0,
+                "description": "Walk through world-famous intersection",
+                "image_url": "/static/images/timesquare.jpg"
+              },
+              {
+                "name": "Metropolitan Museum of Art",
+                "category": "Culture/History",
+                "cost": 25,
+                "description": "Vast collection of world art and history",
+                "image_url": "/static/images/mep.jpg"
               }
             ]
           }
