@@ -186,28 +186,35 @@
           },
           "2": {
             "day": 2,
-            "name": "Culture/History, Shopping, Sightseeing",
-            "city": "New York",
+            "name": "Food, Culture/History, Shopping",
+            "city": "Barcelona",
             "budget": 50.0,
             "categories": [
+              "Food",
               "Culture/History",
-              "Shopping",
-              "Sightseeing"
+              "Shopping"
             ],
             "recommendations": [
               {
-                "name": "Times Square Experience",
-                "category": "Sightseeing",
-                "cost": 0,
-                "description": "Walk through world-famous intersection",
-                "image_url": "/static/images/timesquare.jpg"
+                "name": "Picasso Museum",
+                "category": "Culture/History",
+                "cost": 14,
+                "description": "Museum focused on Picasso's early work and artistic development",
+                "image_url": "/static/images/picasso.jpeg"
               },
               {
-                "name": "Metropolitan Museum of Art",
-                "category": "Culture/History",
-                "cost": 25,
-                "description": "Vast collection of world art and history",
-                "image_url": "/static/images/mep.jpg"
+                "name": "La Boqueria Market",
+                "category": "Food",
+                "cost": 16,
+                "description": "Famous food market with tapas, seafood, fruit, and local snacks",
+                "image_url": "/static/images/laboqueria.jpg"
+              },
+              {
+                "name": "Gothic Quarter Tapas",
+                "category": "Food",
+                "cost": 20,
+                "description": "Tapas crawl through narrow historic streets",
+                "image_url": "/static/images/gothic.jpg"
               }
             ]
           }

@@ -559,14 +559,14 @@
         "category": "Shopping",
         "cost": 60,
         "description": "Major shopping street with department stores and fashion brands",
-        "image_url": "/static/images/oxford_street_shopping.jpg"
+        "image_url": "/static/images/oxford_street_shopping.jpeg"
       },
       {
         "name": "Camden Market",
         "category": "Shopping",
         "cost": 30,
         "description": "Alternative fashion, crafts, street food, and vintage stalls",
-        "image_url": "/static/images/camden_market.jpg"
+        "image_url": "/static/images/camden_market.jpeg"
       },
       {
         "name": "Tower of London",
@@ -690,7 +690,7 @@
         "category": "Food",
         "cost": 20,
         "description": "Gourmet market with Spanish bites, seafood, and wine",
-        "image_url": "/static/images/mercardo_de_san_miguel.jpg"
+        "image_url": "/static/images/mercardo_de_san_miguel.jpeg"
       },
       {
         "name": "Gran Via Shopping",
@@ -718,7 +718,7 @@
         "category": "Culture/History",
         "cost": 14,
         "description": "Grand palace with royal rooms, armory, and historic courtyards",
-        "image_url": "/static/images/royal_palace_madrid.jpg"
+        "image_url": "/static/images/royal_palace_madrid.jpeg"
       },
       {
         "name": "Retiro Park Walk",
@@ -745,7 +745,7 @@
         "category": "Food",
         "cost": 15,
         "description": "Classic Brazilian black bean stew served with rice and sides",
-        "image_url": "/static/images/feijoada_lunch.jpg"
+        "image_url": "/static/images/feijoada_lunch.jpeg"
       },
       {
         "name": "Churrascaria Dinner",
@@ -759,7 +759,7 @@
         "category": "Food",
         "cost": 7,
         "description": "Refreshing acai bowl topped with fruit and granola",
-        "image_url": "/static/images/acai_bowl.jpg"
+        "image_url": "/static/images/acai_bowl.jpeg"
       },
       {
         "name": "Ipanema Market",
@@ -980,7 +980,7 @@
         "category": "Culture/History",
         "cost": 14,
         "description": "Museum focused on Picasso's early work and artistic development",
-        "image_url": "/static/images/picasso.jpg"
+        "image_url": "/static/images/picasso.jpeg"
       },
       {
         "name": "Park Guell",
@@ -1007,7 +1007,7 @@
         "category": "Food",
         "cost": 14,
         "description": "Sample specialty coffee and brunch spots in central laneways",
-        "image_url": "/static/images/laneway.jpg"
+        "image_url": "/static/images/laneway.jpeg"
       },
       {
         "name": "South Melbourne Market Bites",
@@ -1083,7 +1083,7 @@
         "category": "Food",
         "cost": 30,
         "description": "Shared meal of many small Indonesian dishes popular in Amsterdam",
-        "image_url": "/static/images/rijsttafel.jpg"
+        "image_url": "/static/images/rijsttafel.jpeg"
       },
       {
         "name": "Albert Cuyp Market",
