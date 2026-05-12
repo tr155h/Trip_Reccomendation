@@ -124,13 +124,13 @@
           <label><input type="checkbox" name="category" value="Sightseeing"> Sightseeing</label>
         </div>
 
-        <p class="hint">Select up to 3 categories.</p>
+        <p class="hint">Select up to 3 categories.</p> #this line adds a hint below the category checkboxes to inform users that they can select up to 3 categories. This is important because the form validation will enforce this limit, and we want to make sure users understand it before they submit the form.
 
         <button type="submit">Generate Plan</button>
       </form>
 
       {% if error %}
-        <p class="message">{{ error }}</p>
+        <p class="message">{{ error }}</p> 
       {% endif %}
       {% if success %}
         <p class="message">{{ success }}</p>
@@ -161,7 +161,7 @@
           alert('Please select at least one category.');
         } else if (count > 3) {
           e.preventDefault();
-          alert('Please select no more than 3 categories.');
+          alert('Please select no more than 3 categories.'); 
         }
       });
     })();

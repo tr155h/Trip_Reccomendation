@@ -97,7 +97,7 @@
           type="text"
           placeholder="yourname1234"
           required
-          pattern=".*\d{4}$"
+          pattern=".*\d{4}$" #this line ensures the username ends with 4 digits. If the user tries to submit a username that doesn't match this pattern, the form will not submit and will show a validation error.
           title="Your username should end with 4 digits"
           value="{{ username or '' }}"
         />
@@ -106,7 +106,7 @@
         <input
           id="password"
           name="password"
-          type="password"
+          type="password"#this line ensures the password input is of type password, which means the characters will be hidden as the user types.
           placeholder="Enter your password"
           required
         />
