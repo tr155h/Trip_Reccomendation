@@ -251,7 +251,7 @@
         {% for activity in activities %}
         <div class="card" data-price="{{ activity.price }}" data-activity-id="{{ loop.index0 }}">
           <button class="remove-btn" type="button" onclick="removeActivity({{ loop.index0 }})" title="Remove this activity">×</button>
-          <img src="{{ url_for('static', filename='images/' + activity.image_url.split('/')[-1]) }}" alt="{{ activity.title }}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{{ activity.title[:15] }}%3C/text%3E%3C/svg%3E'" />
+          <img src="{{ url_for('static', filename='images/' ~ (activity.image_url|default('', true)).split('/')[-1]) }}" alt="{{ activity.title }}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage unavailable%3C/text%3E%3C/svg%3E'" />
           <div class="card-body">
             <h3>{{ activity.title }}</h3>
             <p><strong>Place:</strong> {{ activity.place }}</p>
@@ -287,7 +287,7 @@
 
   <script>
     const totalCostElement = document.getElementById('estimatedTotal');
-    const budgetAmount = {{ budget|default(100) }};
+    const budgetAmount = {{ budget|default(100, true)|tojson }};
     let chartInstance = null;
 
     // Initialize the chart
