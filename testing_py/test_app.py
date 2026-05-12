@@ -7,7 +7,6 @@ import unittest
 import json
 import os
 import sys
-from datetime import datetime
 from unittest.mock import patch, MagicMock
 
 # Import the functions we want to test

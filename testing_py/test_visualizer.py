@@ -6,8 +6,7 @@ Tests visualization functions for budget charts and cost breakdown
 import unittest
 from visualizer import (
     generate_budget_chart,
-    generate_cost_breakdown_chart,
-    generate_chart_image
+    generate_cost_breakdown_chart
 )
 
 
@@ -16,89 +15,89 @@ class TestGenerateBudgetChart(unittest.TestCase):
     
     def test_valid_budget_chart(self):
         """Test generating chart with valid inputs"""
-        result = generate_budget_chart(budget=100, activities_cost=60, transport_cost=10)
+        result = generate_budget_chart(budget=100, activities_cost=60)
         
         self.assertEqual(result['budget'], 100)
         self.assertEqual(result['activities_cost'], 60)
-        self.assertEqual(result['transport_cost'], 10)
-        self.assertEqual(result['total_planned'], 70)
-        self.assertEqual(result['remaining'], 30)
+        self.assertEqual(result['total_planned'], 60)
+        self.assertEqual(result['remaining'], 40)
         self.assertFalse(result['is_over_budget'])
         self.assertEqual(result['chart_type'], 'bar')
     
     def test_budget_chart_over_budget(self):
         """Test chart when planned cost exceeds budget"""
-        result = generate_budget_chart(budget=100, activities_cost=80, transport_cost=30)
+        result = generate_budget_chart(budget=100, activities_cost=120)
         
-        self.assertEqual(result['total_planned'], 110)
+        self.assertEqual(result['total_planned'], 120)
         self.assertTrue(result['is_over_budget'])
-        self.assertEqual(result['remaining'], -10)  # Shows negative overage
+        self.assertEqual(result['remaining'], -20)  # Shows negative overage
     
     def test_budget_chart_zero_budget(self):
         """Test chart with zero budget"""
-        result = generate_budget_chart(budget=0, activities_cost=0, transport_cost=0)
+        result = generate_budget_chart(budget=0, activities_cost=0)
         
         self.assertEqual(result['budget'], 0)
         self.assertEqual(result['total_planned'], 0)
         self.assertEqual(result['remaining'], 0)
     
     def test_budget_chart_only_activities(self):
-        """Test chart with only activity costs, no transport"""
-        result = generate_budget_chart(budget=50, activities_cost=40, transport_cost=0)
+        """Test chart with only activity costs"""
+        result = generate_budget_chart(budget=50, activities_cost=40)
         
         self.assertEqual(result['total_planned'], 40)
         self.assertEqual(result['remaining'], 10)
         self.assertFalse(result['is_over_budget'])
     
-    def test_budget_chart_only_transport(self):
-        """Test chart with only transport costs, no activities"""
-        result = generate_budget_chart(budget=50, activities_cost=0, transport_cost=10)
+    def test_budget_chart_exact_match(self):
+        """Test chart when activities match budget exactly"""
+        result = generate_budget_chart(budget=50, activities_cost=50)
         
-        self.assertEqual(result['total_planned'], 10)
-        self.assertEqual(result['remaining'], 40)
+        self.assertEqual(result['total_planned'], 50)
+        self.assertEqual(result['remaining'], 0)
         self.assertFalse(result['is_over_budget'])
     
     def test_budget_chart_negative_budget(self):
         """Test chart with negative budget"""
-        result = generate_budget_chart(budget=-100, activities_cost=50, transport_cost=10)
+        result = generate_budget_chart(budget=-100, activities_cost=50)
         
         self.assertIn('error', result)
         self.assertEqual(result['budget'], 0)
     
     def test_budget_chart_negative_activities(self):
         """Test chart with negative activity cost"""
-        result = generate_budget_chart(budget=100, activities_cost=-50, transport_cost=10)
+        result = generate_budget_chart(budget=100, activities_cost=-50)
         
         self.assertIn('error', result)
     
-    def test_budget_chart_negative_transport(self):
-        """Test chart with negative transport cost"""
-        result = generate_budget_chart(budget=100, activities_cost=50, transport_cost=-10)
+    def test_budget_chart_large_activity(self):
+        """Test chart with large activity cost"""
+        result = generate_budget_chart(budget=100, activities_cost=150)
         
-        self.assertIn('error', result)
+        self.assertEqual(result['total_planned'], 150)
+        self.assertTrue(result['is_over_budget'])
+        self.assertEqual(result['remaining'], -50)
     
     def test_budget_chart_decimal_values(self):
         """Test chart with decimal values"""
-        result = generate_budget_chart(budget=99.99, activities_cost=45.50, transport_cost=12.25)
+        result = generate_budget_chart(budget=99.99, activities_cost=45.50)
         
         self.assertEqual(result['budget'], 99.99)
         self.assertEqual(result['activities_cost'], 45.50)
-        self.assertEqual(result['transport_cost'], 12.25)
-        self.assertEqual(result['total_planned'], 57.75)
+        self.assertEqual(result['total_planned'], 45.50)
     
     def test_budget_chart_large_values(self):
         """Test chart with large budget values"""
-        result = generate_budget_chart(budget=10000, activities_cost=5000, transport_cost=1000)
+        result = generate_budget_chart(budget=10000, activities_cost=5000)
         
         self.assertEqual(result['budget'], 10000)
-        self.assertEqual(result['total_planned'], 6000)
-        self.assertEqual(result['remaining'], 4000)
+        self.assertEqual(result['total_planned'], 5000)
+        self.assertEqual(result['remaining'], 5000)
     
     def test_budget_chart_structure(self):
         """Test that all required keys are present"""
-        result = generate_budget_chart(budget=100, activities_cost=60, transport_cost=10)
+        result = generate_budget_chart(budget=100, activities_cost=60)
         
-        required_keys = ['budget', 'activities_cost', 'transport_cost', 'total_planned',
+        required_keys = ['budget', 'activities_cost', 'total_planned',
                         'remaining', 'is_over_budget', 'chart_type', 'labels', 'data', 'colors']
         for key in required_keys:
             self.assertIn(key, result, f"Missing key: {key}")
@@ -251,84 +250,16 @@ class TestGenerateCostBreakdownChart(unittest.TestCase):
             self.assertGreater(len(color), 0)
 
 
-class TestGenerateChartImage(unittest.TestCase):
-    """Test generate_chart_image function"""
-    
-    def test_bar_chart_image(self):
-        """Test generating bar chart image"""
-        result = generate_chart_image(
-            chart_type='bar',
-            labels=['A', 'B', 'C'],
-            data=[10, 20, 15],
-            title='Test Chart'
-        )
-        
-        # Should return base64 string or empty string if matplotlib not available
-        self.assertIsInstance(result, str)
-    
-    def test_pie_chart_image(self):
-        """Test generating pie chart image"""
-        result = generate_chart_image(
-            chart_type='pie',
-            labels=['Category 1', 'Category 2'],
-            data=[60, 40]
-        )
-        
-        self.assertIsInstance(result, str)
-    
-    def test_line_chart_image(self):
-        """Test generating line chart image"""
-        result = generate_chart_image(
-            chart_type='line',
-            labels=['Day 1', 'Day 2', 'Day 3'],
-            data=[50, 60, 55]
-        )
-        
-        self.assertIsInstance(result, str)
-    
-    def test_chart_image_empty_labels(self):
-        """Test chart image with empty labels"""
-        result = generate_chart_image(
-            chart_type='bar',
-            labels=[],
-            data=[10, 20]
-        )
-        
-        self.assertEqual(result, '')
-    
-    def test_chart_image_empty_data(self):
-        """Test chart image with empty data"""
-        result = generate_chart_image(
-            chart_type='bar',
-            labels=['A', 'B'],
-            data=[]
-        )
-        
-        self.assertEqual(result, '')
-    
-    def test_chart_image_with_colors(self):
-        """Test chart image with custom colors"""
-        colors = ['red', 'blue', 'green']
-        result = generate_chart_image(
-            chart_type='bar',
-            labels=['A', 'B', 'C'],
-            data=[10, 20, 30],
-            colors=colors
-        )
-        
-        self.assertIsInstance(result, str)
-
-
 class TestIntegration(unittest.TestCase):
     """Integration tests for visualization functions"""
     
     def test_complete_budget_workflow(self):
         """Test complete budget visualization workflow"""
         # Generate budget chart
-        budget_chart = generate_budget_chart(100, 70, 15)
+        budget_chart = generate_budget_chart(100, 70)
         
         self.assertFalse(budget_chart['is_over_budget'])
-        self.assertEqual(budget_chart['remaining'], 15)
+        self.assertEqual(budget_chart['remaining'], 30)
         
         # Verify chart has valid structure
         self.assertGreater(len(budget_chart['data']), 0)
@@ -360,10 +291,9 @@ class TestIntegration(unittest.TestCase):
         
         # Calculate totals
         activities_total = sum(a['price'] for a in activities)
-        transport = 10
         
         # Generate charts
-        budget_chart = generate_budget_chart(total_budget, activities_total, transport)
+        budget_chart = generate_budget_chart(total_budget, activities_total)
         breakdown_chart = generate_cost_breakdown_chart(activities)
         
         # Verify consistency

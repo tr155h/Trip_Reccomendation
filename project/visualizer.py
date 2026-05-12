@@ -5,48 +5,34 @@ Generates chart data for trip recommendations and budget planning
 
 import json
 import logging
-from io import BytesIO
-import base64
-from typing import Dict, List, Tuple
-
-# Try to import matplotlib, fallback if not available
-try:
-    import matplotlib.pyplot as plt
-    import matplotlib
-    matplotlib.use('Agg')  # Use non-interactive backend
-    MATPLOTLIB_AVAILABLE = True
-except ImportError:
-    MATPLOTLIB_AVAILABLE = False
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
 
-def generate_budget_chart(budget: float, activities_cost: float, 
-                         transport_cost: float = 0) -> Dict:
+def generate_budget_chart(budget: float, activities_cost: float) -> Dict:
     """
     Generate budget comparison chart data.
     
-    Shows the relationship between total budget and planned spending
-    (activities + transport).
+    Shows the relationship between total budget and planned spending on activities.
     
     Args:
         budget (float): Total budget allocated
         activities_cost (float): Total cost of planned activities
-        transport_cost (float): Cost of transport (default: 0)
         
     Returns:
         Dict: Chart data with labels, values, and chart type for rendering
         
     Example:
-        >>> chart = generate_budget_chart(100, 60, 10)
+        >>> chart = generate_budget_chart(100, 60)
         >>> chart['total_planned']
-        70
+        60
         >>> chart['remaining']
-        30
+        40
     """
-    if budget < 0 or activities_cost < 0 or transport_cost < 0:
+    if budget < 0 or activities_cost < 0:
         logger.warning(f"generate_budget_chart: Invalid values - "
-                      f"budget={budget}, activities={activities_cost}, transport={transport_cost}")
+                      f"budget={budget}, activities={activities_cost}")
         return {
             'error': 'Invalid budget values',
             'budget': 0,
@@ -56,24 +42,22 @@ def generate_budget_chart(budget: float, activities_cost: float,
             'chart_type': 'bar'
         }
     
-    total_planned = activities_cost + transport_cost
+    total_planned = activities_cost
     remaining = budget - total_planned
     is_over_budget = remaining < 0
     
     chart_data = {
         'budget': round(budget, 2),
         'activities_cost': round(activities_cost, 2),
-        'transport_cost': round(transport_cost, 2),
         'total_planned': round(total_planned, 2),
         'remaining': round(remaining, 2),
         'is_over_budget': is_over_budget,
         'chart_type': 'bar',
-        'labels': ['Budget', 'Activities', 'Transport'],
-        'data': [budget, activities_cost, transport_cost],
+        'labels': ['Budget', 'Activities'],
+        'data': [budget, activities_cost],
         'colors': [
             'rgba(76, 175, 80, 0.8)',  # Green for budget
-            'rgba(255, 152, 0, 0.8)',  # Orange for activities
-            'rgba(33, 150, 243, 0.8)'  # Blue for transport
+            'rgba(255, 152, 0, 0.8)'   # Orange for activities
         ]
     }
     
@@ -183,59 +167,3 @@ def generate_cost_breakdown_chart(activities: List[Dict]) -> Dict:
                f"total=${total_cost}, categories={len(labels)}")
     
     return chart_data
-
-
-def generate_chart_image(chart_type: str, labels: List[str], data: List[float],
-                        title: str = '', colors: List[str] = None) -> str:
-    """
-    Generate a matplotlib chart image and return as base64 encoded string.
-    
-    Args:
-        chart_type (str): Type of chart ('bar', 'pie', 'line')
-        labels (List[str]): Chart labels
-        data (List[float]): Data values
-        title (str): Chart title
-        colors (List[str]): Color list for bars/slices
-        
-    Returns:
-        str: Base64 encoded image string, or empty string if matplotlib unavailable
-    """
-    if not MATPLOTLIB_AVAILABLE:
-        logger.warning("generate_chart_image: Matplotlib not available")
-        return ''
-    
-    if not labels or not data:
-        logger.warning("generate_chart_image: No labels or data provided")
-        return ''
-    
-    try:
-        fig, ax = plt.subplots(figsize=(8, 5))
-        
-        if chart_type == 'bar':
-            ax.bar(labels, data, color=colors or 'steelblue', edgecolor='black', linewidth=1.5)
-            ax.set_ylabel('Cost ($)')
-            ax.set_title(title or 'Budget Comparison')
-        elif chart_type == 'pie':
-            ax.pie(data, labels=labels, colors=colors, autopct='%1.1f%%',
-                  startangle=90, textprops={'fontsize': 10})
-            ax.set_title(title or 'Cost Breakdown')
-        else:
-            ax.plot(labels, data, marker='o', linewidth=2, markersize=8)
-            ax.set_title(title or 'Cost Trend')
-        
-        # Save to BytesIO buffer
-        buffer = BytesIO()
-        plt.tight_layout()
-        plt.savefig(buffer, format='png', dpi=100, bbox_inches='tight')
-        buffer.seek(0)
-        
-        # Convert to base64
-        image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-        plt.close(fig)
-        
-        logger.info(f"generate_chart_image: Generated {chart_type} chart")
-        return f"data:image/png;base64,{image_base64}"
-        
-    except Exception as e:
-        logger.error(f"generate_chart_image: Failed to generate chart: {e}")
-        return ''

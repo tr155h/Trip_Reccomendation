@@ -88,6 +88,20 @@ def activity_image_url(rec):
     title = rec.get('name', '')[:20]
     return 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22170%22%3E%3Crect fill=%22%234b79a1%22 width=%22260%22 height=%22170%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2220%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E{title}%3C/text%3E%3C/svg%3E'.format(title=title)
 
+def format_recommendations_to_activities(recommendations: list, city: str) -> list:
+    """Convert recommendations to activity format for templates."""
+    activities = []
+    for rec in recommendations:
+        activities.append({
+            'title': rec.get('name', ''),
+            'place': city,
+            'description': rec.get('description', ''),
+            'price': rec.get('cost', 0),
+            'food': rec.get('category', ''),
+            'image_url': activity_image_url(rec)
+        })
+    return activities
+
 def save_city_data(city_data):
     """Save city data to JSON file"""
     with open(CITY_DATA_FILE, 'w', encoding='utf-8') as f:
@@ -424,16 +438,7 @@ def generate_plan():
         session['saved'] = True
 
         # Convert recommendations to format for result.html
-        activities = []
-        for rec in recommendations:
-            activities.append({
-                'title': rec.get('name', ''),
-                'place': city,
-                'description': rec.get('description', ''),
-                'price': rec.get('cost', 0),
-                'food': rec.get('category', ''),
-                'image_url': activity_image_url(rec)
-            })
+        activities = format_recommendations_to_activities(recommendations, city)
         
         # Calculate total activities cost
         total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
@@ -500,16 +505,7 @@ def view_plan():
     plan_name = day_plan.get('name', '')
     
     # Convert recommendations to format for result.html
-    activities = []
-    for rec in recommendations:
-        activities.append({
-            'title': rec.get('name', ''),
-            'place': city,
-            'description': rec.get('description', ''),
-            'price': rec.get('cost', 0),
-            'food': rec.get('category', ''),
-            'image_url': activity_image_url(rec)
-        })
+    activities = format_recommendations_to_activities(recommendations, city)
     
     # Calculate total activities cost
     total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
@@ -541,16 +537,7 @@ def results():
     total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
     
     # Convert recommendations to format for result.html
-    activities = []
-    for i, rec in enumerate(recommendations):
-        activities.append({
-            'title': rec.get('name', ''),
-            'place': day_plan.get('city', ''),
-            'description': rec.get('description', ''),
-            'price': rec.get('cost', 0),
-            'food': rec.get('category', ''),
-            'image_url': activity_image_url(rec)
-        })
+    activities = format_recommendations_to_activities(recommendations, day_plan.get('city', ''))
 
     return render_template(
         'result.html',
