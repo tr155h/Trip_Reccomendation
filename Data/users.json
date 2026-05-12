@@ -800,5 +800,147 @@
         }
       }
     ]
+  },
+  "trish1234": {
+    "password": "scrypt:32768:8:1$92tzX7HoZPvXFURq$a66e6a0c5a3c2fc195e23441d6945313fe7551fe2cf19e8f43967d49d15f13b99a0b134f814608d96e06ef2d66f0d1636e5bf3d5b27c1e4cc3877bcbed1f9dfb",
+    "trips": [
+      {
+        "trip_name": "Paris 2026",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Food, Culture/History, Shopping",
+            "city": "Paris",
+            "budget": 80.0,
+            "categories": [
+              "Food",
+              "Culture/History",
+              "Shopping"
+            ],
+            "recommendations": [
+              {
+                "name": "Caf\u00e9 au Lait & Croissant",
+                "category": "Food",
+                "cost": 6,
+                "description": "Traditional French breakfast experience",
+                "image_url": "/static/images/Lait_Croissant.jpg"
+              },
+              {
+                "name": "Street Crepes Tour",
+                "category": "Food",
+                "cost": 8,
+                "description": "Explore Paris's best crepe vendors",
+                "image_url": "/static/images/Crepes.jpg"
+              },
+              {
+                "name": "Notre-Dame Cathedral",
+                "category": "Culture/History",
+                "cost": 15,
+                "description": "Iconic Gothic cathedral of Paris",
+                "image_url": "/static/images/notredame.jpg"
+              },
+              {
+                "name": "Louvre Museum",
+                "category": "Culture/History",
+                "cost": 17,
+                "description": "World's largest art museum with Mona Lisa",
+                "image_url": "/static/images/louvre.jpg"
+              },
+              {
+                "name": "Bistro Dinner",
+                "category": "Food",
+                "cost": 35,
+                "description": "Authentic French bistro with local wine",
+                "image_url": "/static/images/French_bistro.jpg"
+              },
+              {
+                "name": "Marais District Boutiques",
+                "category": "Shopping",
+                "cost": 40,
+                "description": "Vintage and contemporary fashion shops",
+                "image_url": "/static/images/marais.jpg"
+              }
+            ]
+          },
+          "2": {
+            "day": 2,
+            "name": "Sightseeing",
+            "city": "Paris",
+            "budget": 70.0,
+            "categories": [
+              "Sightseeing"
+            ],
+            "recommendations": [
+              {
+                "name": "Seine River Cruise",
+                "category": "Sightseeing",
+                "cost": 19,
+                "description": "Scenic boat tour along Paris landmarks",
+                "image_url": "/static/images/Cruise.jpg"
+              },
+              {
+                "name": "Eiffel Tower Visit",
+                "category": "Sightseeing",
+                "cost": 26,
+                "description": "Climb or elevator ride to the top",
+                "image_url": "/static/images/eiffel.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "trip_name": "Japan 2026",
+        "days": {
+          "1": {
+            "day": 1,
+            "name": "Food, Culture/History",
+            "city": "Tokyo",
+            "budget": 100.0,
+            "categories": [
+              "Food",
+              "Culture/History"
+            ],
+            "recommendations": [
+              {
+                "name": "Senso-ji Temple",
+                "category": "Culture/History",
+                "cost": 0,
+                "description": "Ancient Buddhist temple in Asakusa",
+                "image_url": "/static/images/senso-ji_temple.jpg"
+              },
+              {
+                "name": "Ramen Yokocho",
+                "category": "Food",
+                "cost": 9,
+                "description": "Authentic ramen alley with local favorites",
+                "image_url": "/static/images/ramen_yokocho.jpg"
+              },
+              {
+                "name": "Tsukiji Outer Market",
+                "category": "Food",
+                "cost": 10,
+                "description": "Fresh sushi and seafood market in central Tokyo",
+                "image_url": "/static/images/Tsukiji.jpg"
+              },
+              {
+                "name": "Tokyo National Museum",
+                "category": "Culture/History",
+                "cost": 14,
+                "description": "Japan's largest museum with historical artifacts",
+                "image_url": "/static/images/national_museum.jpg"
+              },
+              {
+                "name": "Izakaya Hopping",
+                "category": "Food",
+                "cost": 18,
+                "description": "Traditional Japanese pub crawl experience",
+                "image_url": "/static/images/izakaya.jpg"
+              }
+            ]
+          }
+        }
+      }
+    ]
   }
 }

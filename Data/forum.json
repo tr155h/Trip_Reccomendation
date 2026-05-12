@@ -6,6 +6,21 @@
     "content": "Content",
     "city": "Paris",
     "created_at": "2026-05-11 13:40:33",
+    "replies": [
+      {
+        "username": "trish1234",
+        "content": "hello",
+        "created_at": "2026-05-11 14:36:59"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "username": "trish1234",
+    "title": "Testing",
+    "content": "hello",
+    "city": "Honolulu",
+    "created_at": "2026-05-11 14:37:16",
     "replies": []
   }
 ]
