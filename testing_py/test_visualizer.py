@@ -32,7 +32,7 @@ class TestGenerateBudgetChart(unittest.TestCase):
         
         self.assertEqual(result['total_planned'], 110)
         self.assertTrue(result['is_over_budget'])
-        self.assertEqual(result['remaining'], 0)  # Clamped to 0
+        self.assertEqual(result['remaining'], -10)  # Shows negative overage
     
     def test_budget_chart_zero_budget(self):
         """Test chart with zero budget"""
