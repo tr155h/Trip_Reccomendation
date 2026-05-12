@@ -21,8 +21,8 @@ class TestFilterByBudget(unittest.TestCase):
             {'name': 'Medium', 'cost': 15},
             {'name': 'Expensive', 'cost': 50}
         ]
-        result = filter_by_budget(places, budget=50, reserve=25)
-        # max_spend = 50 - 25 = 25, so should include Cheap and Medium
+        result = filter_by_budget(places, budget=30)
+        # Should include Cheap and Medium (both <= 30), exclude Expensive
         self.assertEqual(len(result), 2)
         self.assertTrue(any(p['name'] == 'Cheap' for p in result))
         self.assertTrue(any(p['name'] == 'Medium' for p in result))
@@ -33,7 +33,7 @@ class TestFilterByBudget(unittest.TestCase):
             {'name': 'Item1', 'cost': 5},
             {'name': 'Item2', 'cost': 10}
         ]
-        result = filter_by_budget(places, budget=50, reserve=10)
+        result = filter_by_budget(places, budget=50)
         self.assertEqual(len(result), 2)
     
     def test_filter_none_within_budget(self):
@@ -42,8 +42,8 @@ class TestFilterByBudget(unittest.TestCase):
             {'name': 'Expensive1', 'cost': 50},
             {'name': 'Expensive2', 'cost': 100}
         ]
-        result = filter_by_budget(places, budget=30, reserve=25)
-        # max_spend = 30 - 25 = 5, no items cost 5 or less
+        result = filter_by_budget(places, budget=30)
+        # No items cost 30 or less
         self.assertEqual(len(result), 0)
     
     def test_filter_empty_places(self):
@@ -57,14 +57,14 @@ class TestFilterByBudget(unittest.TestCase):
         result = filter_by_budget(places, budget=-10)
         self.assertEqual(len(result), 0)
     
-    def test_filter_with_custom_reserve(self):
-        """Test filter with custom reserve amount"""
+    def test_filter_with_exact_budget_match(self):
+        """Test filter when item cost exactly matches budget"""
         places = [
             {'name': 'Item1', 'cost': 5},
-            {'name': 'Item2', 'cost': 35}
+            {'name': 'Item2', 'cost': 50}
         ]
-        result = filter_by_budget(places, budget=50, reserve=10)
-        # max_spend = 50 - 10 = 40, should include both
+        result = filter_by_budget(places, budget=50)
+        # Should include both Item1 and Item2 (both <= 50)
         self.assertEqual(len(result), 2)
 
 
@@ -231,10 +231,9 @@ class TestIntegration(unittest.TestCase):
         for r in result:
             self.assertIn(r['category'], categories)
         
-        # All should be within budget (after reserve)
-        max_allowed = budget - 25
+        # All should be within budget (no reserve)
         for r in result:
-            self.assertLessEqual(r['cost'], max_allowed)
+            self.assertLessEqual(r['cost'], budget)
 
 
 if __name__ == '__main__':

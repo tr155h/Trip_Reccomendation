@@ -368,7 +368,6 @@ def generate_plan():
         return render_template('input.html', trip_name=trip_name, day=day_val, available_cities=available_cities, error='Please select no more than 3 categories')
     
     # Generate recommendations based on budget, city, and categories
-    # Recommender will reserve $25 under budget
     recommendations = get_recommendations_for_city(city, budget_val, categories)
 
     # Validate that the selected city exists in our database
@@ -436,10 +435,8 @@ def generate_plan():
                 'image_url': activity_image_url(rec)
             })
         
-        # Calculate transport estimate (10% of activities cost or $5 minimum)
+        # Calculate total activities cost
         total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
-        transport_cost = max(5, total_activities_cost * 0.1)
-        total_cost = total_activities_cost + transport_cost
         
         # Render results immediately so user lands on results page after submitting
         return render_template(
@@ -449,8 +446,7 @@ def generate_plan():
             day=day_val,
             budget=budget_val,
             activities=activities,
-            transport_cost=transport_cost,
-            total_cost=total_cost,
+            total_cost=total_activities_cost,
             chart_data=''
         )
 
@@ -515,10 +511,8 @@ def view_plan():
             'image_url': activity_image_url(rec)
         })
     
-    # Calculate transport estimate ($25 reserve as promised)
-    transport_cost = 25
+    # Calculate total activities cost
     total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
-    total_cost = total_activities_cost + transport_cost
     
     # Render the result view for the saved trip
     return render_template(
@@ -528,8 +522,7 @@ def view_plan():
         day=day_val,
         budget=budget,
         activities=activities,
-        transport_cost=transport_cost,
-        total_cost=total_cost,
+        total_cost=total_activities_cost,
         chart_data=''
     )
 
@@ -543,10 +536,9 @@ def results():
         return redirect(url_for('profile'))
 
     recommendations = session.get('recommendations', [])
-    total_cost = session.get('total_cost', 0)
     
-    # Calculate transport estimate (default 10-15% of budget or $5 minimum)
-    transport_cost = max(5, day_plan.get('budget', 0) * 0.1)
+    # Calculate total activities cost
+    total_activities_cost = sum(rec.get('cost', 0) for rec in recommendations)
     
     # Convert recommendations to format for result.html
     activities = []
@@ -567,8 +559,7 @@ def results():
         day=day_plan.get('day', 1),
         budget=day_plan.get('budget', 0.0),
         activities=activities,
-        transport_cost=transport_cost,
-        total_cost=total_cost + transport_cost,
+        total_cost=total_activities_cost,
         chart_data=''
     )
 
@@ -579,12 +570,21 @@ def forum():
     """Display forum page with all posts"""
     username = session.get('username')
     city_filter = request.args.get('city', '')
+    search_query = request.args.get('search', '').strip().lower()
     
     posts = load_forum()
     
     # Filter by city if specified
     if city_filter:
         posts = [p for p in posts if p.get('city', '').lower() == city_filter.lower()]
+    
+    # Filter by search query if specified (search in title and content)
+    if search_query:
+        posts = [
+            p for p in posts 
+            if search_query in p.get('title', '').lower() or 
+               search_query in p.get('content', '').lower()
+        ]
     
     # Sort by most recent first
     posts = sorted(posts, key=lambda x: x['created_at'], reverse=True)
@@ -593,7 +593,8 @@ def forum():
         'forum.html',
         posts=posts,
         username=username,
-        city_filter=city_filter
+        city_filter=city_filter,
+        search_query=search_query
     )
 
 
